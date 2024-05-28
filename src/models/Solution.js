@@ -40,6 +40,3 @@ module.exports = (sequelize, Sequelize) => {
     });
     return Solutions;
 };
-
-Solution.sync();
-Solution.sync({ alter: true});
