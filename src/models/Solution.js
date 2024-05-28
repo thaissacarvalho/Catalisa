@@ -38,6 +38,8 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
         },
     });
-
     return Solutions;
 };
+
+Solution.sync();
+Solution.sync({ alter: true});

@@ -1,13 +1,6 @@
-module.exports = {
-    HOST: "localhost",
-    USER: "root",
-    PASSWORD: "root",
-    DB: "my_db",
-    dialect: "mysql",
-    pool: {
-      max: 3,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
-    }
-  };
+const { Sequelize } = require('sequelize');
+const config = require('../config/sequelizeCli');
+
+const sequelize = new Sequelize(config[process.env.NODE_ENV || 'development'].url);
+
+module.exports = sequelize;

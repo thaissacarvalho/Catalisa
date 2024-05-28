@@ -1,13 +1,7 @@
-import express from 'express';
-const database = require("./config/database.config");
+const express = require("express");
 const router = express.Router();
+const solutionController = require("./controllers/solutionController");
 
-
-router.get('/', (req, res) => {
-    database.sync({ force: true })
-    .then(() => { 
-        res.send('Get Solutions...') 
-    });
-});
+router.get('/getSolutions', solutionController.getSolutions);
 
 export { router }

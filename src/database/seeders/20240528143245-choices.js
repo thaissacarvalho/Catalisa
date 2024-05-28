@@ -2,8 +2,8 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('choices',
+  async up (queryInterface, Sequelize) {
+    await queryInterface.bulkInsert('Choices',
       [{
         name_choice: 'Pix',
         uri_choice: 'pix',
@@ -64,10 +64,10 @@ module.exports = {
         uri_choice: 'bancarizacao',
         date_created: new Date(),
       },
-      ]);
+      ], {});
   },
 
-  async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('choices', null, {});
+  async down (queryInterface, Sequelize) {
+    await queryInterface.bulkDelete('Choices', null, {});
   }
 };

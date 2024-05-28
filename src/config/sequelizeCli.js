@@ -1,35 +1,16 @@
-const Sequelize = require("sequelize");
-const DB_CONFIG = require("./database.config.js");
+require('dotenv').config();
 
-const sequelize = new Sequelize(
-  DB_CONFIG.DB,
-  DB_CONFIG.USER,
-  DB_CONFIG.PASSWORD,
-  {
-    host: DB_CONFIG.HOST,
-    dialect: 'mysql',
-    operatorsAliases: false,
-    pool: {
-      max: DB_CONFIG.pool.max,
-      min: DB_CONFIG.pool.min,
-      acquire: DB_CONFIG.pool.acquire,
-      idle: DB_CONFIG.pool.idle,
-    },
+module.exports = {
+  development: {
+    url: process.env.DATABASE_URL,
+    dialect: 'mysql'
+  },
+  test: {
+    url: process.env.DATABASE_URL,
+    dialect: 'mysql'
+  },
+  production: {
+    url: process.env.DATABASE_URL,
+    dialect: 'mysql'
   }
-);
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch(error => {
-    console.error("Unable to connect to the database: ", error);
-  });
-
-const db = {};
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;
+};
