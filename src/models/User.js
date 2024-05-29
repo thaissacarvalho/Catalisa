@@ -1,6 +1,3 @@
-const Sequelize = require("sequelize");
-const { v4: uuidv4 } = require('uuid');
-
 module.exports = (sequelize, Sequelize) => {
     const Users = sequelize.define("users", {
       id_user: {
@@ -28,13 +25,14 @@ module.exports = (sequelize, Sequelize) => {
       user_hash: {
         type: DataTypes.UUID,
         allowNull: false,
-        defaultValue: DataTypes.UUID4
+        defaultValue: Sequelize.UUIDV4
       },
       date_created: {
         type: DataTypes.DATE,
         allowNull: true,
       },
+    }, {
+      tableName: 'users'
     });
-  
     return Users;
   };

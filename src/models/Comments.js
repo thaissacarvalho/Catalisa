@@ -34,7 +34,8 @@ module.exports = (sequelize, Sequelize) => {
             type: DataTypes.DATE,
             allowNull: false,
         },
+    }, {
+        tableName: 'solutions'
     });
-
     return Comments;
 };

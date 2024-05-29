@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const Choices = require("./Choices");
+const Choices = require("./Choice");
 
 module.exports = (sequelize, Sequelize) => {
     const Solutions = sequelize.define("solutions", {
@@ -37,6 +37,9 @@ module.exports = (sequelize, Sequelize) => {
             type: DataTypes.DATE,
             allowNull: false,
         },
-    });
+    }, {
+        tableName: 'solutions'
+    }
+    );
     return Solutions;
 };

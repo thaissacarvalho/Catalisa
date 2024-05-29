@@ -20,6 +20,8 @@ const Choice = sequelize.define("Choice", {
     type: Sequelize.DataTypes.DATE,
     allowNull: false,
   },
+}, {
+  tableName: 'choices'
 });
 
 module.exports = { Choice }

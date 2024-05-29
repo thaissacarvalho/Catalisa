@@ -1,6 +1,6 @@
 const express = require("express");
+const { getSolutions } = require("./controllers/solutionController");
 const routes = express.Router();
-const { getSolutions } = require("./controllers/getSolutionController");
 
 routes.get('/getSolutions', getSolutions);
 
