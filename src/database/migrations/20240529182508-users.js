@@ -29,7 +29,7 @@ module.exports = {
         allowNull: false,
       },
       user_hash: {
-        type: Sequelize.UUID,
+        type: Sequelize.STRING(36),
         allowNull: false,
         defaultValue: Sequelize.UUIDV4,
       },

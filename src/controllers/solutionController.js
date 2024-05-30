@@ -1,44 +1,22 @@
-const { Choice } = require('../models/Choice');
-const { customErrors } = require("../constants/customError");
-const handleError = require("../utils/errorHandle");
+const Choice = require("../models/Choice");
+const Solution = require("../models/Solution");
 
 async function getSolutions(req, res) {
-  const choiceParam = req.params.choice;
-
-  if (!choiceParam) {
-    return handleError(res, 1);
-  }
-
   try {
-    const choice = await Choice.findOne({
-      where: { uri_choice: choiceParam }
-    });
+    const choiceUri = req.query.choice;
+    const choice = await Choice.findOne({ where: { uri_choice: choiceUri } });
 
     if (!choice) {
-      return handleError(res, 3);
+      return res.status(404).json({ error: 'Choice não encontrado' });
     }
 
-    const solutions = await choice.getSolutions();
+    const solutions = await Solution.findAll({ where: { id_choice: choice.id_choice } });
 
-    if (!solutions || solutions.length === 0) {
-      return res.status(200).json(null);
-    }
-
-    const formattedSolutions = solutions.map(solution => ({
-      id_solution: solution.id_solution,
-      title: solution.title,
-      description: solution.description,
-      total_likes: solution.total_likes,
-      total_comments: solution.total_comments
-    }));
-
-    return res.status(200).json(formattedSolutions);
+    res.json(solutions);
   } catch (error) {
     console.error('Erro ao buscar soluções:', error);
-    return handleError(res, 6);
+    res.status(500).json({ error: 'Erro ao buscar soluções' });
   }
 }
 
-module.exports = {
-  getSolutions
-};
+module.exports = getSolutions;

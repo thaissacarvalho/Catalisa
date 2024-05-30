@@ -21,11 +21,11 @@ module.exports = {
         allowNull: false,
       },
       title: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING(255),
         allowNull: false,
       },
       description: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       date_created: {

@@ -21,7 +21,7 @@ const Choice = sequelize.define("Choice", {
     allowNull: false,
   },
 }, {
-  tableName: 'choices'
+  tableName: 'choice'
 });
 
 module.exports = { Choice }

@@ -23,7 +23,7 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false,
       },
       user_hash: {
-        type: DataTypes.UUID,
+        type: DataTypes.UUID.STRING(36),
         allowNull: false,
         defaultValue: Sequelize.UUIDV4
       },

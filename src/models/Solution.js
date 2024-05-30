@@ -38,8 +38,9 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
         },
     }, {
-        tableName: 'solutions'
-    }
-    );
+        tableName: 'solutions',
+        timestamps: false,
+
+    });
     return Solutions;
 };
