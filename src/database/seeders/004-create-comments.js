@@ -8,6 +8,12 @@ module.exports = {
       id_user: 1,
       comment: 'Testando 1, 2, 3',
       date_created: new Date(),
+    },
+    {
+      id_solution: 1,
+      id_user: 1,
+      comment: 'Teste 1, 2, 3',
+      date_created: new Date(),
     }], {});
   },
 

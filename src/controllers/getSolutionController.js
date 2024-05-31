@@ -27,36 +27,12 @@ async function getSolutions(req, res) {
       });
 
       if (solutions.length > 0) {
-        res.send(solutions); 
+        res.send(solutions);
       } else {
         res.status(404).send('Solutions não encontradas para a choice especificada');
       }
-    } else {
-      res.send({ status: true, message: 'Choice does not exist.', choiceFound });
     }
 
-    //  const solutions = await Solutions.findAll({
-    //    attributes: ['id_choice', 'id_solution', 'id_user', 'title', 'description']
-    //  });
-
-    //  res.json(solutions);
-
-    //  console.log("Depois da consulta ao banco de dados", solutions);
-
-    //  if (solutions.length === 0) {
-    //    return res.json(null);
-    //  }
-
-    // const response = solutions.map(solution => ({
-    //   id_solution: solution.id_solution,
-    //   title: solution.title,
-    //   description: solution.description,
-    //   'total-likes': solution.likes.length,
-    //   'total-comments': solution.comments.length,
-    // }));
-
-    // console.log("Dados transformados:", response);
-    // res.json(response);
   } catch (error) {
     res.status(500).json({
       status: false,

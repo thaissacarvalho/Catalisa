@@ -11,8 +11,12 @@ module.exports = {
         autoIncrement: true,
       },
       id_solution: {
-        type: Sequelize.STRING(150),
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'solutions',
+          key: 'id_solution'
+        }
       },
       user_hash: {
         type: Sequelize.STRING(150),

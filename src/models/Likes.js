@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const Users = require("./Users");
+const Solutions = require("./Solutions");
 
 module.exports = (sequelize, Sequelize) => {
     const Likes = sequelize.define("likes", {
@@ -12,6 +13,10 @@ module.exports = (sequelize, Sequelize) => {
       id_solution: {
         type: DataTypes.STRING(150),
         allowNull: false,
+        references: {
+          model: Solutions,
+          key: 'id_solution'
+        }
       },
       user_hash: {
         type: DataTypes.STRING(150),
@@ -28,5 +33,10 @@ module.exports = (sequelize, Sequelize) => {
     }, {
       timestamps: false,
     });
+
+    Likes.associate = (models) => {
+      Likes.belongsTo(models.Solutions, { as: 'solutions', foreignKey: 'id_solution' });
+  };
+
     return Likes;
   };

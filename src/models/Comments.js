@@ -39,7 +39,7 @@ module.exports = (sequelize, Sequelize) => {
     });
 
     Comments.associate = (models) => {
-        Comments.belongsTo(models.Solutions, { as: 'solution', foreignKey: 'id_solution' });
+        Comments.belongsTo(models.Solutions, { as: 'solutions', foreignKey: 'id_solution' });
     };
 
     return Comments;
