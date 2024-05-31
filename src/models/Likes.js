@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const User = require("./User");
+const Users = require("./Users");
 
 module.exports = (sequelize, Sequelize) => {
     const Likes = sequelize.define("likes", {
@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
         type: DataTypes.STRING(150),
         allowNull: false,
         references: {
-            model: User,
+            model: Users,
             key: 'user_hash'
         }
       },
@@ -25,7 +25,8 @@ module.exports = (sequelize, Sequelize) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
+    }, {
+      timestamps: false,
     });
-  
     return Likes;
   };

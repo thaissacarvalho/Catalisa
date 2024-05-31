@@ -3,8 +3,8 @@ dotenv.config();
 
 const express = require('express');
 const { sequelize } = require('./database');
-const getSolutions = require("./controllers/solutionController");
-// const { routes } = require("./routes");
+const getSolutions = require("./controllers/getSolutionController");
+const newLike = require("./controllers/newLikeController");
 
 const app = express();
 const port = 3000;
@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/getSolutions', getSolutions);
+app.post('/newLike', newLike);
 
 app.listen(port, () => {
   console.log(`Servidor rodando na http://localhost:${port}`);

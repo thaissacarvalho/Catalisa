@@ -19,6 +19,10 @@ module.exports = {
       id_choice: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'choices',
+          key: 'id_choice',
+        },
       },
       title: {
         type: Sequelize.STRING(255),

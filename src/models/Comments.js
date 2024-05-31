@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
-const Solution = require("./Solution");
-const User = require("./User");
+const Solutions = require("./Solutions");
+const Users = require("./Users");
 
 module.exports = (sequelize, Sequelize) => {
     const Comments = sequelize.define("comments", {
@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: Solution,
+                model: Solutions,
                 key: 'id_solution',
             },
         },
@@ -22,7 +22,7 @@ module.exports = (sequelize, Sequelize) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: User,
+                model: Users,
                 key: 'id_user',
             },
         },
@@ -35,7 +35,12 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
         },
     }, {
-        tableName: 'solutions'
+        timestamps: false,
     });
+
+    Comments.associate = (models) => {
+        Comments.belongsTo(models.Solutions, { as: 'solution', foreignKey: 'id_solution' });
+    };
+
     return Comments;
 };
