@@ -3,7 +3,7 @@ const sequelize = require("../database");
 const Choices = require("./Choices");
 const Users = require("./Users");
 
-class Solutions extends Model {}
+class Solutions extends Model { }
 
 Solutions.init({
     id_solution: {
@@ -50,6 +50,7 @@ Solutions.init({
 Solutions.associate = (models) => {
     Solutions.hasMany(models.Comments, { as: 'comments', foreignKey: 'id_solution' });
     Solutions.hasMany(models.Likes, { as: 'likes', foreignKey: 'id_solution' });
+    Solutions.hasMany(models.Users, { as: 'users', foreignKey: 'id_user' });
 };
 
 module.exports = Solutions;

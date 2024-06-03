@@ -1,46 +1,50 @@
-const Sequelize = require("sequelize");
+const { DataTypes, Model } = require("sequelize");
 const Solutions = require("./Solutions");
 const Users = require("./Users");
+const sequelize = require("../database");
 
-module.exports = (sequelize, Sequelize) => {
-    const Comments = sequelize.define("comments", {
-        id_comment: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            allowNull: false,
-            autoIncrement: true,
-        },
-        id_solution: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: Solutions,
-                key: 'id_solution',
-            },
-        },
-        id_user: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: Users,
-                key: 'id_user',
-            },
-        },
-        comment: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        date_created: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-    }, {
-        timestamps: false,
-    });
+class Comments extends Model { };
 
-    Comments.associate = (models) => {
-        Comments.belongsTo(models.Solutions, { as: 'solutions', foreignKey: 'id_solution' });
-    };
+Comments.init({
+    id_comment: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
+    },
+    id_solution: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Solutions,
+            key: 'id_solution',
+        },
+    },
+    id_user: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Users,
+            key: 'id_user',
+        },
+    },
+    comment: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    date_created: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+}, {
+    sequelize, 
+    timestamps: false,
+    modelName: 'Comments',
+    tableName: 'comments'
+})
 
-    return Comments;
+Comments.associate = (models) => {
+    Comments.belongsTo(models.Solutions, { as: 'solutions', foreignKey: 'id_solution' });
 };
+
+module.exports = Comments;

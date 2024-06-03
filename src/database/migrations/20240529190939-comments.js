@@ -33,9 +33,8 @@ module.exports = {
       date_created: {
         type: Sequelize.DATE,
         allowNull: false,
-      },
+      }
     });
-
   },
 
   async down(queryInterface, Sequelize) {

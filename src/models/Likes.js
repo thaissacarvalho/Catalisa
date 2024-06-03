@@ -1,42 +1,47 @@
-const Sequelize = require("sequelize");
+const { DataTypes, Model } = require("sequelize");
 const Users = require("./Users");
 const Solutions = require("./Solutions");
+const sequelize = require("../database");
 
-module.exports = (sequelize, Sequelize) => {
-    const Likes = sequelize.define("likes", {
-      id_like: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: true,
-      },
-      id_solution: {
-        type: DataTypes.STRING(150),
-        allowNull: false,
-        references: {
-          model: Solutions,
-          key: 'id_solution'
-        }
-      },
-      user_hash: {
-        type: DataTypes.STRING(150),
-        allowNull: false,
-        references: {
-            model: Users,
-            key: 'user_hash'
-        }
-      },
-      date_created: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-    }, {
-      timestamps: false,
-    });
+class Likes extends Model { }
 
-    Likes.associate = (models) => {
-      Likes.belongsTo(models.Solutions, { as: 'solutions', foreignKey: 'id_solution' });
-  };
+Likes.init({
+  id_like: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    allowNull: false,
+    autoIncrement: true,
+  },
+  id_solution: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Solutions,
+      key: 'id_solution'
+    }
+  },
+  user_hash: {
+    type: DataTypes.STRING(150),
+    allowNull: false,
+    references: {
+      model: Users,
+      key: 'user_hash'
+    }
+  },
+  date_created: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+}, {
+  sequelize,
+  timestamps: false,
+  modelName: 'Likes',
+  tableName: 'likes'
+});
 
-    return Likes;
-  };
+Likes.associate = (models) => {
+  Likes.belongsTo(models.Solutions, { as: 'solutions', foreignKey: 'id_solution' });
+  Likes.belongsTo(models.Users, { as: 'users', foreignKey: 'user_hash' });
+};
+
+module.exports = Likes;
