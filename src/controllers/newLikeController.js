@@ -4,13 +4,11 @@ const newLike = async (req, res) => {
   const { id_solution, user_hash } = req.body;
 
   try {
-    // Verifica se já existe um like para a solução e usuário
     const existingLike = await Likes.findOne({
       where: { id_solution, user_hash }
     });
 
     if (existingLike) {
-      // Se já existe, remove o like
       await existingLike.destroy();
       return res.json({
         status: true,
@@ -18,7 +16,6 @@ const newLike = async (req, res) => {
         type: 2
       });
     } else {
-      // Se não existe, adiciona um novo like
       await Likes.create({
         id_solution,
         user_hash,
