@@ -1,5 +1,3 @@
-const { Comments, Likes, Users } = require("../models");
-
 async function getTest(req, res) {
     try {
         const comments = await Comments.findAll()
