@@ -38,12 +38,12 @@ async function getIASolutions(req, res) {
             text_input = text;
         }
 
-        const url = 'http://1927.0.0.1:8000/analisar-texto';
-        const response = await axios.post(url, { text: text_input }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        // const url = 'http://1927.0.0.1:8000/analisar-texto';
+        // const response = await axios.post(url, { text: text_input }, {
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // });
 
         return res.status(200).json(response.data);
     } catch (error) {
