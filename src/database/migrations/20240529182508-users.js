@@ -18,11 +18,11 @@ module.exports = {
         type: Sequelize.STRING(120),
         allowNull: false,
       },
-      cargo: {
+      position: {
         type: Sequelize.STRING(80),
         allowNull: false,
       },
-      empresa: {
+      enterprise: {
         type: Sequelize.STRING(120),
         allowNull: false,
       },

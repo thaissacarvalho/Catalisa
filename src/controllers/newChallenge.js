@@ -1,14 +1,7 @@
-const Users = require("../models/Users");
-
 async function newChallenge(req, res) {
-    
+    const { id_comment, user_comment, name, email, cargo } = req.body
    try {
-    const user = await Users.findAll({
-        where: { id_user, name, email, cargo, empresa }
-    })
 
-
-    const 
    } catch (error) {
     
    }

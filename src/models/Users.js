@@ -19,11 +19,11 @@ Users.init({
     type: DataTypes.STRING(120),
     allowNull: false,
   },
-  cargo: {
+  position: {
     type: DataTypes.STRING(80),
     allowNull: false,
   },
-  empresa: {
+  enterprise: {
     type: DataTypes.STRING(120),
     allowNull: false,
   },
