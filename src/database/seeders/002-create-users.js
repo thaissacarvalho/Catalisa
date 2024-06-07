@@ -11,8 +11,8 @@ module.exports = {
       {
         name: 'Teste',
         email: 'teste@teste.com',
-        cargo: 'Tester',
-        empresa: 'TestEnt',
+        position: 'Tester',
+        enterprise: 'TestEnt',
         user_hash: userHash,
         date_created: new Date(),
       }

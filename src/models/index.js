@@ -5,7 +5,8 @@ const Solutions = require('./Solutions');
 const Users = require('./Users');
 const Likes = require('./Likes');
 const Comments = require('./Comments');
+const Challenges = require('./Challenges');
 
 const sequelize = new Sequelize(config[process.env.NODE_ENV || 'development'].url);
 
-module.exports = { sequelize, Choices, Solutions, Users, Likes, Comments };
+module.exports = { sequelize, Choices, Solutions, Users, Likes, Comments, Challenges };

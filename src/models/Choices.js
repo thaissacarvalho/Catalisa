@@ -1,4 +1,3 @@
-// Importe os modelos necessários
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
 const Solutions = require("./Solutions");
