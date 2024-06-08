@@ -58,10 +58,7 @@ async function getSolutions(req, res) {
 
   } catch (error) {
     console.error('Erro ao buscar soluções: ', error);
-    res.status(500).json({
-      status: false,
-      message: 'ERROR B3',
-    });
+    res.status(500).json('Error B3');
   }
 }
 
