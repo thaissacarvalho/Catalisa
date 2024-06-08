@@ -60,6 +60,7 @@ async function newChallenge(req, res) {
                 text: data.text,
                 user_hash: data['user_hash'],
                 choice: data['choice'],
+                date_created: new Date()
             });
 
             const user = await Users.findOne({
