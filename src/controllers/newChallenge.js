@@ -10,10 +10,8 @@ async function newChallenge(req, res) {
                 },
             });
 
-            
             if (!user) {
                 user = await Users.create({
-                    
                     name: data['name'],
                     email: data['email'],
                     position: data['position'],
@@ -30,7 +28,10 @@ async function newChallenge(req, res) {
             });
 
             if (!choice) {
-                return res.status(400).json({ error: 'Escolha inválida.' });
+                return res.status(400).json({
+                    status: false,
+                    message: 'O choice não foi encontrado.'
+                });
             }
             
             const comment = await Comments.create({
@@ -79,11 +80,14 @@ async function newChallenge(req, res) {
                 choice: data['choice'],
             });
         } else {
-            return res.status(400).json({ error: 'Tipo de interação inválido.' });
+            return res.status(400).json({
+                status: false,
+                message: 'Falha ao inserir o comment ou challenge.'
+            });
         }
     } catch (error) {
-        console.error(error);
-        return res.status(500).json(error);
+        console.log(error);
+        return res.status(500).json('Error B2');
     }
 }
 

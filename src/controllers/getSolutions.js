@@ -60,7 +60,7 @@ async function getSolutions(req, res) {
     console.error('Erro ao buscar soluções: ', error);
     res.status(500).json({
       status: false,
-      message: 'Erro ao buscar soluções no banco de dados.',
+      message: 'ERROR B3',
     });
   }
 }

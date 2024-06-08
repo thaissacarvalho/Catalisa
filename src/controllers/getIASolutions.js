@@ -42,12 +42,8 @@ async function getIASolutions(req, res) {
         return res.status(200).json(response.data);
 
     } catch (error) {
-        console.error('Erro:', error);
-        return res.status(500).json({
-            status: false,
-            message: 'Erro interno do servidor.',
-            error: error.message
-        });
+        console.error(error);
+        return res.status(500).json('ERROR B4');
     }
 }
 

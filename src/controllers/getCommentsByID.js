@@ -30,11 +30,8 @@ async function getCommentsByID(req, res) {
 
         res.json({ comments });
     } catch (error) {
-        console.error("Erro ao buscar comentários:", error);
-        res.status(500).json({
-            status: false,
-            message: "Erro ao buscar comentários no banco de dados.",
-        });
+        console.error(error);
+        res.status(500).json('Erro ao buscar comentários no banco de dados.');
     }
 }
 
