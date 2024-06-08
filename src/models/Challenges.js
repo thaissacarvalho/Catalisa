@@ -36,6 +36,10 @@ Challenges.init({
             key: 'uri_choice'
           }
     },
+    data_created: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    }
 }, {
     sequelize,
     timestamps: false,
