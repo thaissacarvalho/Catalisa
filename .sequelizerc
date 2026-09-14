@@ -1,0 +1,9 @@
+const path = require('path');
+require('ts-node/register/transpile-only');
+
+module.exports = {
+  config: path.resolve(__dirname, 'src', 'config', 'sequelizeCli.ts'),
+  'models-path': path.resolve(__dirname, 'src', 'models'),
+  'seeders-path': path.resolve(__dirname, 'seeders'),
+  'migrations-path': path.resolve(__dirname, 'migrations'),
+};

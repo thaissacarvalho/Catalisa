@@ -1,0 +1,4 @@
+dist
+coverage
+node_modules
+src/challenges/application/controllers/newChallenge.ts
