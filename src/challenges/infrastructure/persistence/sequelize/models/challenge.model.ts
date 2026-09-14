@@ -3,7 +3,8 @@ import { sequelize } from '@app/database/sequelize';
 import { ChallengeStatus } from '@app/challenges/domain/enums/ChallengeStatus.enum';
 
 export default class ChallengeModel extends Model {
-  declare id: string;
+  declare id: number;
+  declare code: string;
   declare title: string;
   declare description: string;
   declare status: ChallengeStatus;
@@ -15,18 +16,18 @@ export default class ChallengeModel extends Model {
 ChallengeModel.init(
   {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,
     },
     code: {
-      type: DataTypes.UUID,
+      type: DataTypes.STRING(60),
       allowNull: false,
-      defaultValue: DataTypes.UUIDV4,
+      unique: true,
     },
     title: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(120),
       allowNull: false,
     },
     description: {
@@ -34,20 +35,27 @@ ChallengeModel.init(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('PENDING', 'APPROVED', 'REJECTED'),
+      type: DataTypes.ENUM('ACTIVE', 'INACTIVE'),
       allowNull: false,
-      defaultValue: 'PENDING',
+      defaultValue: ChallengeStatus.ACTIVE,
     },
     displayOrder: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.SMALLINT,
       allowNull: false,
-      defaultValue: 0,
+      unique: true,
+      validate: { min: 1 },
     },
   },
   {
     sequelize,
     timestamps: true,
-    modelName: 'Challenges',
+    modelName: 'Challenge',
     tableName: 'challenges',
+    indexes: [
+      {
+        name: 'challenges_status_display_order_index',
+        fields: ['status', 'displayOrder'],
+      },
+    ],
   },
 );

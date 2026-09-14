@@ -1,4 +1,4 @@
-import { QueryInterface, DataTypes } from 'sequelize';
+import { DataTypes, QueryInterface } from 'sequelize';
 
 export default {
   async up(queryInterface: QueryInterface) {
@@ -7,7 +7,7 @@ export default {
         type: DataTypes.UUID,
         primaryKey: true,
         allowNull: false,
-        autoIncrement: true,
+        defaultValue: DataTypes.UUIDV4,
       },
       solutionId: {
         type: DataTypes.UUID,
@@ -16,6 +16,8 @@ export default {
           model: 'solutions',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       userCode: {
         type: DataTypes.STRING(40),
@@ -30,11 +32,18 @@ export default {
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
+        defaultValue: DataTypes.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
+        defaultValue: DataTypes.NOW,
       },
+    });
+
+    await queryInterface.addIndex('likes', ['solutionId', 'userCode'], {
+      name: 'likes_solution_user_unique',
+      unique: true,
     });
   },
 

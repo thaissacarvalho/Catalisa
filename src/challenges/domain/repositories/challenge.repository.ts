@@ -1,10 +1,14 @@
 import { ChallengeEntity } from '@app/challenges/domain/entities/challenge.entity';
+import { ChallengeStatus } from '@app/challenges/domain/enums/ChallengeStatus.enum';
 
 export const CHALLENGE_REPOSITORY = 'ChallengeRepository';
 
 export interface ChallengeRepository {
-  create(challenge: ChallengeEntity): Promise<ChallengeEntity>;
-  findById(id: string): Promise<ChallengeEntity | null>;
-  findAll(): Promise<ChallengeEntity[]>;
-  existsById(challengeId: string): Promise<boolean>;
+  findAllActive(): Promise<ChallengeEntity[]>;
+  findById(challengeId: number): Promise<ChallengeEntity | null>;
+  existsActiveById(challengeId: number): Promise<boolean>;
+  updateStatus(
+    challengeId: number,
+    status: ChallengeStatus,
+  ): Promise<ChallengeEntity | null>;
 }

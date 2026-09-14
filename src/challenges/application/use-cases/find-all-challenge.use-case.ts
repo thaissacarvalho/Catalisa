@@ -1,14 +1,14 @@
 import { ChallengeEntity } from '@app/challenges/domain/entities/challenge.entity';
 import { ChallengeRepository } from '@app/challenges/domain/repositories/challenge.repository';
-import { Inject } from '@nestjs/common';
-
+import { Inject, Injectable } from '@nestjs/common';
+@Injectable()
 export class FindAllChallengeUseCase {
   constructor(
     @Inject('ChallengeRepository')
-    private readonly challengeRepository: ChallengeRepository
+    private readonly challengeRepository: ChallengeRepository,
   ) {}
 
   async execute(): Promise<ChallengeEntity[]> {
-    return this.challengeRepository.findAll();
+    return this.challengeRepository.findAllActive();
   }
 }

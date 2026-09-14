@@ -1,21 +1,26 @@
-import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { FindAllChallengeUseCase } from '../use-cases/find-all-challenge.use-case';
+import { Controller, Get } from '@nestjs/common';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { FindAllChallengeUseCase } from '@app/challenges/application/use-cases/find-all-challenge.use-case';
+import { ChallengePresenter } from '@app/challenges/application/presenters/challenge.presenter';
 import { successResponse } from '@app/common/http/success-response';
 import { TokenCodes } from '@app/common/http/token-codes';
 
 @ApiTags('Challenges')
 @Controller('challenges')
 export class FindAllChallengeController {
-  constructor(private readonly findAllChallengeUseCase: FindAllChallengeUseCase) {}
+  constructor(
+    private readonly findAllChallengeUseCase: FindAllChallengeUseCase,
+  ) {}
 
   @Get()
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Find all challenges' })
-  @ApiCreatedResponse({ description: 'Challenges found.' })
+  @ApiOperation({ summary: 'List active challenges' })
+  @ApiOkResponse({ description: 'Challenges listed.' })
   async findAll() {
     const challenges = await this.findAllChallengeUseCase.execute();
 
-    return successResponse(TokenCodes.CHALLENGES_LISTED, challenges);
+    return successResponse(
+      TokenCodes.CHALLENGES_LISTED,
+      challenges.map((challenge) => ChallengePresenter.public(challenge)),
+    );
   }
 }

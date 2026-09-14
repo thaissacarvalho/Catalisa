@@ -88,18 +88,25 @@ export const TokenCodes = {
   // CHALLENGES
   // =========================
 
-  CHALLENGE_CREATED: {
+  CHALLENGE_FOUND: {
     type: 'SUCCESS',
-    code: 'MCODE-S001',
-    statusCode: 201,
-    message: 'Challenge created',
+    code: 'MCODE-S014',
+    statusCode: 200,
+    message: 'Challenge found',
   },
 
   CHALLENGES_LISTED: {
     type: 'SUCCESS',
-    code: 'MCODE-S002',
+    code: 'MCODE-S015',
     statusCode: 200,
     message: 'Challenges listed',
+  },
+
+  CHALLENGE_STATUS_UPDATED: {
+    type: 'SUCCESS',
+    code: 'MCODE-S016',
+    statusCode: 200,
+    message: 'Challenge status updated',
   },
 
   CHALLENGE_NOT_FOUND: {
@@ -330,6 +337,13 @@ export const TokenCodes = {
     code: 'MCODE-040',
     statusCode: 409,
     message: 'Solution already has the requested status',
+  },
+
+  CHALLENGE_STATUS_UNCHANGED: {
+    type: 'ERROR',
+    code: 'MCODE-041',
+    statusCode: 409,
+    message: 'Challenge already has the requested status',
   },
   // =========================
   // SUCCESS CODES

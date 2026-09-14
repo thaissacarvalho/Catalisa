@@ -21,7 +21,7 @@ export class ListPublishedSolutionsUseCase {
   ) {}
 
   async execute(challengeId: number): Promise<SolutionDetails[]> {
-    if (!(await this.challengeRepository.existsById(challengeId))) {
+    if (!(await this.challengeRepository.findById(challengeId))) {
       throw new AppHttpException(TokenCodes.CHALLENGE_NOT_FOUND);
     }
 

@@ -1,26 +1,53 @@
-import { QueryInterface } from 'sequelize';
+import { randomUUID } from 'node:crypto';
+import { QueryInterface, QueryTypes } from 'sequelize';
+
+interface SeededUser {
+  userCode: string;
+}
+
+interface SeededSolution {
+  id: string;
+}
 
 export default {
   async up(queryInterface: QueryInterface) {
-    await queryInterface.bulkInsert(
-      'comments',
-      [
-        {
-          id: 1,
-          comment: 'Testando 1, 2, 3',
-          createdAt: new Date(),
-        },
-        {
-          id: 2,
-          comment: 'Teste 1, 2, 3',
-          createdAt: new Date(),
-        },
-      ],
-      {},
+    const [user] = await queryInterface.sequelize.query<SeededUser>(
+      `SELECT "userCode"
+       FROM "users"
+       ORDER BY "createdAt" ASC
+       LIMIT 1`,
+      { type: QueryTypes.SELECT },
     );
+
+    const [solution] = await queryInterface.sequelize.query<SeededSolution>(
+      `SELECT "id"
+       FROM "solutions"
+       ORDER BY "createdAt" ASC
+       LIMIT 1`,
+      { type: QueryTypes.SELECT },
+    );
+
+    if (!user || !solution) {
+      throw new Error(
+        'A seeded user and solution are required before creating comments.',
+      );
+    }
+
+    await queryInterface.bulkInsert('comments', [
+      {
+        id: randomUUID(),
+        solutionId: solution.id,
+        userCode: user.userCode,
+        comment: 'Ótima proposta para melhorar a comunicação da equipe.',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
   },
 
   async down(queryInterface: QueryInterface) {
-    await queryInterface.bulkDelete('comments', {});
+    await queryInterface.bulkDelete('comments', {
+      comment: 'Ótima proposta para melhorar a comunicação da equipe.',
+    });
   },
 };

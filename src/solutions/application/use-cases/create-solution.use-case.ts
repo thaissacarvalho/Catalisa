@@ -34,7 +34,7 @@ export class CreateSolutionUseCase {
       throw new AppHttpException(TokenCodes.INVALID_USER);
     }
 
-    if (!(await this.challengeRepository.existsById(data.challengeId))) {
+    if (!(await this.challengeRepository.existsActiveById(data.challengeId))) {
       throw new AppHttpException(TokenCodes.CHALLENGE_NOT_FOUND);
     }
 
