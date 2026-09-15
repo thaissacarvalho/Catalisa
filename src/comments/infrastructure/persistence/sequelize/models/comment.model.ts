@@ -2,8 +2,17 @@ import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '@app/database/sequelize';
 import SolutionModel from '@app/solutions/infrastructure/persistence/sequelize/models/solution.model';
 import UserModel from '@app/users/infrastructure/persistence/sequelize/models/user.model';
+import { CommentStatus } from '@app/comments/domain/enums/comment-status.enum';
 
-export default class CommentModel extends Model {}
+export default class CommentModel extends Model {
+  declare id: string;
+  declare solutionId: string;
+  declare userCode: string;
+  declare comment: string;
+  declare status: CommentStatus;
+  declare readonly createdAt: Date;
+  declare readonly updatedAt: Date;
+}
 
 CommentModel.init(
   {
@@ -21,17 +30,22 @@ CommentModel.init(
         key: 'id',
       },
     },
-    userId: {
+    userCode: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: UserModel,
-        key: 'id',
+        key: 'usersCode',
       },
     },
     comment: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    status: {
+      type: DataTypes.ENUM('ACTIVE', 'INACTIVE', 'EXCLUDED'),
+      allowNull: false,
+      defaultValue: CommentStatus.ACTIVE,
     },
   },
   {

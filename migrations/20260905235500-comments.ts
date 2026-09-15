@@ -33,6 +33,11 @@ export default {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      status: {
+        type: DataTypes.ENUM('ACTIVE', 'INACTIVE', 'EXCLUDED'),
+        allowNull: false,
+        defaultValue: 'ACTIVE',
+      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,

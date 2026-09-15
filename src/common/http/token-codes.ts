@@ -134,6 +134,27 @@ export const TokenCodes = {
   // COMMENTS
   // =========================
 
+  COMMENT_CREATED: {
+    type: 'SUCCESS',
+    code: 'MCODE-S017',
+    statusCode: 201,
+    message: 'Comment created',
+  },
+
+  COMMENT_FOUND: {
+    type: 'SUCCESS',
+    code: 'MCODE-S018',
+    statusCode: 200,
+    message: 'Comment found',
+  },
+
+  COMMENT_STATUS_UPDATED: {
+    type: 'SUCCESS',
+    code: 'MCODE-S019',
+    statusCode: 200,
+    message: 'Comment status updated',
+  },
+
   COMMENT_NOT_FOUND: {
     type: 'ERROR',
     code: 'MCODE-014',

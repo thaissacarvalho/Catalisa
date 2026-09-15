@@ -1,0 +1,21 @@
+import { CommentEntity } from '@app/comments/domain/entities/comment.entity';
+import { CommentStatus } from '@app/comments/domain/enums/comment-status.enum';
+import { CommentRepository } from '@app/comments/domain/repositories/comment.repository';
+import { Inject } from '@nestjs/common';
+
+export class UpdateCommentStatusUseCase {
+  constructor(
+    @Inject('CommentRepository')
+    private readonly commentRepository: CommentRepository,
+  ) {}
+
+  async execute(id: string, status: CommentStatus): Promise<CommentEntity> {
+    const comment = await this.commentRepository.updateStatus(id, status);
+
+    if (!comment) {
+      throw new Error('Comment not found');
+    }
+
+    return comment;
+  }
+}
