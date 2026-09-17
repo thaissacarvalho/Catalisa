@@ -1,13 +1,16 @@
-import { IsString, Length } from 'class-validator';
+import { IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
 
 export class CreateCommentDto {
-  @IsString()
+  @IsUUID()
   solutionId!: string;
 
   @IsString()
+  @MinLength(36)
+  @MaxLength(40)
   userCode!: string;
 
   @IsString()
-  @Length(1, 280)
+  @MinLength(50)
+  @MaxLength(280)
   comment!: string;
 }

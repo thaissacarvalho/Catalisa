@@ -17,6 +17,12 @@ export class SequelizeCommentRepository implements CommentRepository {
     return comment ? CommentMapper.toDomain(comment) : null;
   }
 
+  async findCommentBySolution(solutionId: string): Promise<CommentEntity[]> {
+    const comments = await CommentModel.findAll({ where: { solutionId } });
+
+    return comments.map(CommentMapper.toDomain);
+  }
+
   async updateStatus(
     id: string,
     status: CommentStatus,

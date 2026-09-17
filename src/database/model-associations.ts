@@ -35,6 +35,8 @@ export function initializeModelAssociations(): void {
     sourceKey: 'userCode',
   });
 
+
+
   SolutionModel.belongsTo(ChallengeModel, {
     as: 'challenge',
     foreignKey: 'challengeId',
@@ -69,6 +71,30 @@ export function initializeModelAssociations(): void {
     as: 'solution',
     foreignKey: 'solutionId',
     targetKey: 'id',
+  });
+
+  CommentModel.belongsTo(UserModel, {
+    as: 'user',
+    foreignKey: 'userCode',
+    targetKey: 'userCode',
+  });
+
+  UserModel.hasMany(CommentModel, {
+    as: 'comments',
+    foreignKey: 'userCode',
+    sourceKey: 'userCode',
+  });
+
+  LikeModel.belongsTo(UserModel, {
+    as: 'user',
+    foreignKey: 'userCode',
+    targetKey: 'userCode',
+  });
+
+  UserModel.hasMany(LikeModel, {
+    as: 'likes',
+    foreignKey: 'userCode',
+    sourceKey: 'userCode',
   });
 
   associationsInitialized = true;

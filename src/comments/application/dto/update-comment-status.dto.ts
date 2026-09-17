@@ -1,8 +1,8 @@
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsUUID } from 'class-validator';
 import { CommentStatus } from '@app/comments/domain/enums/comment-status.enum';
 
 export class UpdateCommentStatusDto {
-  @IsString()
+  @IsUUID()
   id!: string;
   
   @IsEnum(CommentStatus)

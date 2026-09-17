@@ -17,13 +17,13 @@ export default class CommentModel extends Model {
 CommentModel.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,
     },
     solutionId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: SolutionModel,
@@ -31,15 +31,15 @@ CommentModel.init(
       },
     },
     userCode: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(40),
       allowNull: false,
       references: {
         model: UserModel,
-        key: 'usersCode',
+        key: 'userCode',
       },
     },
     comment: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(280),
       allowNull: false,
     },
     status: {

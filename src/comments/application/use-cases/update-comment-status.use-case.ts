@@ -1,6 +1,8 @@
 import { CommentEntity } from '@app/comments/domain/entities/comment.entity';
 import { CommentStatus } from '@app/comments/domain/enums/comment-status.enum';
 import { CommentRepository } from '@app/comments/domain/repositories/comment.repository';
+import { AppHttpException } from '@app/common/http/app-http.exception';
+import { TokenCodes } from '@app/common/http/token-codes';
 import { Inject } from '@nestjs/common';
 
 export class UpdateCommentStatusUseCase {
@@ -13,7 +15,7 @@ export class UpdateCommentStatusUseCase {
     const comment = await this.commentRepository.updateStatus(id, status);
 
     if (!comment) {
-      throw new Error('Comment not found');
+      throw new AppHttpException(TokenCodes.COMMENT_NOT_FOUND);
     }
 
     return comment;
