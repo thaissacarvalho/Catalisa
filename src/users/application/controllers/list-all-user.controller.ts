@@ -16,7 +16,7 @@ import { AdminPasswordUpdatedGuard } from '@app/common/authentication/guards/adm
 export class ListUsersController {
   constructor(private readonly listAllUsersUseCase: ListAllUsersUseCase) {}
 
-  @Get()
+  @Get('/findAll')
   @ApiOperation({ summary: 'List users' })
   @ApiOkResponse({ description: 'Users found.' })
   async findAll() {

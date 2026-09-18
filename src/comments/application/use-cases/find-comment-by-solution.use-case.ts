@@ -8,8 +8,9 @@ import { SolutionRepository } from '@app/solutions/domain/repositories/solution.
 export class FindCommentBySolutionUseCase {
   constructor(
     @Inject('CommentRepository')
-    private readonly solutionRepository: SolutionRepository,
-    private readonly commentRepository: CommentRepository
+    @Inject('SolutionRepository')
+    private readonly commentRepository: CommentRepository,
+    private readonly solutionRepository: SolutionRepository
   ) {}
 
   async execute(solutionId: string): Promise<CommentEntity[]> {

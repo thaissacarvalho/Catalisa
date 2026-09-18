@@ -11,7 +11,6 @@ LikeModel.init(
       type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
-      autoIncrement: true,
     },
     solutionId: {
       type: DataTypes.INTEGER,

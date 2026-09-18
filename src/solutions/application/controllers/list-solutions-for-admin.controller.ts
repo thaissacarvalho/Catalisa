@@ -29,7 +29,7 @@ export class ListSolutionsForAdminController {
   @ApiOperation({ summary: 'List all solutions for moderation' })
   @ApiOkResponse({ description: 'Solutions listed.' })
   async list() {
-    const solutions = await this.listSolutionsForAdminUseCase.execute();
+    const solutions = await this.listSolutionsForAdminUseCase.execute(UserRole.ADMIN);
 
     return successResponse(
       TokenCodes.SOLUTIONS_LISTED,

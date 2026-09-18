@@ -22,7 +22,7 @@ export class UpdateUserByStatusController {
     private readonly updateUserStatusUseCase: UpdateUserStatusUseCase,
   ) {}
 
-  @Patch(':userCode/status')
+  @Patch('/:userCode/status')
   @UseGuards(JwtAuthGuard, RolesGuard, AdminPasswordUpdatedGuard)
   @Roles(UserRole.ADMIN)
   @ApiBearerAuth()

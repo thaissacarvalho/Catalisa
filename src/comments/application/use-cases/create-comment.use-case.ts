@@ -9,10 +9,11 @@ import { TokenCodes } from '@app/common/http/token-codes';
 
 export class CreateCommentUseCase {
   constructor(
-    @Inject('CommentRepository') 
+    @Inject('CommentRepository')
+    @Inject('SolutionRepository')
     private readonly solutionRepository: SolutionRepository,
     private readonly commentRepository: CommentRepository,
-  ) {}
+  ) { }
 
   async execute(data: CreateCommentDto): Promise<CommentEntity> {
     const solution = await this.solutionRepository.findById(data.solutionId);

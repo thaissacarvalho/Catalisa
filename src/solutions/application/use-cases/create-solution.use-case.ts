@@ -1,7 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { Inject, Injectable } from '@nestjs/common';
 import {
-  CHALLENGE_REPOSITORY,
   ChallengeRepository,
 } from '@app/challenges/domain/repositories/challenge.repository';
 import { AppHttpException } from '@app/common/http/app-http.exception';
@@ -10,7 +9,6 @@ import { CreateSolutionInput } from '@app/solutions/application/contracts/create
 import { SolutionEntity } from '@app/solutions/domain/entities/solution.entity';
 import { SolutionStatus } from '@app/solutions/domain/enums/solution-status.enum';
 import {
-  SOLUTION_REPOSITORY,
   SolutionRepository,
 } from '@app/solutions/domain/repositories/solution.repository';
 import { UserStatus } from '@app/users/domain/enums/user-status.enum';
@@ -19,11 +17,11 @@ import { UserRepository } from '@app/users/domain/repositories/user.repository';
 @Injectable()
 export class CreateSolutionUseCase {
   constructor(
-    @Inject(SOLUTION_REPOSITORY)
+    @Inject('SolutionRepository')
     private readonly solutionRepository: SolutionRepository,
     @Inject('UserRepository')
     private readonly userRepository: UserRepository,
-    @Inject(CHALLENGE_REPOSITORY)
+    @Inject('ChallengeRepository')
     private readonly challengeRepository: ChallengeRepository,
   ) {}
 
@@ -34,7 +32,9 @@ export class CreateSolutionUseCase {
       throw new AppHttpException(TokenCodes.INVALID_USER);
     }
 
-    if (!(await this.challengeRepository.existsActiveById(data.challengeId))) {
+    const challengeExist = await this.challengeRepository.existsActiveById(data.challengeId);
+
+    if (!challengeExist) {
       throw new AppHttpException(TokenCodes.CHALLENGE_NOT_FOUND);
     }
 

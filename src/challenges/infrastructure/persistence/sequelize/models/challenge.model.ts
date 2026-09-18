@@ -19,7 +19,6 @@ ChallengeModel.init(
       type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
-      autoIncrement: true,
     },
     code: {
       type: DataTypes.STRING(60),

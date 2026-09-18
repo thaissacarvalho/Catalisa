@@ -1,6 +1,8 @@
 import { Inject } from '@nestjs/common';
 import { UserEntity } from '@app/users/domain/entities/user.entity';
 import { UserRepository } from '@app/users/domain/repositories/user.repository';
+import { AppHttpException } from '@app/common/http/app-http.exception';
+import { TokenCodes } from '@app/common/http/token-codes';
 
 export class ListUserByIdUseCase {
   constructor(
@@ -9,6 +11,12 @@ export class ListUserByIdUseCase {
   ) {}
 
   async execute(id: string): Promise<UserEntity | null> {
-    return this.userRepository.findById(id);
+    const idExist = await this.userRepository.findById(id);
+
+    if(!idExist) {
+      throw new AppHttpException(TokenCodes.USER_NOT_FOUND);
+    }
+
+    return idExist;
   }
 }

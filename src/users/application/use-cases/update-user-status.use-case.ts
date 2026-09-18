@@ -12,6 +12,12 @@ export class UpdateUserStatusUseCase {
   ) {}
 
   async execute(userCode: string, status: UserStatus): Promise<UserEntity> {
+    const userCodeExist = await this.userRepository.findByUserCode(userCode);
+    
+    if(!userCodeExist) {
+      throw new AppHttpException(TokenCodes.USER_NOT_FOUND);
+    }
+    
     const user = await this.userRepository.updateStatusByUserCode(
       userCode,
       status,

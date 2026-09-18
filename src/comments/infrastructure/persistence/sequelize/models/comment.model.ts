@@ -20,7 +20,6 @@ CommentModel.init(
       type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
-      autoIncrement: true,
     },
     solutionId: {
       type: DataTypes.UUID,

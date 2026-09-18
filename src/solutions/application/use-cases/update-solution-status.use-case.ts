@@ -4,23 +4,27 @@ import { TokenCodes } from '@app/common/http/token-codes';
 import { SolutionEntity } from '@app/solutions/domain/entities/solution.entity';
 import { SolutionStatus } from '@app/solutions/domain/enums/solution-status.enum';
 import {
-  SOLUTION_REPOSITORY,
   SolutionRepository,
 } from '@app/solutions/domain/repositories/solution.repository';
+import { ensureAdmin } from '@app/common/authorization/ensure-admin';
+import { UserRole } from '@app/users/domain/enums/user-role.enum';
 
 @Injectable()
 export class UpdateSolutionStatusUseCase {
   constructor(
-    @Inject(SOLUTION_REPOSITORY)
+    @Inject('SolutionRepository')
     private readonly solutionRepository: SolutionRepository,
-  ) {}
+  ) { }
 
   async execute(
     solutionId: string,
     status: SolutionStatus,
     moderatorUserCode: string,
     reason?: string,
+    actorRole?: UserRole
   ): Promise<SolutionEntity> {
+    ensureAdmin(actorRole!); // Ensure the user has admin privileges before proceeding
+
     const solution = await this.solutionRepository.findById(solutionId);
 
     if (!solution) {

@@ -9,6 +9,7 @@ import { UserRepository } from '@app/users/domain/repositories/user.repository';
 export class FindCommentUseCase {
   constructor(
     @Inject('CommentRepository')
+    @Inject('SolutionRepository')
     private readonly commentRepository: CommentRepository,
     private readonly solutionRepository: SolutionRepository,
     private readonly userRepository: UserRepository

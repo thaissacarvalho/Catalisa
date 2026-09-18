@@ -7,13 +7,13 @@ import { SolutionPresenter } from '@app/solutions/application/presenters/solutio
 import { ListPublishedSolutionsUseCase } from '@app/solutions/application/use-cases/list-published-solutions.use-case';
 
 @ApiTags('Solutions')
-@Controller('challenges/:challengeId/solutions')
+@Controller('challenges')
 export class ListPublishedSolutionsController {
   constructor(
     private readonly listPublishedSolutionsUseCase: ListPublishedSolutionsUseCase,
   ) {}
 
-  @Get()
+  @Get('/:challengeId/solutions')
   @ApiOperation({ summary: 'List published solutions for a challenge' })
   @ApiOkResponse({ description: 'Solutions listed.' })
   async list(@Param() params: ChallengeIdParamDto) {

@@ -17,7 +17,7 @@ export class GetUserByUserCodeController {
     private readonly listUserByUserCodeUseCase: ListUserByUserCodeUseCase,
   ) {}
 
-  @Get(':userCode')
+  @Get('/:userCode')
   @ApiOperation({ summary: 'Find a public user profile by hash' })
   @ApiOkResponse({ description: 'User found.' })
   @ApiNotFoundResponse({ description: 'User not found.' })

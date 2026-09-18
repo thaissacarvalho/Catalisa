@@ -3,14 +3,13 @@ import { AppHttpException } from '@app/common/http/app-http.exception';
 import { TokenCodes } from '@app/common/http/token-codes';
 import { SolutionDetails } from '@app/solutions/domain/entities/solution-details.entity';
 import {
-  SOLUTION_REPOSITORY,
   SolutionRepository,
 } from '@app/solutions/domain/repositories/solution.repository';
 
 @Injectable()
 export class GetPublishedSolutionUseCase {
   constructor(
-    @Inject(SOLUTION_REPOSITORY)
+    @Inject('SolutionRepository')
     private readonly solutionRepository: SolutionRepository,
   ) {}
 

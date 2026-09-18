@@ -22,7 +22,7 @@ export class UpdateCommentStatusController {
   @ApiOperation({ summary: 'Update comment status' })
   @ApiCreatedResponse({ description: 'Comment status updated.' })
   async updateStatus(@Body() data: UpdateCommentStatusDto) {
-    const comment = await this.updateCommentStatusUseCase.execute(data.id, data.status);
+    const comment = await this.updateCommentStatusUseCase.execute(data.id, data.status, UserRole.ADMIN);
 
     return successResponse(TokenCodes.COMMENT_STATUS_UPDATED, comment);
   }

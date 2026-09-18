@@ -17,5 +17,3 @@ export class CreateUserDto {
   @Length(1, 120)
   enterprise!: string;
 }
-
-export type CreateUserInput = CreateUserDto;
