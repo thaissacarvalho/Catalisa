@@ -5,7 +5,6 @@ import { SolutionDetails } from '@app/solutions/domain/entities/solution-details
 import {
   SolutionRepository,
 } from '@app/solutions/domain/repositories/solution.repository';
-import { UserRepository } from '@app/users/domain/repositories/user.repository';
 import { ensureAdmin } from '@app/common/authorization/ensure-admin';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
 
@@ -13,10 +12,8 @@ import { UserRole } from '@app/users/domain/enums/user-role.enum';
 export class ListSolutionsForAdminUseCase {
   constructor(
     @Inject('SolutionRepository')
-    @Inject('UserRepository')
     private readonly solutionRepository: SolutionRepository,
-    private readonly userRepository: UserRepository
-  ) { }
+  ) {}
 
   async execute(actorRole: UserRole): Promise<SolutionDetails[]> {
     ensureAdmin(actorRole);

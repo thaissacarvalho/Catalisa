@@ -13,8 +13,15 @@ export class UpdateCommentStatusUseCase {
     private readonly commentRepository: CommentRepository,
   ) {}
 
-  async execute(id: string, status: CommentStatus, actorRole: UserRole): Promise<CommentEntity> {
-    ensureAdmin(actorRole); // Ensure the user has admin privileges before proceeding
+  async execute(
+    id: string,
+    status: CommentStatus,
+    actorRole: UserRole,
+  ): Promise<CommentEntity> {
+    ensureAdmin(actorRole);
+    if (!Object.values(CommentStatus).includes(status)) {
+      throw new AppHttpException(TokenCodes.INVALID_COMMENT);
+    }
 
     const comment = await this.commentRepository.updateStatus(id, status);
 

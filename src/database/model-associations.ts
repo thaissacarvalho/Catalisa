@@ -35,8 +35,6 @@ export function initializeModelAssociations(): void {
     sourceKey: 'userCode',
   });
 
-
-
   SolutionModel.belongsTo(ChallengeModel, {
     as: 'challenge',
     foreignKey: 'challengeId',
@@ -74,7 +72,7 @@ export function initializeModelAssociations(): void {
   });
 
   CommentModel.belongsTo(UserModel, {
-    as: 'user',
+    as: 'author',
     foreignKey: 'userCode',
     targetKey: 'userCode',
   });

@@ -7,7 +7,7 @@ import {
 } from '@app/solutions/domain/repositories/solution.repository';
 
 @Injectable()
-export class GetPublishedSolutionUseCase {
+export class ListPublishedSolutionUseCase {
   constructor(
     @Inject('SolutionRepository')
     private readonly solutionRepository: SolutionRepository,

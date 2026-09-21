@@ -9,6 +9,16 @@ export class CommentMapper {
       userCode: model.userCode,
       comment: model.comment,
       status: model.status,
+      createdAt: model.createdAt,
+      updatedAt: model.updatedAt,
+      author: model.author
+        ? {
+            userCode: model.author.userCode,
+            name: model.author.name,
+            jobPosition: model.author.jobPosition,
+            enterprise: model.author.enterprise,
+          }
+        : null,
     };
   }
 
@@ -19,6 +29,6 @@ export class CommentMapper {
       userCode: comment.userCode,
       comment: comment.comment,
       status: comment.status,
-    }
+    };
   }
 }

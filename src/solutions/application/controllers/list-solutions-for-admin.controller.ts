@@ -1,4 +1,5 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { JwtPayload } from '@app/common/authentication/types/jwt-payload.type';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOkResponse,
@@ -28,8 +29,8 @@ export class ListSolutionsForAdminController {
   @Get()
   @ApiOperation({ summary: 'List all solutions for moderation' })
   @ApiOkResponse({ description: 'Solutions listed.' })
-  async list() {
-    const solutions = await this.listSolutionsForAdminUseCase.execute(UserRole.ADMIN);
+  async list(@Req() request: { user: JwtPayload }) {
+    const solutions = await this.listSolutionsForAdminUseCase.execute(request.user.role);
 
     return successResponse(
       TokenCodes.SOLUTIONS_LISTED,

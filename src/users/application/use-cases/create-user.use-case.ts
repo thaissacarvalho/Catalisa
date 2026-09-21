@@ -10,7 +10,8 @@ import { generateUserCode } from '@app/utils/generateUserCode';
 
 export class CreateUserUseCase {
   constructor(
-    @Inject('UserRepository') private readonly userRepository: UserRepository,
+    @Inject('UserRepository') 
+    private readonly userRepository: UserRepository,
   ) {}
 
   async execute(data: CreateUserDto): Promise<UserEntity> {

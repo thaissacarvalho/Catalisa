@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
-  CHALLENGE_REPOSITORY,
   ChallengeRepository,
 } from '@app/challenges/domain/repositories/challenge.repository';
 import { ChallengeEntity } from '@app/challenges/domain/entities/challenge.entity';
@@ -11,7 +10,7 @@ import { TokenCodes } from '@app/common/http/token-codes';
 @Injectable()
 export class UpdateChallengeStatusUseCase {
   constructor(
-    @Inject(CHALLENGE_REPOSITORY)
+    @Inject('ChallengeRepository')
     private readonly challengeRepository: ChallengeRepository,
   ) {}
 

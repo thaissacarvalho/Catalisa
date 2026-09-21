@@ -14,7 +14,7 @@ export class UpdateSolutionStatusUseCase {
   constructor(
     @Inject('SolutionRepository')
     private readonly solutionRepository: SolutionRepository,
-  ) { }
+  ) {}
 
   async execute(
     solutionId: string,

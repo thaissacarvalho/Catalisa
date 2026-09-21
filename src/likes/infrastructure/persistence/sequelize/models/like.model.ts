@@ -8,12 +8,12 @@ export default class LikeModel extends Model {}
 LikeModel.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
     },
     solutionId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: SolutionModel,
@@ -21,7 +21,7 @@ LikeModel.init(
       },
     },
     userCode: {
-      type: DataTypes.STRING(150),
+      type: DataTypes.STRING(40),
       allowNull: false,
       references: {
         model: UserModel,

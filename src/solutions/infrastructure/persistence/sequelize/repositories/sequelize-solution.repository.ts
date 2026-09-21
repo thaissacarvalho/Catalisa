@@ -6,11 +6,15 @@ import { SolutionRepository } from '@app/solutions/domain/repositories/solution.
 import { UpdateSolutionStatusInput } from '@app/solutions/domain/repositories/update-solution-status.input';
 import { SolutionMapper } from '@app/solutions/infrastructure/persistence/sequelize/mappers/solution.mapper';
 import SolutionModel from '@app/solutions/infrastructure/persistence/sequelize/models/solution.model';
+import { UserStatus } from '@app/users/domain/enums/user-status.enum';
 
 const authorInclude = {
   association: 'author',
   attributes: ['userCode', 'name', 'jobPosition', 'enterprise'],
   required: true,
+  where: {
+    status: UserStatus.ACTIVE,
+  },
 };
 
 const moderatorInclude = {
@@ -58,7 +62,14 @@ export class SequelizeSolutionRepository implements SolutionRepository {
 
   async findAllForAdmin(): Promise<SolutionDetails[]> {
     const solutions = await SolutionModel.findAll({
-      include: [authorInclude, moderatorInclude],
+      include: [
+        {
+          association: 'author',
+          attributes: authorInclude.attributes,
+          required: true,
+        },
+        moderatorInclude,
+      ],
       order: [['createdAt', 'DESC']],
     });
 

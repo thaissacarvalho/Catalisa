@@ -4,34 +4,28 @@ import { SolutionRepository } from '@app/solutions/domain/repositories/solution.
 import { CommentEntity } from '@app/comments/domain/entities/comment.entity';
 import { AppHttpException } from '@app/common/http/app-http.exception';
 import { TokenCodes } from '@app/common/http/token-codes';
-import { UserRepository } from '@app/users/domain/repositories/user.repository';
 
 export class FindCommentUseCase {
   constructor(
     @Inject('CommentRepository')
-    @Inject('SolutionRepository')
     private readonly commentRepository: CommentRepository,
+    @Inject('SolutionRepository')
     private readonly solutionRepository: SolutionRepository,
-    private readonly userRepository: UserRepository
-  ) { }
+  ) {}
 
-  async execute(id: string): Promise<CommentEntity | null> {
+  async execute(id: string): Promise<CommentEntity> {
     const comment = await this.commentRepository.find(id);
 
     if (!comment) {
-      return null;
+      throw new AppHttpException(TokenCodes.COMMENT_NOT_FOUND);
     }
 
-    const solutionExist = await this.solutionRepository.findById(comment.solutionId);
+    const solutionExist = await this.solutionRepository.findPublishedById(
+      comment.solutionId,
+    );
 
     if (!solutionExist) {
       throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
-    }
-
-    const userExist = await this.userRepository.findById(comment.userCode);
-
-    if (!userExist) {
-      throw new AppHttpException(TokenCodes.USER_NOT_FOUND);
     }
 
     return comment;

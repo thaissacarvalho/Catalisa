@@ -41,7 +41,7 @@ export class UpdateSolutionStatusController {
       data.status,
       request.user.userCode,
       data.reason,
-      UserRole.ADMIN
+      request.user.role
     );
 
     return successResponse(

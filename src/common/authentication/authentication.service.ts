@@ -5,7 +5,6 @@ import { environment } from '@app/config/environment';
 import { AppHttpException } from '@app/common/http/app-http.exception';
 import { TokenCodes } from '@app/common/http/token-codes';
 import {
-  ADMIN_CREDENTIAL_REPOSITORY,
   AdminCredentialRepository,
 } from '@app/common/authentication/domain/repositories/admin-credential.repository';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
@@ -25,7 +24,7 @@ export class AuthenticationService {
     private readonly jwtService: JwtService,
     @Inject('UserRepository')
     private readonly userRepository: UserRepository,
-    @Inject(ADMIN_CREDENTIAL_REPOSITORY)
+    @Inject('AdminCredentialRepository')
     private readonly adminCredentialRepository: AdminCredentialRepository,
   ) {}
 

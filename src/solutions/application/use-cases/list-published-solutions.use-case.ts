@@ -13,15 +13,15 @@ import {
 export class ListPublishedSolutionsUseCase {
   constructor(
     @Inject('SolutionRepository')
-    @Inject('ChallengeRepository')
     private readonly solutionRepository: SolutionRepository,
+    @Inject('ChallengeRepository')
     private readonly challengeRepository: ChallengeRepository,
   ) {}
 
   async execute(challengeId: number): Promise<SolutionDetails[]> {
     const challenge = await this.challengeRepository.findById(challengeId);
 
-    if(!challenge) {
+    if (!challenge) {
       throw new AppHttpException(TokenCodes.CHALLENGE_NOT_FOUND);
     }
 

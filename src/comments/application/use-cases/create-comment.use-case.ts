@@ -1,3 +1,5 @@
+import { UserRepository } from '@app/users/domain/repositories/user.repository';
+import { UserStatus } from '@app/users/domain/enums/user-status.enum';
 import { CommentEntity } from '@app/comments/domain/entities/comment.entity';
 import { SolutionRepository } from '@app/solutions/domain/repositories/solution.repository';
 import { CommentRepository } from '@app/comments/domain/repositories/comment.repository';
@@ -9,14 +11,29 @@ import { TokenCodes } from '@app/common/http/token-codes';
 
 export class CreateCommentUseCase {
   constructor(
-    @Inject('CommentRepository')
     @Inject('SolutionRepository')
     private readonly solutionRepository: SolutionRepository,
+    @Inject('CommentRepository')
     private readonly commentRepository: CommentRepository,
-  ) { }
+    @Inject('UserRepository')
+    private readonly userRepository: UserRepository,
+  ) {}
 
   async execute(data: CreateCommentDto): Promise<CommentEntity> {
-    const solution = await this.solutionRepository.findById(data.solutionId);
+    const text = typeof data.comment === 'string' ? data.comment.trim() : '';
+    if (Array.from(text).length < 50 || Array.from(text).length > 280) {
+      throw new AppHttpException(TokenCodes.INVALID_COMMENT);
+    }
+    const user = await this.userRepository.findByUserCode(data.userCode);
+    if (!user) {
+      throw new AppHttpException(TokenCodes.USER_NOT_FOUND);
+    }
+    if (user.status !== UserStatus.ACTIVE) {
+      throw new AppHttpException(TokenCodes.FORBIDDEN);
+    }
+    const solution = await this.solutionRepository.findPublishedById(
+      data.solutionId,
+    );
 
     if (!solution) {
       throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
@@ -26,8 +43,8 @@ export class CreateCommentUseCase {
       crypto.randomUUID(),
       data.solutionId,
       data.userCode,
-      data.comment,
-      CommentStatus.ACTIVE, // Assuming the initial status is 'ACTIVE'
+      text,
+      CommentStatus.ACTIVE,
     );
 
     return this.commentRepository.create(comment);

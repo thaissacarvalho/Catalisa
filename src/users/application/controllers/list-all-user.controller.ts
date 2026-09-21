@@ -1,5 +1,5 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { successResponse } from '@app/common/http/success-response';
 import { TokenCodes } from '@app/common/http/token-codes';
 import { ListAllUsersUseCase } from '@app/users/application/use-cases/list-all-users.use-case';
@@ -19,6 +19,7 @@ export class ListUsersController {
   @Get('/findAll')
   @ApiOperation({ summary: 'List users' })
   @ApiOkResponse({ description: 'Users found.' })
+  @ApiNotFoundResponse({ description: '[]' })
   async findAll() {
     const users = await this.listAllUsersUseCase.execute();
     return successResponse(TokenCodes.USERS_LISTED, users);

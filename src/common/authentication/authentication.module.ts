@@ -41,6 +41,8 @@ import { RolesGuard } from '@app/common/authentication/guards/roles.guard';
     AdminPasswordUpdatedGuard,
   ],
   exports: [
+    UsersModule,
+    ADMIN_CREDENTIAL_REPOSITORY,
     AuthenticationService,
     JwtAuthGuard,
     RolesGuard,

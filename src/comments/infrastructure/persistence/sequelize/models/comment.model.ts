@@ -10,6 +10,7 @@ export default class CommentModel extends Model {
   declare userCode: string;
   declare comment: string;
   declare status: CommentStatus;
+  declare author?: UserModel;
   declare readonly createdAt: Date;
   declare readonly updatedAt: Date;
 }

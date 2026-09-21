@@ -8,19 +8,21 @@ import { SolutionRepository } from '@app/solutions/domain/repositories/solution.
 export class FindCommentBySolutionUseCase {
   constructor(
     @Inject('CommentRepository')
-    @Inject('SolutionRepository')
     private readonly commentRepository: CommentRepository,
-    private readonly solutionRepository: SolutionRepository
+    @Inject('SolutionRepository')
+    private readonly solutionRepository: SolutionRepository,
   ) {}
 
   async execute(solutionId: string): Promise<CommentEntity[]> {
-    const solution = await this.solutionRepository.findById(solutionId);
+    const solution =
+      await this.solutionRepository.findPublishedById(solutionId);
 
     if (!solution) {
       throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
     }
 
-    const comments = await this.commentRepository.findCommentBySolution(solutionId);
+    const comments =
+      await this.commentRepository.findCommentBySolution(solutionId);
 
     return comments;
   }
