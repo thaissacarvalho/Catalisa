@@ -1,9 +1,16 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '@app/database/sequelize';
-import SolutionModel from '@app/solutions/infrastructure/persistence/sequelize/models/solution.model';
-import UserModel from '@app/users/infrastructure/persistence/sequelize/models/user.model';
+import { LikeType } from '@app/likes/domain/enums/like-type.enum';
 
-export default class LikeModel extends Model {}
+export default class LikeModel extends Model {
+  declare id: string;
+  declare userCode: string;
+  declare type: LikeType;
+  declare solutionId: string | null;
+  declare commentId: string | null;
+  declare readonly createdAt: Date;
+  declare readonly updatedAt: Date;
+}
 
 LikeModel.init(
   {
@@ -11,22 +18,39 @@ LikeModel.init(
       type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
-    },
-    solutionId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: SolutionModel,
-        key: 'id',
-      },
+      defaultValue: DataTypes.UUIDV4,
     },
     userCode: {
       type: DataTypes.STRING(40),
       allowNull: false,
       references: {
-        model: UserModel,
+        model: 'users',
         key: 'userCode',
       },
+    },
+    type: {
+      type: DataTypes.ENUM('SOLUTION', 'COMMENT'),
+      allowNull: false,
+    },
+    solutionId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      references: {
+        model: 'solutions',
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
+    commentId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      references: {
+        model: 'comments',
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
     },
   },
   {

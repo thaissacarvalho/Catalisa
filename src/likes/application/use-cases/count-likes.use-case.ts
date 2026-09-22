@@ -7,15 +7,21 @@ import { TokenCodes } from '@app/common/http/token-codes';
 @Injectable()
 export class CountLikesUseCase {
   constructor(
-    @Inject(LikeRepository) private readonly likes: LikeRepository,
+    @Inject('LikeRepository')
+    private readonly likes: LikeRepository,
     @Inject('SolutionRepository')
     private readonly solutions: SolutionRepository,
   ) {}
 
   async execute(solutionId: string): Promise<{ count: number }> {
-    if (!(await this.solutions.findPublishedById(solutionId))) {
+    const findSolution = await this.solutions.findPublishedById(solutionId);
+    
+    if (!findSolution) {
       throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
     }
-    return { count: await this.likes.countVisibleBySolution(solutionId) };
+
+    const countLike = await this.likes.countVisibleBySolution(solutionId);
+
+    return countLike;
   }
 }

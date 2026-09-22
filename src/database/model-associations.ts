@@ -94,6 +94,18 @@ export function initializeModelAssociations(): void {
     foreignKey: 'userCode',
     sourceKey: 'userCode',
   });
+  
+  LikeModel.belongsTo(CommentModel, {
+    as: 'comment',
+    foreignKey: 'commentId',
+    targetKey: 'id',
+  });
+
+  CommentModel.hasMany(LikeModel, {
+    as: 'likes',
+    foreignKey: 'commentId',
+    sourceKey: 'id',
+  });
 
   associationsInitialized = true;
 }
