@@ -3,7 +3,6 @@ export enum LikeType {
   SOLUTION = 'SOLUTION',
 }
 
-
 export type LikeTarget =
   | {
     type: LikeType.SOLUTION;

@@ -5,7 +5,7 @@ export class LikeEntity {
     public readonly id: string,
     public readonly userCode: string,
     public readonly target: LikeTarget,
-    public readonly createdAt: Date,
-    public readonly updatedAt: Date,
+    public readonly createdAt: Date | null = null,
+    public readonly updatedAt: Date | null = null,
   ) {}
 }

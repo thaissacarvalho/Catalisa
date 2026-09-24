@@ -180,6 +180,13 @@ export const TokenCodes = {
   // LIKES
   // =========================
 
+  LIKE_CREATED: {
+    type: 'SUCCESS',
+    code: 'MCODE-S021',
+    statusCode: 201,
+    message: 'Like created',
+  },
+
   LIKES_COUNTED: {
     type: 'SUCCESS',
     code: 'MCODE-S020',
