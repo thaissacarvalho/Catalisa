@@ -12,11 +12,11 @@ import { TokenCodes } from '@app/common/http/token-codes';
 @ApiTags('Users')
 @Controller('users/admin')
 @UseGuards(JwtAuthGuard, RolesGuard, AdminPasswordUpdatedGuard)
-@Roles(UserRole.ADMIN)
+@Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
 export class ListUserByEmailController {
   constructor(
     private readonly listUserByEmailUseCase: ListUserByEmailUseCase,
-  ) { }
+  ) {}
 
   @Get('/:email')
   @ApiOperation({ summary: 'Find a user by email' })

@@ -24,7 +24,7 @@ export class UpdateUserByStatusController {
 
   @Patch('/:userCode/status')
   @UseGuards(JwtAuthGuard, RolesGuard, AdminPasswordUpdatedGuard)
-  @Roles(UserRole.ADMIN)
+  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update user status' })
   @ApiOkResponse({ description: 'User status updated.' })

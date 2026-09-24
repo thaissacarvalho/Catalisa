@@ -7,7 +7,7 @@ import { UserRepository } from '@app/users/domain/repositories/user.repository';
 import { UserStatus } from '@app/users/domain/enums/user-status.enum';
 import { AppHttpException } from '@app/common/http/app-http.exception';
 import { TokenCodes } from '@app/common/http/token-codes';
-import { ensureParticipant } from '@app/common/authorization/ensure-participant';
+import { ensureCanLike } from '@app/common/authorization/ensure-can-like';
 import { EnsureLikeTargetVisibleUseCase } from './ensure-like-target-visible.use-case';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class CreateLikeUseCase {
 
     if (!user) throw new AppHttpException(TokenCodes.USER_NOT_FOUND);
 
-    ensureParticipant(user.role);
+    ensureCanLike(user.role);
 
     if (user.status !== UserStatus.ACTIVE) {
       throw new AppHttpException(TokenCodes.FORBIDDEN);

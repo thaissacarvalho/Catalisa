@@ -346,6 +346,13 @@ export const TokenCodes = {
     message: 'Email already exists',
   },
 
+  EMAIL_NOT_FOUND: {
+    type: 'ERROR',
+    code: 'MCODE-042',
+    statusCode: 404,
+    message: 'Email not found',
+  },
+
   INVALID_PASSWORD_LENGTH: {
     type: 'ERROR',
     code: 'MCODE-037',

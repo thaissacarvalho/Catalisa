@@ -12,7 +12,7 @@ import { AdminPasswordUpdatedGuard } from '@app/common/authentication/guards/adm
 @ApiTags('Users')
 @Controller('users/admin')
 @UseGuards(JwtAuthGuard, RolesGuard, AdminPasswordUpdatedGuard)
-@Roles(UserRole.ADMIN)
+@Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
 export class ListUsersController {
   constructor(private readonly listAllUsersUseCase: ListAllUsersUseCase) {}
 

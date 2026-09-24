@@ -12,9 +12,9 @@ import { TokenCodes } from '@app/common/http/token-codes';
 @ApiTags('Users')
 @Controller('users/admin')
 @UseGuards(JwtAuthGuard, RolesGuard, AdminPasswordUpdatedGuard)
-@Roles(UserRole.ADMIN)
+@Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
 export class ListUserByIdController {
-  constructor(private readonly listUserByIdUseCase: ListUserByIdUseCase) { }
+  constructor(private readonly listUserByIdUseCase: ListUserByIdUseCase) {}
 
   @Get('/:id')
   @ApiOperation({ summary: 'Find a user by ID' })

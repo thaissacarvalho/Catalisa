@@ -14,7 +14,7 @@ export class ListUserByEmailUseCase {
     const emailExist = await this.userRepository.findByEmail(email);
 
     if (!emailExist) {
-      throw new AppHttpException(TokenCodes.EMAIL_ALREADY_EXISTS);
+      throw new AppHttpException(TokenCodes.EMAIL_NOT_FOUND);
     }
 
     return emailExist;

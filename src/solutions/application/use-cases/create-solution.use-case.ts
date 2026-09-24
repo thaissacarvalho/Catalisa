@@ -6,6 +6,7 @@ import {
 import { AppHttpException } from '@app/common/http/app-http.exception';
 import { TokenCodes } from '@app/common/http/token-codes';
 import { CreateSolutionInput } from '@app/solutions/application/contracts/create-solution-input.contract';
+import { ensureCanPublishSolution } from '@app/common/authorization/ensure-can-publish-solution';
 import { SolutionEntity } from '@app/solutions/domain/entities/solution.entity';
 import { SolutionStatus } from '@app/solutions/domain/enums/solution-status.enum';
 import {
@@ -28,7 +29,13 @@ export class CreateSolutionUseCase {
   async execute(data: CreateSolutionInput): Promise<SolutionEntity> {
     const user = await this.userRepository.findByUserCode(data.userCode);
 
-    if (!user || user.status !== UserStatus.ACTIVE) {
+    if (!user) {
+      throw new AppHttpException(TokenCodes.INVALID_USER);
+    }
+
+    ensureCanPublishSolution(user.role);
+
+    if (user.status !== UserStatus.ACTIVE) {
       throw new AppHttpException(TokenCodes.INVALID_USER);
     }
 
