@@ -5,7 +5,7 @@ import { LikeRepository } from '@app/likes/domain/repositories/like.repository';
 import LikeModel from '@app/likes/infrastructure/persistence/sequelize/models/like.model';
 import { LikeEntity } from '@app/likes/domain/entities/like.entity';
 import { LikeMapper } from '../mappers/like.mapper';
-import { LikeTarget } from '@app/likes/domain/enums/like-type.enum';
+import { LikeTarget } from '@app/likes/domain/types/like-target.type';
 import { targetWhere } from '../helpers/like-target-where.helper';
 import { visibleLikeIncludes } from '../helpers/visible-like-includes.helper';
 

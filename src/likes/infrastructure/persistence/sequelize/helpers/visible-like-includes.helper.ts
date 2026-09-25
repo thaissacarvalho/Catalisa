@@ -1,5 +1,6 @@
 import type { IncludeOptions } from 'sequelize';
-import { LikeTarget, LikeType } from '@app/likes/domain/enums/like-type.enum';
+import { TargetType } from '@app/common/domain/enums/target-type.enum';
+import { LikeTarget } from '@app/likes/domain/types/like-target.type';
 import { CommentStatus } from '@app/comments/domain/enums/comment-status.enum';
 import { SolutionStatus } from '@app/solutions/domain/enums/solution-status.enum';
 import { UserStatus } from '@app/users/domain/enums/user-status.enum';
@@ -23,13 +24,11 @@ function visibleSolution(): IncludeOptions {
   };
 }
 
-export function visibleLikeIncludes(
-  target: LikeTarget,
-): IncludeOptions[] {
+export function visibleLikeIncludes(target: LikeTarget): IncludeOptions[] {
   // Usuário que realizou a curtida.
   const user = activeUser('user');
 
-  if (target.type === LikeType.SOLUTION) {
+  if (target.type === TargetType.SOLUTION) {
     return [user, visibleSolution()];
   }
 
@@ -40,10 +39,7 @@ export function visibleLikeIncludes(
       attributes: [],
       required: true,
       where: { status: CommentStatus.ACTIVE },
-      include: [
-        activeUser('author'),
-        visibleSolution(),
-      ],
+      include: [activeUser('author'), visibleSolution()],
     },
   ];
 }

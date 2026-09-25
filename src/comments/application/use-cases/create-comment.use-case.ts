@@ -21,16 +21,21 @@ export class CreateCommentUseCase {
 
   async execute(data: CreateCommentDto): Promise<CommentEntity> {
     const text = typeof data.comment === 'string' ? data.comment.trim() : '';
+
     if (Array.from(text).length < 50 || Array.from(text).length > 280) {
       throw new AppHttpException(TokenCodes.INVALID_COMMENT);
     }
+
     const user = await this.userRepository.findByUserCode(data.userCode);
+
     if (!user) {
       throw new AppHttpException(TokenCodes.USER_NOT_FOUND);
     }
+
     if (user.status !== UserStatus.ACTIVE) {
       throw new AppHttpException(TokenCodes.FORBIDDEN);
     }
+
     const solution = await this.solutionRepository.findPublishedById(
       data.solutionId,
     );
@@ -39,9 +44,18 @@ export class CreateCommentUseCase {
       throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
     }
 
+    if (data.parentCommentId) {
+      const parent = await this.commentRepository.find(data.parentCommentId);
+
+      if (!parent || parent.solutionId !== data.solutionId) {
+        throw new AppHttpException(TokenCodes.PARENT_COMMENT_NOT_FOUND);
+      }
+    }
+
     const comment = new CommentEntity(
       crypto.randomUUID(),
       data.solutionId,
+      data.parentCommentId ?? null,
       data.userCode,
       text,
       CommentStatus.ACTIVE,

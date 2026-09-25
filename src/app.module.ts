@@ -5,6 +5,7 @@ import { AuthenticationModule } from '@app/common/authentication/authentication.
 import { CommentsModule } from '@app/comments/comments.module';
 import { DatabaseModule } from '@app/database/database.module';
 import { LikesModule } from '@app/likes/likes.module';
+import { ModerationModule } from '@app/moderation/moderation.module';
 import { SolutionsModule } from '@app/solutions/solutions.module';
 import { UsersModule } from '@app/users/users.module';
 
@@ -17,6 +18,7 @@ import { UsersModule } from '@app/users/users.module';
     SolutionsModule,
     CommentsModule,
     LikesModule,
+    ModerationModule,
   ],
 })
 export class AppModule {}

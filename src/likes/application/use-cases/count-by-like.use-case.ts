@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { LikeRepository } from '@app/likes/domain/repositories/like.repository';
-import { LikeTarget } from '@app/likes/domain/enums/like-type.enum';
+import { LikeTarget } from '@app/likes/domain/types/like-target.type';
 import { EnsureLikeTargetVisibleUseCase } from './ensure-like-target-visible.use-case';
 
 @Injectable()

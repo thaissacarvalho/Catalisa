@@ -6,9 +6,13 @@ export class CommentMapper {
     return {
       id: model.id,
       solutionId: model.solutionId,
+      parentCommentId: model.parentCommentId,
       userCode: model.userCode,
       comment: model.comment,
       status: model.status,
+      moderationReason: model.moderationReason,
+      moderatedByUserCode: model.moderatedByUserCode,
+      moderatedAt: model.moderatedAt,
       createdAt: model.createdAt,
       updatedAt: model.updatedAt,
       author: model.author
@@ -26,9 +30,13 @@ export class CommentMapper {
     return {
       id: comment.id,
       solutionId: comment.solutionId,
+      parentCommentId: comment.parentCommentId,
       userCode: comment.userCode,
       comment: comment.comment,
       status: comment.status,
+      moderationReason: comment.moderationReason,
+      moderatedByUserCode: comment.moderatedByUserCode,
+      moderatedAt: comment.moderatedAt,
     };
   }
 }

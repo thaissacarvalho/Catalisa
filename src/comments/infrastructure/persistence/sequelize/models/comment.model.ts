@@ -7,9 +7,13 @@ import { CommentStatus } from '@app/comments/domain/enums/comment-status.enum';
 export default class CommentModel extends Model {
   declare id: string;
   declare solutionId: string;
+  declare parentCommentId: string | null;
   declare userCode: string;
   declare comment: string;
   declare status: CommentStatus;
+  declare moderationReason: string | null;
+  declare moderatedByUserCode: string | null;
+  declare moderatedAt: Date | null;
   declare author?: UserModel;
   declare readonly createdAt: Date;
   declare readonly updatedAt: Date;
@@ -30,6 +34,16 @@ CommentModel.init(
         key: 'id',
       },
     },
+    parentCommentId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      references: {
+        model: 'comments',
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
+    },
     userCode: {
       type: DataTypes.STRING(40),
       allowNull: false,
@@ -46,6 +60,24 @@ CommentModel.init(
       type: DataTypes.ENUM('ACTIVE', 'INACTIVE', 'EXCLUDED'),
       allowNull: false,
       defaultValue: CommentStatus.ACTIVE,
+    },
+    moderationReason: {
+      type: DataTypes.STRING(500),
+      allowNull: true,
+    },
+    moderatedByUserCode: {
+      type: DataTypes.STRING(40),
+      allowNull: true,
+      references: {
+        model: 'users',
+        key: 'userCode',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
+    },
+    moderatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
   },
   {

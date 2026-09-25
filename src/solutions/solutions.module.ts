@@ -12,9 +12,10 @@ import { ListSolutionsForAdminUseCase } from '@app/solutions/application/use-cas
 import { UpdateSolutionStatusUseCase } from '@app/solutions/application/use-cases/update-solution-status.use-case';
 import { SequelizeSolutionRepository } from '@app/solutions/infrastructure/persistence/sequelize/repositories/sequelize-solution.repository';
 import { UsersModule } from '@app/users/users.module';
+import { ModerationModule } from '@app/moderation/moderation.module';
 
 @Module({
-  imports: [UsersModule, ChallengesModule],
+  imports: [UsersModule, ChallengesModule, ModerationModule],
   controllers: [
     CreateSolutionController,
     ListPublishedSolutionController,

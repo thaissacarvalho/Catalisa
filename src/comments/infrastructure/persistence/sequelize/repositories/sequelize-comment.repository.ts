@@ -53,6 +53,26 @@ export class SequelizeCommentRepository implements CommentRepository {
       include: [authorInclude, visibleSolutionInclude],
     });
 
+    if (
+      !comment ||
+      !(await this.ancestorsAreVisible(comment.parentCommentId))
+    ) {
+      return null;
+    }
+
+    return CommentMapper.toDomain(comment);
+  }
+
+  async findById(id: string): Promise<CommentEntity | null> {
+    const comment = await CommentModel.findByPk(id, {
+      include: [
+        {
+          association: 'author',
+          attributes: ['userCode', 'name', 'jobPosition', 'enterprise'],
+        },
+      ],
+    });
+
     return comment ? CommentMapper.toDomain(comment) : null;
   }
 
@@ -69,12 +89,58 @@ export class SequelizeCommentRepository implements CommentRepository {
       ],
     });
 
-    return comments.map(CommentMapper.toDomain);
+    const visibleIds = new Set<string>();
+    let changed = true;
+
+    while (changed) {
+      changed = false;
+      for (const comment of comments) {
+        if (visibleIds.has(comment.id)) {
+          continue;
+        }
+
+        if (
+          comment.parentCommentId === null ||
+          visibleIds.has(comment.parentCommentId)
+        ) {
+          visibleIds.add(comment.id);
+          changed = true;
+        }
+      }
+    }
+
+    return comments
+      .filter((comment) => visibleIds.has(comment.id))
+      .map(CommentMapper.toDomain);
+  }
+
+  private async ancestorsAreVisible(
+    parentCommentId: string | null,
+  ): Promise<boolean> {
+    const visited = new Set<string>();
+    let currentId = parentCommentId;
+
+    while (currentId) {
+      if (visited.has(currentId)) return false;
+      visited.add(currentId);
+
+      const parent = await CommentModel.findOne({
+        where: { id: currentId, status: CommentStatus.ACTIVE },
+        include: [authorInclude, visibleSolutionInclude],
+      });
+
+      if (!parent) return false;
+      currentId = parent.parentCommentId;
+    }
+
+    return true;
   }
 
   async updateStatus(
     id: string,
     status: CommentStatus,
+    moderatedByUserCode?: string,
+    moderationReason?: string,
   ): Promise<CommentEntity | null> {
     return sequelize.transaction(async (transaction) => {
       const comment = await CommentModel.findByPk(id, {
@@ -88,7 +154,19 @@ export class SequelizeCommentRepository implements CommentRepository {
       ) {
         throw new AppHttpException(TokenCodes.CONFLICT);
       }
+
       comment.status = status;
+      comment.moderationReason =
+        status === CommentStatus.EXCLUDED
+          ? (moderationReason?.trim() ?? null)
+          : null;
+      comment.moderatedByUserCode =
+        status === CommentStatus.EXCLUDED
+          ? (moderatedByUserCode ?? null)
+          : null;
+      comment.moderatedAt =
+        status === CommentStatus.EXCLUDED ? new Date() : null;
+
       await comment.save({ transaction });
       await comment.reload({
         transaction,

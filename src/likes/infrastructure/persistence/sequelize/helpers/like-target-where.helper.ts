@@ -1,13 +1,14 @@
-import { LikeTarget, LikeType } from '@app/likes/domain/enums/like-type.enum';
+import { TargetType } from '@app/common/domain/enums/target-type.enum';
+import { LikeTarget } from '@app/likes/domain/types/like-target.type';
 
 export function targetWhere(target: LikeTarget) {
-  return target.type === LikeType.SOLUTION
+  return target.type === TargetType.SOLUTION
     ? {
-      type: target.type,
-      solutionId: target.solutionId,
-    }
+        type: target.type,
+        solutionId: target.solutionId,
+      }
     : {
-      type: target.type,
-      commentId: target.commentId,
-    };
+        type: target.type,
+        commentId: target.commentId,
+      };
 }

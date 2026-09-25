@@ -1,11 +1,11 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '@app/database/sequelize';
-import { LikeType } from '@app/likes/domain/enums/like-type.enum';
+import { TargetType } from '@app/common/domain/enums/target-type.enum';
 
 export default class LikeModel extends Model {
   declare id: string;
   declare userCode: string;
-  declare type: LikeType;
+  declare type: TargetType;
   declare solutionId: string | null;
   declare commentId: string | null;
   declare readonly createdAt: Date;

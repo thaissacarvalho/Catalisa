@@ -1,30 +1,31 @@
-import { LikeType, LikeTarget } from '@app/likes/domain/enums/like-type.enum';
+import { TargetType } from '@app/common/domain/enums/target-type.enum';
+import { LikeTarget } from '@app/likes/domain/types/like-target.type';
 
 interface PersistedLikeTarget {
-  type: LikeType;
+  type: TargetType;
   solutionId: string | null;
   commentId: string | null;
 }
 
 export function toLikeTarget(data: PersistedLikeTarget): LikeTarget {
   switch (data.type) {
-    case LikeType.SOLUTION:
+    case TargetType.SOLUTION:
       if (data.solutionId == null || data.commentId != null) {
         throw new Error('Invalid persisted solution like');
       }
 
       return {
-        type: LikeType.SOLUTION,
+        type: TargetType.SOLUTION,
         solutionId: data.solutionId,
       };
 
-    case LikeType.COMMENT:
+    case TargetType.COMMENT:
       if (data.commentId == null || data.solutionId != null) {
         throw new Error('Invalid persisted comment like');
       }
 
       return {
-        type: LikeType.COMMENT,
+        type: TargetType.COMMENT,
         commentId: data.commentId,
       };
 

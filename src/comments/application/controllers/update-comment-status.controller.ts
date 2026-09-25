@@ -50,7 +50,9 @@ export class UpdateCommentStatusController {
     const comment = await this.updateCommentStatusUseCase.execute(
       id,
       data.status,
+      request.user.userCode,
       request.user.role,
+      data.reason,
     );
 
     return successResponse(TokenCodes.COMMENT_STATUS_UPDATED, comment);

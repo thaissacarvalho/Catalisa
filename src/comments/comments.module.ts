@@ -1,5 +1,6 @@
 import { SolutionsModule } from '@app/solutions/solutions.module';
 import { UsersModule } from '@app/users/users.module';
+import { ModerationModule } from '@app/moderation/moderation.module';
 import { Module } from '@nestjs/common';
 import { CreateCommentController } from '@app/comments/application/controllers/create-comment.controller';
 import { FindCommentController } from '@app/comments/application/controllers/find-comment.controller';
@@ -12,7 +13,7 @@ import { FindCommentBySolutionController } from '@app/comments/application/contr
 import { FindCommentBySolutionUseCase } from '@app/comments/application/use-cases/find-comment-by-solution.use-case';
 
 @Module({
-  imports: [SolutionsModule, UsersModule],
+  imports: [SolutionsModule, UsersModule, ModerationModule],
   controllers: [
     CreateCommentController,
     FindCommentController,

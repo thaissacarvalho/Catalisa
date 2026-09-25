@@ -3,7 +3,7 @@ import { SolutionDetails } from '@app/solutions/domain/entities/solution-details
 import { SolutionEntity } from '@app/solutions/domain/entities/solution.entity';
 import { SolutionStatus } from '@app/solutions/domain/enums/solution-status.enum';
 import { SolutionRepository } from '@app/solutions/domain/repositories/solution.repository';
-import { UpdateSolutionStatusInput } from '@app/solutions/domain/repositories/update-solution-status.input';
+import { UpdateSolutionStatusInput } from '@app/solutions/domain/repositories/inputs/update-solution-status.input';
 import { SolutionMapper } from '@app/solutions/infrastructure/persistence/sequelize/mappers/solution.mapper';
 import SolutionModel from '@app/solutions/infrastructure/persistence/sequelize/models/solution.model';
 import { UserStatus } from '@app/users/domain/enums/user-status.enum';

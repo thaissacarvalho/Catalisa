@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { LikeRepository } from '@app/likes/domain/repositories/like.repository';
-import { LikeTarget } from '@app/likes/domain/enums/like-type.enum';
+import { LikeTarget } from '@app/likes/domain/types/like-target.type';
 import { UserRepository } from '@app/users/domain/repositories/user.repository';
 import { UserStatus } from '@app/users/domain/enums/user-status.enum';
 import { AppHttpException } from '@app/common/http/app-http.exception';

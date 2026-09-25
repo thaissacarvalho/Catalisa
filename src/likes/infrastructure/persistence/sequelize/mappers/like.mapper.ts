@@ -1,5 +1,5 @@
 import { LikeEntity } from '@app/likes/domain/entities/like.entity';
-import { LikeType } from '@app/likes/domain/enums/like-type.enum';
+import { TargetType } from '@app/common/domain/enums/target-type.enum';
 import LikeModel from '@app/likes/infrastructure/persistence/sequelize/models/like.model';
 import { toLikeTarget } from '@app/likes/infrastructure/persistence/sequelize/mappers/like-target.mapper';
 
@@ -11,7 +11,7 @@ export class LikeMapper {
       toLikeTarget(model),
       model.createdAt,
       model.updatedAt,
-    )
+    );
   }
 
   static toPersistence(like: LikeEntity) {
@@ -21,13 +21,11 @@ export class LikeMapper {
       type: like.target.type,
 
       solutionId:
-        like.target.type === LikeType.SOLUTION
+        like.target.type === TargetType.SOLUTION
           ? like.target.solutionId
           : null,
       commentId:
-        like.target.type === LikeType.COMMENT
-          ? like.target.commentId
-          : null,
-    }
+        like.target.type === TargetType.COMMENT ? like.target.commentId : null,
+    };
   }
 }

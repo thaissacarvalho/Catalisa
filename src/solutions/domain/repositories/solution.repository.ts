@@ -1,6 +1,6 @@
 import { SolutionDetails } from '@app/solutions/domain/entities/solution-details.entity';
 import { SolutionEntity } from '@app/solutions/domain/entities/solution.entity';
-import { UpdateSolutionStatusInput } from '@app/solutions/domain/repositories/update-solution-status.input';
+import { UpdateSolutionStatusInput } from '@app/solutions/domain/repositories/inputs/update-solution-status.input';
 
 export const SOLUTION_REPOSITORY = 'SolutionRepository';
 

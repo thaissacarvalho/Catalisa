@@ -1,6 +1,7 @@
 import ChallengeModel from '@app/challenges/infrastructure/persistence/sequelize/models/challenge.model';
 import CommentModel from '@app/comments/infrastructure/persistence/sequelize/models/comment.model';
 import LikeModel from '@app/likes/infrastructure/persistence/sequelize/models/like.model';
+import ModerationRequestModel from '@app/moderation/infrastructure/persistence/sequelize/models/moderation-request.model';
 import SolutionModel from '@app/solutions/infrastructure/persistence/sequelize/models/solution.model';
 import UserModel from '@app/users/infrastructure/persistence/sequelize/models/user.model';
 
@@ -59,6 +60,18 @@ export function initializeModelAssociations(): void {
     targetKey: 'id',
   });
 
+  CommentModel.belongsTo(CommentModel, {
+    as: 'parentComment',
+    foreignKey: 'parentCommentId',
+    targetKey: 'id',
+  });
+
+  CommentModel.hasMany(CommentModel, {
+    as: 'replies',
+    foreignKey: 'parentCommentId',
+    sourceKey: 'id',
+  });
+
   SolutionModel.hasMany(LikeModel, {
     as: 'likes',
     foreignKey: 'solutionId',
@@ -83,6 +96,12 @@ export function initializeModelAssociations(): void {
     sourceKey: 'userCode',
   });
 
+  CommentModel.belongsTo(UserModel, {
+    as: 'moderator',
+    foreignKey: 'moderatedByUserCode',
+    targetKey: 'userCode',
+  });
+
   LikeModel.belongsTo(UserModel, {
     as: 'user',
     foreignKey: 'userCode',
@@ -94,7 +113,7 @@ export function initializeModelAssociations(): void {
     foreignKey: 'userCode',
     sourceKey: 'userCode',
   });
-  
+
   LikeModel.belongsTo(CommentModel, {
     as: 'comment',
     foreignKey: 'commentId',
@@ -105,6 +124,30 @@ export function initializeModelAssociations(): void {
     as: 'likes',
     foreignKey: 'commentId',
     sourceKey: 'id',
+  });
+
+  ModerationRequestModel.belongsTo(UserModel, {
+    as: 'requestedBy',
+    foreignKey: 'requestedByUserCode',
+    targetKey: 'userCode',
+  });
+
+  UserModel.hasMany(ModerationRequestModel, {
+    as: 'requestedModerations',
+    foreignKey: 'requestedByUserCode',
+    sourceKey: 'userCode',
+  });
+
+  ModerationRequestModel.belongsTo(UserModel, {
+    as: 'reviewedBy',
+    foreignKey: 'reviewedByUserCode',
+    targetKey: 'userCode',
+  });
+
+  UserModel.hasMany(ModerationRequestModel, {
+    as: 'reviewedModerations',
+    foreignKey: 'reviewedByUserCode',
+    sourceKey: 'userCode',
   });
 
   associationsInitialized = true;

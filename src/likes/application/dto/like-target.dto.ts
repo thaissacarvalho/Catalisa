@@ -1,9 +1,9 @@
-import { LikeType } from '@app/likes/domain/enums/like-type.enum';
+import { TargetType } from '@app/common/domain/enums/target-type.enum';
 import { IsEnum, IsUUID } from 'class-validator';
 
 export class LikeTargetDto {
-  @IsEnum(LikeType)
-  type!: LikeType;
+  @IsEnum(TargetType)
+  type!: TargetType;
 
   @IsUUID()
   targetId!: string;

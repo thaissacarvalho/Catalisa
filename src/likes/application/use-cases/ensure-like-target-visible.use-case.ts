@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { LikeTarget, LikeType } from '@app/likes/domain/enums/like-type.enum';
+import { TargetType } from '@app/common/domain/enums/target-type.enum';
+import { LikeTarget } from '@app/likes/domain/types/like-target.type';
 import { SolutionRepository } from '@app/solutions/domain/repositories/solution.repository';
 import { CommentRepository } from '@app/comments/domain/repositories/comment.repository';
 import { AppHttpException } from '@app/common/http/app-http.exception';
@@ -15,7 +16,7 @@ export class EnsureLikeTargetVisibleUseCase {
   ) {}
 
   async execute(target: LikeTarget): Promise<void> {
-    if (target.type === LikeType.SOLUTION) {
+    if (target.type === TargetType.SOLUTION) {
       const solution = await this.solutionRepository.findPublishedById(
         target.solutionId,
       );
@@ -23,7 +24,7 @@ export class EnsureLikeTargetVisibleUseCase {
       if (!solution) {
         throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
       }
-    } else if (target.type === LikeType.COMMENT) {
+    } else if (target.type === TargetType.COMMENT) {
       const comment = await this.commentRepository.find(target.commentId);
 
       if (!comment) {
