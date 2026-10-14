@@ -19,6 +19,7 @@ export const DATABASE_CONNECTION = Symbol('DATABASE_CONNECTION');
   ],
   exports: [DATABASE_CONNECTION],
 })
+
 export class DatabaseModule implements OnModuleInit, OnApplicationShutdown {
   async onModuleInit(): Promise<void> {
     initializeModelAssociations();

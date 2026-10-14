@@ -1,18 +1,20 @@
 {
-  "name": "token-back-end",
+  "name": "catalisa-back-end",
   "version": "2.0.0",
   "main": "dist/main.js",
   "scripts": {
     "build": "nest build",
     "start": "node dist/main.js",
     "start:dev": "nest start --watch",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\" \"migrations/**/*.ts\" \"seeders/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"migrations/**/*.ts\" \"seeders/**/*.ts\"",
     "lint": "eslint \"{src,migrations,seeders}/**/*.ts\"",
     "lint:fix": "eslint \"{src,migrations,seeders}/**/*.ts\" --fix",
-    "admin:bootstrap": "node -r ts-node/register -r tsconfig-paths/register src/scripts/bootstrap-initial-super-admin.ts"
+    "admin:bootstrap": "node -r ts-node/register -r tsconfig-paths/register scripts/bootstrap-initial-super-admin.ts",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:migrate:undo": "sequelize-cli db:migrate:undo",
+    "db:migrate:status": "sequelize-cli db:migrate:status"
   },
   "keywords": [],
   "author": "Thaissa Carvalho",
@@ -51,6 +53,7 @@
     "globals": "17.11.0",
     "nodemon": "^3.1.14",
     "prettier": "3.8.2",
+    "sequelize-cli": "^6.6.5",
     "typescript": "^6.0.3",
     "typescript-eslint": "8.68.0"
   }

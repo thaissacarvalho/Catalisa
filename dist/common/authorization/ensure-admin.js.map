@@ -1,0 +1,1 @@
+{"version":3,"file":"ensure-admin.js","sourceRoot":"","sources":["../../../src/common/authorization/ensure-admin.ts"],"names":[],"mappings":";;AAIA,kCAIC;AARD,mEAAuE;AACvE,qDAA0D;AAC1D,4EAAkE;AAElE,SAAgB,WAAW,CAAC,IAAc;IACxC,IAAI,IAAI,KAAK,yBAAQ,CAAC,KAAK,IAAI,IAAI,KAAK,yBAAQ,CAAC,WAAW,EAAE,CAAC;QAC7D,MAAM,IAAI,qCAAgB,CAAC,wBAAU,CAAC,SAAS,CAAC,CAAC;IACnD,CAAC;AACH,CAAC"}
