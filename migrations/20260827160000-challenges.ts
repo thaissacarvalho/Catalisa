@@ -6,7 +6,7 @@ export default {
   async up(queryInterface: QueryInterface) {
     await queryInterface.createTable('challenges', {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         primaryKey: true,
         allowNull: false,
       },

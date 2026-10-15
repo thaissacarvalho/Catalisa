@@ -169,10 +169,10 @@ O repository deverá evoluir para:
 ```ts
 export interface ChallengeRepository {
   findAllActive(): Promise<ChallengeEntity[]>;
-  findById(challengeId: number): Promise<ChallengeEntity | null>;
-  existsActiveById(challengeId: number): Promise<boolean>;
+  findById(challengeId: string): Promise<ChallengeEntity | null>;
+  existsActiveById(challengeId: string): Promise<boolean>;
   updateStatus(
-    challengeId: number,
+    challengeId: string,
     status: ChallengeStatus,
   ): Promise<ChallengeEntity | null>;
 }

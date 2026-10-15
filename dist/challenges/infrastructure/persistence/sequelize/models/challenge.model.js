@@ -8,7 +8,7 @@ class ChallengeModel extends sequelize_1.Model {
 exports.default = ChallengeModel;
 ChallengeModel.init({
     id: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.UUID,
         primaryKey: true,
         allowNull: false,
     },

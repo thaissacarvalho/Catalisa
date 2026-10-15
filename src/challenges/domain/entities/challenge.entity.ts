@@ -2,7 +2,7 @@ import { ChallengeStatus } from '@app/challenges/domain/enums/ChallengeStatus.en
 
 export class ChallengeEntity {
   constructor(
-    public readonly id: number,
+    public readonly id: string,
     public readonly code: string,
     public title: string,
     public description: string,

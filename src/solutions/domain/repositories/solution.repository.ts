@@ -6,7 +6,7 @@ export const SOLUTION_REPOSITORY = 'SolutionRepository';
 
 export interface SolutionRepository {
   create(solution: SolutionEntity): Promise<SolutionEntity>;
-  findPublishedByChallenge(challengeId: number): Promise<SolutionDetails[]>;
+  findPublishedByChallenge(challengeId: string): Promise<SolutionDetails[]>;
   findPublishedById(solutionId: string): Promise<SolutionDetails | null>;
   findAllForAdmin(): Promise<SolutionDetails[]>;
   findById(solutionId: string): Promise<SolutionEntity | null>;

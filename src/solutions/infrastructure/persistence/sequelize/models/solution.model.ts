@@ -6,7 +6,7 @@ import UserModel from '@app/users/infrastructure/persistence/sequelize/models/us
 export default class SolutionModel extends Model {
   declare id: string;
   declare userCode: string;
-  declare challengeId: number;
+  declare challengeId: string;
   declare title: string;
   declare description: string;
   declare status: SolutionStatus;

@@ -14,7 +14,10 @@
     "admin:bootstrap": "node -r ts-node/register -r tsconfig-paths/register scripts/bootstrap-initial-super-admin.ts",
     "db:migrate": "sequelize-cli db:migrate",
     "db:migrate:undo": "sequelize-cli db:migrate:undo",
-    "db:migrate:status": "sequelize-cli db:migrate:status"
+    "db:migrate:status": "sequelize-cli db:migrate:status",
+    "db:seed": "sequelize-cli db:seed:all",
+    "db:seed:undo": "sequelize-cli db:seed:undo",
+    "db:seed:status": "sequelize-cli db:seed:status"
   },
   "keywords": [],
   "author": "Thaissa Carvalho",

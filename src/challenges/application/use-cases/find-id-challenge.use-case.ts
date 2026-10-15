@@ -11,7 +11,7 @@ export class FindIdChallengeUseCase {
     private readonly challengeRepository: ChallengeRepository,
   ) {}
 
-  async execute(challengeId: number): Promise<ChallengeEntity> {
+  async execute(challengeId: string): Promise<ChallengeEntity> {
     const challenge = await this.challengeRepository.findById(challengeId);
 
     if (!challenge || challenge.status !== ChallengeStatus.ACTIVE) {

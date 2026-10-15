@@ -15,7 +15,7 @@ export class UpdateChallengeStatusUseCase {
   ) {}
 
   async execute(
-    challengeId: number,
+    challengeId: string,
     status: ChallengeStatus,
   ): Promise<ChallengeEntity> {
     const challenge = await this.challengeRepository.findById(challengeId);

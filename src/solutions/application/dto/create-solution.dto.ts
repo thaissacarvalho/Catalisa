@@ -23,10 +23,10 @@ export class CreateSolutionDto implements CreateSolutionInput {
     example: 1,
     description: 'Identifier of one of the available challenges',
   })
-  @Type(() => Number)
+  @Type(() => String)
   @IsInt()
   @Min(1)
-  challengeId!: number;
+  challengeId!: string;
 
   @ApiProperty({
     example: 'Comunicação transparente com a equipe',

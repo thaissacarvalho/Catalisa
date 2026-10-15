@@ -34,7 +34,7 @@ export class SequelizeSolutionRepository implements SolutionRepository {
   }
 
   async findPublishedByChallenge(
-    challengeId: number,
+    challengeId: string,
   ): Promise<SolutionDetails[]> {
     const solutions = await SolutionModel.findAll({
       where: {

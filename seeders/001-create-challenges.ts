@@ -1,4 +1,5 @@
 import { Op, QueryInterface } from 'sequelize';
+import { randomUUID } from 'node:crypto';
 
 const challenges = [
   {
@@ -72,6 +73,7 @@ export default {
     await queryInterface.bulkInsert(
       'challenges',
       challenges.map((challenge, index) => ({
+        id: randomUUID(),
         ...challenge,
         status: 'ACTIVE',
         displayOrder: index + 1,

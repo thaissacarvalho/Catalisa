@@ -4,7 +4,7 @@ export class SolutionEntity {
   constructor(
     public readonly id: string,
     public readonly userCode: string,
-    public readonly challengeId: number,
+    public readonly challengeId: string,
     public title: string,
     public description: string,
     public status: SolutionStatus,

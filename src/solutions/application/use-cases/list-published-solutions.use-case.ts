@@ -18,7 +18,7 @@ export class ListPublishedSolutionsUseCase {
     private readonly challengeRepository: ChallengeRepository,
   ) {}
 
-  async execute(challengeId: number): Promise<SolutionDetails[]> {
+  async execute(challengeId: string): Promise<SolutionDetails[]> {
     const challenge = await this.challengeRepository.findById(challengeId);
 
     if (!challenge) {

@@ -33,10 +33,10 @@ __decorate([
         example: 1,
         description: 'Identifier of one of the available challenges',
     }),
-    (0, class_transformer_1.Type)(() => Number),
+    (0, class_transformer_1.Type)(() => String),
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.Min)(1),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], CreateSolutionDto.prototype, "challengeId", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({

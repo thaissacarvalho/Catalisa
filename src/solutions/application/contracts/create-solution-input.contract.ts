@@ -1,6 +1,6 @@
 export interface CreateSolutionInput {
   userCode: string;
-  challengeId: number;
+  challengeId: string;
   title: string;
   description: string;
 }

@@ -3,7 +3,7 @@ import { sequelize } from '@app/database/sequelize';
 import { ChallengeStatus } from '@app/challenges/domain/enums/ChallengeStatus.enum';
 
 export default class ChallengeModel extends Model {
-  declare id: number;
+  declare id: string;
   declare code: string;
   declare title: string;
   declare description: string;
@@ -16,7 +16,7 @@ export default class ChallengeModel extends Model {
 ChallengeModel.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
     },

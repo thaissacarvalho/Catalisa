@@ -16,12 +16,12 @@ export class SequelizeChallengeRepository implements ChallengeRepository {
     return challenges.map(ChallengeMapper.toDomain);
   }
 
-  async findById(challengeId: number): Promise<ChallengeEntity | null> {
+  async findById(challengeId: string): Promise<ChallengeEntity | null> {
     const challenge = await ChallengeModel.findByPk(challengeId);
     return challenge ? ChallengeMapper.toDomain(challenge) : null;
   }
 
-  async existsActiveById(challengeId: number): Promise<boolean> {
+  async existsActiveById(challengeId: string): Promise<boolean> {
     const total = await ChallengeModel.count({
       where: { id: challengeId, status: ChallengeStatus.ACTIVE },
     });
@@ -30,7 +30,7 @@ export class SequelizeChallengeRepository implements ChallengeRepository {
   }
 
   async updateStatus(
-    challengeId: number,
+    challengeId: string,
     status: ChallengeStatus,
   ): Promise<ChallengeEntity | null> {
     const challenge = await ChallengeModel.findByPk(challengeId);
