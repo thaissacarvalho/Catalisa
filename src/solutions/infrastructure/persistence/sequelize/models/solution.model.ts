@@ -32,7 +32,7 @@ SolutionModel.init(
       allowNull: false,
     },
     challengeId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
     },
     title: {
