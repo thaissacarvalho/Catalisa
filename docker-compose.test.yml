@@ -1,0 +1,43 @@
+name: catalisa-test
+
+services:
+  db-test:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: token_test
+      POSTGRES_USER: token_test
+      POSTGRES_PASSWORD: token_test
+    tmpfs:
+      - /var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U token_test -d token_test']
+      interval: 2s
+      timeout: 5s
+      retries: 15
+      start_period: 5s
+
+  test:
+    build:
+      context: .
+      target: test
+    environment:
+      NODE_ENV: test
+      APP_HOST: 127.0.0.1
+      APP_PORT: 3000
+      DB_HOST: db-test
+      DB_PORT: 5432
+      DB_NAME: token_test
+      DB_USERNAME: token_test
+      DB_PASSWORD: token_test
+      JWT_SECRET: integration-test-secret-with-at-least-32-bytes
+      JWT_EXPIRES_IN_SECONDS: 28800
+      JWT_ISSUER: token-api-integration
+      JWT_AUDIENCE: token-admin-integration
+      INITIAL_SUPER_ADMIN_NAME: Integration Admin
+      INITIAL_SUPER_ADMIN_EMAIL: admin.integration@example.com
+      INITIAL_SUPER_ADMIN_JOB_POSITION: Administrator
+      INITIAL_SUPER_ADMIN_ENTERPRISE: Token
+      INITIAL_SUPER_ADMIN_PASSWORD: Admin@Integration123
+    depends_on:
+      db-test:
+        condition: service_healthy

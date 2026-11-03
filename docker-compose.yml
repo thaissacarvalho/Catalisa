@@ -1,0 +1,102 @@
+name: catalisa
+
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-token}
+      POSTGRES_USER: ${DB_USERNAME:-token}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Defina DB_PASSWORD no arquivo .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  migrate:
+    build:
+      context: .
+      target: operations
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-token}
+      DB_USERNAME: ${DB_USERNAME:-token}
+      DB_PASSWORD: ${DB_PASSWORD:?Defina DB_PASSWORD no arquivo .env}
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ['npm', 'run', 'db:migrate']
+    restart: 'no'
+
+  api:
+    build:
+      context: .
+      target: production
+    restart: unless-stopped
+    init: true
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 3000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-token}
+      DB_USERNAME: ${DB_USERNAME:-token}
+      DB_PASSWORD: ${DB_PASSWORD:?Defina DB_PASSWORD no arquivo .env}
+      JWT_SECRET: ${JWT_SECRET:?Defina JWT_SECRET no arquivo .env}
+      JWT_EXPIRES_IN_SECONDS: ${JWT_EXPIRES_IN_SECONDS:-28800}
+      JWT_ISSUER: ${JWT_ISSUER:-token-api}
+      JWT_AUDIENCE: ${JWT_AUDIENCE:-token-admin}
+      NODE_ENV: production
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - '${APP_PORT:-3000}:3000'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3000/docs').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  bootstrap-admin:
+    profiles: ['bootstrap']
+    build:
+      context: .
+      target: operations
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-token}
+      DB_USERNAME: ${DB_USERNAME:-token}
+      DB_PASSWORD: ${DB_PASSWORD:?Defina DB_PASSWORD no arquivo .env}
+      JWT_SECRET: ${JWT_SECRET:?Defina JWT_SECRET no arquivo .env}
+      JWT_EXPIRES_IN_SECONDS: ${JWT_EXPIRES_IN_SECONDS:-28800}
+      JWT_ISSUER: ${JWT_ISSUER:-token-api}
+      JWT_AUDIENCE: ${JWT_AUDIENCE:-token-admin}
+      INITIAL_SUPER_ADMIN_NAME: ${INITIAL_SUPER_ADMIN_NAME:-}
+      INITIAL_SUPER_ADMIN_EMAIL: ${INITIAL_SUPER_ADMIN_EMAIL:-}
+      INITIAL_SUPER_ADMIN_JOB_POSITION: ${INITIAL_SUPER_ADMIN_JOB_POSITION:-}
+      INITIAL_SUPER_ADMIN_ENTERPRISE: ${INITIAL_SUPER_ADMIN_ENTERPRISE:-}
+      INITIAL_SUPER_ADMIN_PASSWORD: ${INITIAL_SUPER_ADMIN_PASSWORD:-}
+      NODE_ENV: production
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    command: ['npm', 'run', 'admin:bootstrap']
+    restart: 'no'
+
+volumes:
+  postgres_data:
