@@ -20,7 +20,7 @@ export default {
         onDelete: 'RESTRICT',
       },
       challengeId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
           model: 'challenges',
