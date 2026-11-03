@@ -3,3 +3,5 @@ node_
 !.env.example
 .DS_store
 node_modules
+coverage
+dist
