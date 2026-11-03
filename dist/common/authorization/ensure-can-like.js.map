@@ -1,1 +1,0 @@
-{"version":3,"file":"ensure-can-like.js","sourceRoot":"","sources":["../../../src/common/authorization/ensure-can-like.ts"],"names":[],"mappings":";;AAIA,sCAIC;AARD,mEAAuE;AACvE,qDAA0D;AAC1D,4EAAkE;AAElE,SAAgB,aAAa,CAAC,IAAc;IAC1C,IAAI,IAAI,KAAK,yBAAQ,CAAC,WAAW,IAAI,IAAI,KAAK,yBAAQ,CAAC,WAAW,EAAE,CAAC;QACnE,MAAM,IAAI,qCAAgB,CAAC,wBAAU,CAAC,SAAS,CAAC,CAAC;IACnD,CAAC;AACH,CAAC"}
