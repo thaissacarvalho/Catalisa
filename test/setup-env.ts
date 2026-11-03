@@ -1,0 +1,17 @@
+process.env.NODE_ENV ??= 'test';
+process.env.APP_HOST ??= '127.0.0.1';
+process.env.APP_PORT ??= '3000';
+process.env.DB_HOST ??= '127.0.0.1';
+process.env.DB_PORT ??= '5432';
+process.env.DB_NAME ??= 'token_test';
+process.env.DB_USERNAME ??= 'token_test';
+process.env.DB_PASSWORD ??= 'token_test';
+process.env.JWT_SECRET ??= 'test-secret-with-at-least-32-bytes-long';
+process.env.JWT_EXPIRES_IN_SECONDS ??= '28800';
+process.env.JWT_ISSUER ??= 'token-api-test';
+process.env.JWT_AUDIENCE ??= 'token-admin-test';
+process.env.INITIAL_SUPER_ADMIN_NAME ??= '';
+process.env.INITIAL_SUPER_ADMIN_EMAIL ??= '';
+process.env.INITIAL_SUPER_ADMIN_JOB_POSITION ??= '';
+process.env.INITIAL_SUPER_ADMIN_ENTERPRISE ??= '';
+process.env.INITIAL_SUPER_ADMIN_PASSWORD ??= '';
