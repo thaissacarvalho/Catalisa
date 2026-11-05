@@ -6,7 +6,7 @@ import { LikeTarget } from '@app/likes/domain/types/like-target.type';
 import { UserRepository } from '@app/users/domain/repositories/user.repository';
 import { UserStatus } from '@app/users/domain/enums/user-status.enum';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { ensureCanLike } from '@app/common/authorization/ensure-can-like';
 import { EnsureLikeTargetVisibleUseCase } from './ensure-like-target-visible.use-case';
 
@@ -21,12 +21,12 @@ export class CreateLikeUseCase {
   async execute(userCode: string, target: LikeTarget): Promise<LikeEntity> {
     const user = await this.userRepository.findByUserCode(userCode);
 
-    if (!user) throw new AppHttpException(TokenCodes.USER_NOT_FOUND);
+    if (!user) throw new AppHttpException(CatalisaCodes.USER_NOT_FOUND);
 
     ensureCanLike(user.role);
 
     if (user.status !== UserStatus.ACTIVE) {
-      throw new AppHttpException(TokenCodes.FORBIDDEN);
+      throw new AppHttpException(CatalisaCodes.FORBIDDEN);
     }
 
     await this.visibleTarget.execute(target);
@@ -37,7 +37,7 @@ export class CreateLikeUseCase {
     );
 
     if (existingLike) {
-      throw new AppHttpException(TokenCodes.LIKE_ALREADY_EXISTS);
+      throw new AppHttpException(CatalisaCodes.LIKE_ALREADY_EXISTS);
     }
 
     const like = new LikeEntity(randomUUID(), userCode, target);

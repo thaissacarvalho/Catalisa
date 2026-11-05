@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { JwtPayload } from '@app/common/authentication/types/jwt-payload.type';
 import { UserRepository } from '@app/users/domain/repositories/user.repository';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
@@ -35,7 +35,7 @@ export class JwtAuthGuard implements CanActivate {
       : undefined;
 
     if (!token) {
-      throw new AppHttpException(TokenCodes.AUTHENTICATION_REQUIRED);
+      throw new AppHttpException(CatalisaCodes.AUTHENTICATION_REQUIRED);
     }
 
     try {
@@ -68,7 +68,7 @@ export class JwtAuthGuard implements CanActivate {
       request.user = payload;
       return true;
     } catch {
-      throw new AppHttpException(TokenCodes.INVALID_ACCESS_TOKEN);
+      throw new AppHttpException(CatalisaCodes.INVALID_ACCESS_TOKEN);
     }
   }
 

@@ -3,7 +3,7 @@ import { CommentStatus } from '@app/comments/domain/enums/comment-status.enum';
 import CommentModel from '@app/comments/infrastructure/persistence/sequelize/models/comment.model';
 import { TargetType } from '@app/common/domain/enums/target-type.enum';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { SolutionStatus } from '@app/solutions/domain/enums/solution-status.enum';
 import SolutionModel from '@app/solutions/infrastructure/persistence/sequelize/models/solution.model';
 
@@ -38,11 +38,11 @@ export async function ensureModerationTargetCanBeRemoved(
     });
 
     if (!solution) {
-      throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.SOLUTION_NOT_FOUND);
     }
 
     if (solution.status === SolutionStatus.REMOVED) {
-      throw new AppHttpException(TokenCodes.MODERATION_TARGET_ALREADY_REMOVED);
+      throw new AppHttpException(CatalisaCodes.MODERATION_TARGET_ALREADY_REMOVED);
     }
 
     return;
@@ -54,11 +54,11 @@ export async function ensureModerationTargetCanBeRemoved(
   });
 
   if (!comment) {
-    throw new AppHttpException(TokenCodes.COMMENT_NOT_FOUND);
+    throw new AppHttpException(CatalisaCodes.COMMENT_NOT_FOUND);
   }
 
   if (comment.status === CommentStatus.EXCLUDED) {
-    throw new AppHttpException(TokenCodes.MODERATION_TARGET_ALREADY_REMOVED);
+    throw new AppHttpException(CatalisaCodes.MODERATION_TARGET_ALREADY_REMOVED);
   }
 }
 
@@ -69,7 +69,7 @@ export async function removeModerationTarget(
 ): Promise<void> {
   if (target.targetType === TargetType.SOLUTION) {
     if (!target.solutionId) {
-      throw new AppHttpException(TokenCodes.INVALID_PERSISTENCE_DATA);
+      throw new AppHttpException(CatalisaCodes.INVALID_PERSISTENCE_DATA);
     }
 
     const solution = await SolutionModel.findByPk(target.solutionId, {
@@ -78,11 +78,11 @@ export async function removeModerationTarget(
     });
 
     if (!solution) {
-      throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.SOLUTION_NOT_FOUND);
     }
 
     if (solution.status === SolutionStatus.REMOVED) {
-      throw new AppHttpException(TokenCodes.MODERATION_TARGET_ALREADY_REMOVED);
+      throw new AppHttpException(CatalisaCodes.MODERATION_TARGET_ALREADY_REMOVED);
     }
 
     solution.status = SolutionStatus.REMOVED;
@@ -94,7 +94,7 @@ export async function removeModerationTarget(
   }
 
   if (!target.commentId) {
-    throw new AppHttpException(TokenCodes.INVALID_PERSISTENCE_DATA);
+    throw new AppHttpException(CatalisaCodes.INVALID_PERSISTENCE_DATA);
   }
 
   const comment = await CommentModel.findByPk(target.commentId, {
@@ -103,11 +103,11 @@ export async function removeModerationTarget(
   });
 
   if (!comment) {
-    throw new AppHttpException(TokenCodes.COMMENT_NOT_FOUND);
+    throw new AppHttpException(CatalisaCodes.COMMENT_NOT_FOUND);
   }
 
   if (comment.status === CommentStatus.EXCLUDED) {
-    throw new AppHttpException(TokenCodes.MODERATION_TARGET_ALREADY_REMOVED);
+    throw new AppHttpException(CatalisaCodes.MODERATION_TARGET_ALREADY_REMOVED);
   }
 
   comment.status = CommentStatus.EXCLUDED;

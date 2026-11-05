@@ -3,7 +3,7 @@ import {
   ChallengeRepository,
 } from '@app/challenges/domain/repositories/challenge.repository';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { SolutionDetails } from '@app/solutions/domain/entities/solution-details.entity';
 import {
   SolutionRepository,
@@ -22,7 +22,7 @@ export class ListPublishedSolutionsUseCase {
     const challenge = await this.challengeRepository.findById(challengeId);
 
     if (!challenge) {
-      throw new AppHttpException(TokenCodes.CHALLENGE_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.CHALLENGE_NOT_FOUND);
     }
 
     const solution = await this.solutionRepository.findPublishedByChallenge(challengeId);

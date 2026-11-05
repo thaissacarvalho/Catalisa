@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { environment } from '@app/config/environment';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import {
   AdminCredentialRepository,
 } from '@app/common/authentication/domain/repositories/admin-credential.repository';
@@ -37,11 +37,11 @@ export class AuthenticationService {
 
     if (!user || ![UserRole.ADMIN, UserRole.SUPER_ADMIN].includes(user.role)) {
       await bcrypt.compare(password, INVALID_ADMIN_PASSWORD_HASH);
-      throw new AppHttpException(TokenCodes.INVALID_ADMIN_CREDENTIALS);
+      throw new AppHttpException(CatalisaCodes.INVALID_ADMIN_CREDENTIALS);
     }
 
     if (user.status !== UserStatus.ACTIVE) {
-      throw new AppHttpException(TokenCodes.ADMIN_ACCOUNT_INACTIVE);
+      throw new AppHttpException(CatalisaCodes.ADMIN_ACCOUNT_INACTIVE);
     }
 
     const credential = await this.adminCredentialRepository.findByUserId(
@@ -52,7 +52,7 @@ export class AuthenticationService {
     const passwordMatches = await bcrypt.compare(password, passwordHash);
 
     if (!credential || !passwordMatches) {
-      throw new AppHttpException(TokenCodes.INVALID_ADMIN_CREDENTIALS);
+      throw new AppHttpException(CatalisaCodes.INVALID_ADMIN_CREDENTIALS);
     }
 
     return {
@@ -75,11 +75,11 @@ export class AuthenticationService {
     const user = await this.userRepository.findByUserCode(userCode);
 
     if (!user) {
-      throw new AppHttpException(TokenCodes.USER_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.USER_NOT_FOUND);
     }
 
     if (user.role !== UserRole.PARTICIPANT) {
-      throw new AppHttpException(TokenCodes.USER_CANNOT_BE_PROMOTED);
+      throw new AppHttpException(CatalisaCodes.USER_CANNOT_BE_PROMOTED);
     }
 
     const temporaryPassword = randomBytes(24).toString('base64url');
@@ -94,7 +94,7 @@ export class AuthenticationService {
       );
 
     if (!credential) {
-      throw new AppHttpException(TokenCodes.USER_CANNOT_BE_PROMOTED);
+      throw new AppHttpException(CatalisaCodes.USER_CANNOT_BE_PROMOTED);
     }
 
     return {
@@ -116,7 +116,7 @@ export class AuthenticationService {
     const user = await this.userRepository.findByUserCode(userCode);
 
     if (!user || ![UserRole.ADMIN, UserRole.SUPER_ADMIN].includes(user.role)) {
-      throw new AppHttpException(TokenCodes.INVALID_ADMIN_CREDENTIALS);
+      throw new AppHttpException(CatalisaCodes.INVALID_ADMIN_CREDENTIALS);
     }
 
     const credential = await this.adminCredentialRepository.findByUserId(
@@ -127,11 +127,11 @@ export class AuthenticationService {
       !credential ||
       !(await bcrypt.compare(currentPassword, credential.passwordHash))
     ) {
-      throw new AppHttpException(TokenCodes.INVALID_ADMIN_CREDENTIALS);
+      throw new AppHttpException(CatalisaCodes.INVALID_ADMIN_CREDENTIALS);
     }
 
     if (await bcrypt.compare(newPassword, credential.passwordHash)) {
-      throw new AppHttpException(TokenCodes.PASSWORD_UNCHANGED);
+      throw new AppHttpException(CatalisaCodes.PASSWORD_UNCHANGED);
     }
 
     const passwordHash = await bcrypt.hash(newPassword, 12);
@@ -143,7 +143,7 @@ export class AuthenticationService {
       );
 
     if (!updatedCredential) {
-      throw new AppHttpException(TokenCodes.INVALID_ADMIN_CREDENTIALS);
+      throw new AppHttpException(CatalisaCodes.INVALID_ADMIN_CREDENTIALS);
     }
 
     return {
@@ -167,7 +167,7 @@ export class AuthenticationService {
     const byteLength = Buffer.byteLength(password, 'utf8');
 
     if (characterLength < 8 || byteLength > 72) {
-      throw new AppHttpException(TokenCodes.INVALID_PASSWORD_LENGTH);
+      throw new AppHttpException(CatalisaCodes.INVALID_PASSWORD_LENGTH);
     }
   }
 
@@ -199,7 +199,7 @@ export class AuthenticationService {
       !config.password
     ) {
       throw new AppHttpException(
-        TokenCodes.INITIAL_SUPER_ADMIN_CONFIGURATION_INVALID,
+        CatalisaCodes.INITIAL_SUPER_ADMIN_CONFIGURATION_INVALID,
       );
     }
 
@@ -208,7 +208,7 @@ export class AuthenticationService {
     );
 
     if (superAdminExists) {
-      throw new AppHttpException(TokenCodes.SUPER_ADMIN_ALREADY_EXISTS);
+      throw new AppHttpException(CatalisaCodes.SUPER_ADMIN_ALREADY_EXISTS);
     }
 
     const normalizedEmail = config.email.trim().toLowerCase();
@@ -217,7 +217,7 @@ export class AuthenticationService {
       await this.userRepository.findByEmail(normalizedEmail);
 
     if (emailAlreadyExists) {
-      throw new AppHttpException(TokenCodes.EMAIL_ALREADY_EXISTS);
+      throw new AppHttpException(CatalisaCodes.EMAIL_ALREADY_EXISTS);
     }
 
     this.assertBcryptPasswordLength(config.password);

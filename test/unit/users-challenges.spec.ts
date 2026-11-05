@@ -4,7 +4,7 @@ import { FindIdChallengeUseCase } from '@app/challenges/application/use-cases/fi
 import { UpdateChallengeStatusUseCase } from '@app/challenges/application/use-cases/update-challenge-status.use-case';
 import { ChallengeStatus } from '@app/challenges/domain/enums/ChallengeStatus.enum';
 import { ChallengeRepository } from '@app/challenges/domain/repositories/challenge.repository';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { CreateUserUseCase } from '@app/users/application/use-cases/create-user.use-case';
 import { ListAllUsersUseCase } from '@app/users/application/use-cases/list-all-users.use-case';
 import { ListUserByEmailUseCase } from '@app/users/application/use-cases/list-user-by-email.use-case';
@@ -81,7 +81,7 @@ describe('users use cases', () => {
       }),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.USER_ALREADY_EXISTS.code,
+        code: CatalisaCodes.USER_ALREADY_EXISTS.code,
       }),
     });
 
@@ -98,7 +98,7 @@ describe('users use cases', () => {
     await expect(useCase.execute()).resolves.toEqual([user]);
     await expect(useCase.execute()).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.USER_NOT_FOUND.code,
+        code: CatalisaCodes.USER_NOT_FOUND.code,
       }),
     });
   });
@@ -109,21 +109,21 @@ describe('users use cases', () => {
       ListUserByEmailUseCase,
       'findByEmail',
       'user@example.com',
-      TokenCodes.EMAIL_NOT_FOUND.code,
+      CatalisaCodes.EMAIL_NOT_FOUND.code,
     ],
     [
       'id',
       ListUserByIdUseCase,
       'findById',
       'user-id',
-      TokenCodes.USER_NOT_FOUND.code,
+      CatalisaCodes.USER_NOT_FOUND.code,
     ],
     [
       'user code',
       ListUserByUserCodeUseCase,
       'findByUserCode',
       'USER_CODE',
-      TokenCodes.USER_NOT_FOUND.code,
+      CatalisaCodes.USER_NOT_FOUND.code,
     ],
   ] as const)(
     'finds a user by %s and handles not found',
@@ -174,7 +174,7 @@ describe('users use cases', () => {
       useCase.execute('MISSING', UserStatus.BLOCKED),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.USER_NOT_FOUND.code,
+        code: CatalisaCodes.USER_NOT_FOUND.code,
       }),
     });
 
@@ -185,7 +185,7 @@ describe('users use cases', () => {
       useCase.execute('USER_CODE', UserStatus.BLOCKED),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.USER_NOT_FOUND.code,
+        code: CatalisaCodes.USER_NOT_FOUND.code,
       }),
     });
   });
@@ -218,13 +218,13 @@ describe('challenge use cases and presenter', () => {
     
     await expect(useCase.execute(active.id)).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.CHALLENGE_NOT_FOUND.code,
+        code: CatalisaCodes.CHALLENGE_NOT_FOUND.code,
       }),
     });
     
     await expect(useCase.execute(active.id)).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.CHALLENGE_NOT_FOUND.code,
+        code: CatalisaCodes.CHALLENGE_NOT_FOUND.code,
       }),
     });
   });
@@ -241,7 +241,7 @@ describe('challenge use cases and presenter', () => {
       useCase.execute(active.id, ChallengeStatus.INACTIVE),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.CHALLENGE_NOT_FOUND.code,
+        code: CatalisaCodes.CHALLENGE_NOT_FOUND.code,
       }),
     });
 
@@ -251,7 +251,7 @@ describe('challenge use cases and presenter', () => {
       useCase.execute(active.id, ChallengeStatus.ACTIVE),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.CHALLENGE_STATUS_UNCHANGED.code,
+        code: CatalisaCodes.CHALLENGE_STATUS_UNCHANGED.code,
       }),
     });
 
@@ -262,7 +262,7 @@ describe('challenge use cases and presenter', () => {
       useCase.execute(active.id, ChallengeStatus.INACTIVE),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.CHALLENGE_NOT_FOUND.code,
+        code: CatalisaCodes.CHALLENGE_NOT_FOUND.code,
       }),
     });
 

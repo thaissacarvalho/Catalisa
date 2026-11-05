@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { SolutionEntity } from '@app/solutions/domain/entities/solution.entity';
 import { SolutionStatus } from '@app/solutions/domain/enums/solution-status.enum';
 import { SolutionRepository } from '@app/solutions/domain/repositories/solution.repository';
@@ -29,23 +29,23 @@ export class UpdateSolutionStatusUseCase {
     const solution = await this.solutionRepository.findById(solutionId);
 
     if (!solution) {
-      throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.SOLUTION_NOT_FOUND);
     }
 
     if (solution.status === status) {
-      throw new AppHttpException(TokenCodes.SOLUTION_STATUS_UNCHANGED);
+      throw new AppHttpException(CatalisaCodes.SOLUTION_STATUS_UNCHANGED);
     }
 
     if (
       status === SolutionStatus.REMOVED &&
       actorRole !== UserRole.SUPER_ADMIN
     ) {
-      throw new AppHttpException(TokenCodes.REMOVAL_REQUIRES_APPROVAL);
+      throw new AppHttpException(CatalisaCodes.REMOVAL_REQUIRES_APPROVAL);
     }
 
     if (status === SolutionStatus.REMOVED && !reason?.trim()) {
       throw new AppHttpException(
-        TokenCodes.SOLUTION_MODERATION_REASON_REQUIRED,
+        CatalisaCodes.SOLUTION_MODERATION_REASON_REQUIRED,
       );
     }
 
@@ -60,7 +60,7 @@ export class UpdateSolutionStatusUseCase {
       const removedSolution =
         await this.solutionRepository.findById(solutionId);
       if (!removedSolution) {
-        throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
+        throw new AppHttpException(CatalisaCodes.SOLUTION_NOT_FOUND);
       }
 
       return removedSolution;
@@ -75,7 +75,7 @@ export class UpdateSolutionStatusUseCase {
     });
 
     if (!updatedSolution) {
-      throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.SOLUTION_NOT_FOUND);
     }
 
     return updatedSolution;

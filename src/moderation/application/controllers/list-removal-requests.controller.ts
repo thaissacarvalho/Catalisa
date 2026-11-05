@@ -11,7 +11,7 @@ import { JwtAuthGuard } from '@app/common/authentication/guards/jwt-auth.guard';
 import { RolesGuard } from '@app/common/authentication/guards/roles.guard';
 import { JwtPayload } from '@app/common/authentication/types/jwt-payload.type';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { ListRemovalRequestsQueryDto } from '@app/moderation/application/dto/list-removal-requests-query.dto';
 import { ListRemovalRequestsUseCase } from '@app/moderation/application/use-cases/list-removal-requests.use-case';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
@@ -38,6 +38,6 @@ export class ListRemovalRequestsController {
       query.status,
     );
 
-    return successResponse(TokenCodes.MODERATION_REQUESTS_LISTED, result);
+    return successResponse(CatalisaCodes.MODERATION_REQUESTS_LISTED, result);
   }
 }

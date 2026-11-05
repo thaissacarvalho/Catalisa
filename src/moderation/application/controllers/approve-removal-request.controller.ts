@@ -19,7 +19,7 @@ import { JwtAuthGuard } from '@app/common/authentication/guards/jwt-auth.guard';
 import { RolesGuard } from '@app/common/authentication/guards/roles.guard';
 import { JwtPayload } from '@app/common/authentication/types/jwt-payload.type';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { ReviewRemovalRequestDto } from '@app/moderation/application/dto/review-removal-request.dto';
 import { ReviewRemovalRequestUseCase } from '@app/moderation/application/use-cases/review-removal-request.use-case';
 import { ModerationRequestStatus } from '@app/moderation/domain/enums/moderation-request-status.enum';
@@ -51,6 +51,6 @@ export class ApproveRemovalRequestController {
       data.reason,
     );
 
-    return successResponse(TokenCodes.MODERATION_REQUEST_APPROVED, result);
+    return successResponse(CatalisaCodes.MODERATION_REQUEST_APPROVED, result);
   }
 }

@@ -5,7 +5,7 @@ import { FindCommentBySolutionUseCase } from '@app/comments/application/use-case
 import { FindCommentUseCase } from '@app/comments/application/use-cases/find-comment.use-case';
 import { UpdateCommentStatusUseCase } from '@app/comments/application/use-cases/update-comment-status.use-case';
 import { TargetType } from '@app/common/domain/enums/target-type.enum';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { toLikeTargetFromDto } from '@app/likes/application/helpers/to-like-target-from-dto.helper';
 import { CountByLikeUseCase } from '@app/likes/application/use-cases/count-by-like.use-case';
 import { CreateLikeUseCase } from '@app/likes/application/use-cases/create-like.use-case';
@@ -107,8 +107,8 @@ describe('comment use cases', () => {
   });
 
   it.each([
-    ['too short', { comment: 'short' }, TokenCodes.INVALID_COMMENT.code],
-    ['too long', { comment: 'x'.repeat(281) }, TokenCodes.INVALID_COMMENT.code],
+    ['too short', { comment: 'short' }, CatalisaCodes.INVALID_COMMENT.code],
+    ['too long', { comment: 'x'.repeat(281) }, CatalisaCodes.INVALID_COMMENT.code],
   ])('rejects invalid text: %s', async (_label, override, errorCode) => {
     const useCase = new CreateCommentUseCase(
       solutionRepositoryMock(),
@@ -141,7 +141,7 @@ describe('comment use cases', () => {
     users.findByUserCode.mockResolvedValueOnce(null);
     await expect(useCase.execute(data)).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.USER_NOT_FOUND.code,
+        code: CatalisaCodes.USER_NOT_FOUND.code,
       }),
     });
 
@@ -149,14 +149,14 @@ describe('comment use cases', () => {
       makeUser({ status: UserStatus.BLOCKED }),
     );
     await expect(useCase.execute(data)).rejects.toMatchObject({
-      response: expect.objectContaining({ code: TokenCodes.FORBIDDEN.code }),
+      response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
     });
 
     users.findByUserCode.mockResolvedValueOnce(makeUser());
     solutions.findPublishedById.mockResolvedValueOnce(null);
     await expect(useCase.execute(data)).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_NOT_FOUND.code,
+        code: CatalisaCodes.SOLUTION_NOT_FOUND.code,
       }),
     });
   });
@@ -180,12 +180,12 @@ describe('comment use cases', () => {
 
     await expect(useCase.execute(data)).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.PARENT_COMMENT_NOT_FOUND.code,
+        code: CatalisaCodes.PARENT_COMMENT_NOT_FOUND.code,
       }),
     });
     await expect(useCase.execute(data)).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.PARENT_COMMENT_NOT_FOUND.code,
+        code: CatalisaCodes.PARENT_COMMENT_NOT_FOUND.code,
       }),
     });
   });
@@ -203,7 +203,7 @@ describe('comment use cases', () => {
     await expect(useCase.execute('solution-id')).resolves.toEqual([comment]);
     await expect(useCase.execute('missing')).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_NOT_FOUND.code,
+        code: CatalisaCodes.SOLUTION_NOT_FOUND.code,
       }),
     });
   });
@@ -223,12 +223,12 @@ describe('comment use cases', () => {
 
     await expect(useCase.execute('missing')).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.COMMENT_NOT_FOUND.code,
+        code: CatalisaCodes.COMMENT_NOT_FOUND.code,
       }),
     });
     await expect(useCase.execute('hidden')).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_NOT_FOUND.code,
+        code: CatalisaCodes.SOLUTION_NOT_FOUND.code,
       }),
     });
     await expect(useCase.execute('comment-id')).resolves.toBe(comment);
@@ -247,7 +247,7 @@ describe('comment use cases', () => {
         UserRole.PARTICIPANT,
       ),
     ).rejects.toMatchObject({
-      response: expect.objectContaining({ code: TokenCodes.FORBIDDEN.code }),
+      response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
     });
 
     await expect(
@@ -259,7 +259,7 @@ describe('comment use cases', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_COMMENT.code,
+        code: CatalisaCodes.INVALID_COMMENT.code,
       }),
     });
 
@@ -273,7 +273,7 @@ describe('comment use cases', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.REMOVAL_REQUIRES_APPROVAL.code,
+        code: CatalisaCodes.REMOVAL_REQUIRES_APPROVAL.code,
       }),
     });
 
@@ -287,7 +287,7 @@ describe('comment use cases', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.COMMENT_MODERATION_REASON_REQUIRED.code,
+        code: CatalisaCodes.COMMENT_MODERATION_REASON_REQUIRED.code,
       }),
     });
 
@@ -302,7 +302,7 @@ describe('comment use cases', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.COMMENT_NOT_FOUND.code,
+        code: CatalisaCodes.COMMENT_NOT_FOUND.code,
       }),
     });
 
@@ -323,7 +323,7 @@ describe('comment use cases', () => {
       useCase.execute('id', CommentStatus.INACTIVE, 'ADMIN', UserRole.ADMIN),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.COMMENT_NOT_FOUND.code,
+        code: CatalisaCodes.COMMENT_NOT_FOUND.code,
       }),
     });
 
@@ -359,20 +359,20 @@ describe('like use cases and helpers', () => {
     await expect(useCase.execute(solutionTarget)).resolves.toBeUndefined();
     await expect(useCase.execute(solutionTarget)).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_NOT_FOUND.code,
+        code: CatalisaCodes.SOLUTION_NOT_FOUND.code,
       }),
     });
     await expect(useCase.execute(commentTarget)).resolves.toBeUndefined();
     await expect(useCase.execute(commentTarget)).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.COMMENT_NOT_FOUND.code,
+        code: CatalisaCodes.COMMENT_NOT_FOUND.code,
       }),
     });
     await expect(
       useCase.execute({ type: 'INVALID' } as unknown as LikeTarget),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_REQUEST.code,
+        code: CatalisaCodes.INVALID_REQUEST.code,
       }),
     });
   });
@@ -425,7 +425,7 @@ describe('like use cases and helpers', () => {
     await expect(useCase.execute('USER', solutionTarget)).rejects.toMatchObject(
       {
         response: expect.objectContaining({
-          code: TokenCodes.USER_NOT_FOUND.code,
+          code: CatalisaCodes.USER_NOT_FOUND.code,
         }),
       },
     );
@@ -435,7 +435,7 @@ describe('like use cases and helpers', () => {
     );
     await expect(useCase.execute('USER', solutionTarget)).rejects.toMatchObject(
       {
-        response: expect.objectContaining({ code: TokenCodes.FORBIDDEN.code }),
+        response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
       },
     );
 
@@ -444,7 +444,7 @@ describe('like use cases and helpers', () => {
     );
     await expect(useCase.execute('USER', solutionTarget)).rejects.toMatchObject(
       {
-        response: expect.objectContaining({ code: TokenCodes.FORBIDDEN.code }),
+        response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
       },
     );
 
@@ -455,7 +455,7 @@ describe('like use cases and helpers', () => {
     await expect(useCase.execute('USER', solutionTarget)).rejects.toMatchObject(
       {
         response: expect.objectContaining({
-          code: TokenCodes.LIKE_ALREADY_EXISTS.code,
+          code: CatalisaCodes.LIKE_ALREADY_EXISTS.code,
         }),
       },
     );
@@ -474,18 +474,18 @@ describe('like use cases and helpers', () => {
     await expect(useCase.execute('USER', solutionTarget)).rejects.toMatchObject(
       {
         response: expect.objectContaining({
-          code: TokenCodes.USER_NOT_FOUND.code,
+          code: CatalisaCodes.USER_NOT_FOUND.code,
         }),
       },
     );
     await expect(useCase.execute('USER', solutionTarget)).rejects.toMatchObject(
       {
-        response: expect.objectContaining({ code: TokenCodes.FORBIDDEN.code }),
+        response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
       },
     );
     await expect(useCase.execute('USER', solutionTarget)).rejects.toMatchObject(
       {
-        response: expect.objectContaining({ code: TokenCodes.FORBIDDEN.code }),
+        response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
       },
     );
     await expect(

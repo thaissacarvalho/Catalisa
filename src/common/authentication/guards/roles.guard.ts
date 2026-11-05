@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '@app/common/authentication/decorators/roles.decorator';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { JwtPayload } from '@app/common/authentication/types/jwt-payload.type';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
 
@@ -23,7 +23,7 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<{ user?: JwtPayload }>();
 
     if (!request.user || !requiredRoles.includes(request.user.role)) {
-      throw new AppHttpException(TokenCodes.ACCESS_DENIED);
+      throw new AppHttpException(CatalisaCodes.ACCESS_DENIED);
     }
 
     return true;

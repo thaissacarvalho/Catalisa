@@ -10,7 +10,7 @@ import { AdminPasswordUpdatedGuard } from '@app/common/authentication/guards/adm
 import { JwtAuthGuard } from '@app/common/authentication/guards/jwt-auth.guard';
 import { RolesGuard } from '@app/common/authentication/guards/roles.guard';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { UpdateUserStatusDto } from '@app/users/application/dto/update-user-status.dto';
 import { UpdateUserStatusUseCase } from '@app/users/application/use-cases/update-user-status.use-case';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
@@ -37,6 +37,6 @@ export class UpdateUserByStatusController {
       data.status,
     );
 
-    return successResponse(TokenCodes.USER_STATUS_UPDATED, user);
+    return successResponse(CatalisaCodes.USER_STATUS_UPDATED, user);
   }
 }

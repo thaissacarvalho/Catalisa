@@ -1,7 +1,7 @@
 import { ParseUUIDPipe } from '@nestjs/common';
 import { Controller, HttpCode, HttpStatus, Get, Param } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { successResponse } from '@app/common/http/success-response';
 import { FindCommentUseCase } from '@app/comments/application/use-cases/find-comment.use-case';
 
@@ -17,6 +17,6 @@ export class FindCommentController {
   async create(@Param('commentId', new ParseUUIDPipe()) id: string) {
     const comment = await this.findCommentUseCase.execute(id);
 
-    return successResponse(TokenCodes.COMMENT_FOUND, comment);
+    return successResponse(CatalisaCodes.COMMENT_FOUND, comment);
   }
 }

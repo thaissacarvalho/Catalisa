@@ -1,6 +1,6 @@
 import { UniqueConstraintError } from 'sequelize';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { LikeRepository } from '@app/likes/domain/repositories/like.repository';
 import LikeModel from '@app/likes/infrastructure/persistence/sequelize/models/like.model';
 import { LikeEntity } from '@app/likes/domain/entities/like.entity';
@@ -22,7 +22,7 @@ export class SequelizeLikeRepository implements LikeRepository {
           constraint === 'likes_solution_user_unique' ||
           constraint === 'likes_comment_user_unique'
         ) {
-          throw new AppHttpException(TokenCodes.LIKE_ALREADY_EXISTS);
+          throw new AppHttpException(CatalisaCodes.LIKE_ALREADY_EXISTS);
         }
       }
       throw error;

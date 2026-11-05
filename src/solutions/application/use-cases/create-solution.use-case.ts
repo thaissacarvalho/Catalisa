@@ -4,7 +4,7 @@ import {
   ChallengeRepository,
 } from '@app/challenges/domain/repositories/challenge.repository';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { CreateSolutionInput } from '@app/solutions/application/contracts/create-solution-input.contract';
 import { ensureCanPublishSolution } from '@app/common/authorization/ensure-can-publish-solution';
 import { SolutionEntity } from '@app/solutions/domain/entities/solution.entity';
@@ -30,19 +30,19 @@ export class CreateSolutionUseCase {
     const user = await this.userRepository.findByUserCode(data.userCode);
 
     if (!user) {
-      throw new AppHttpException(TokenCodes.INVALID_USER);
+      throw new AppHttpException(CatalisaCodes.INVALID_USER);
     }
 
     ensureCanPublishSolution(user.role);
 
     if (user.status !== UserStatus.ACTIVE) {
-      throw new AppHttpException(TokenCodes.INVALID_USER);
+      throw new AppHttpException(CatalisaCodes.INVALID_USER);
     }
 
     const challengeExist = await this.challengeRepository.existsActiveById(data.challengeId);
 
     if (!challengeExist) {
-      throw new AppHttpException(TokenCodes.CHALLENGE_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.CHALLENGE_NOT_FOUND);
     }
 
     try {
@@ -60,7 +60,7 @@ export class CreateSolutionUseCase {
         ),
       );
     } catch {
-      throw new AppHttpException(TokenCodes.SOLUTION_CREATION_FAILED);
+      throw new AppHttpException(CatalisaCodes.SOLUTION_CREATION_FAILED);
     }
   }
 }

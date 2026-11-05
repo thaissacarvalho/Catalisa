@@ -1,7 +1,7 @@
 import { sequelize } from '@app/database/sequelize';
 import { SolutionStatus } from '@app/solutions/domain/enums/solution-status.enum';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { CommentEntity } from '@app/comments/domain/entities/comment.entity';
 import { CommentStatus } from '@app/comments/domain/enums/comment-status.enum';
 import { CommentRepository } from '@app/comments/domain/repositories/comment.repository';
@@ -152,7 +152,7 @@ export class SequelizeCommentRepository implements CommentRepository {
         comment.status === status ||
         comment.status === CommentStatus.EXCLUDED
       ) {
-        throw new AppHttpException(TokenCodes.CONFLICT);
+        throw new AppHttpException(CatalisaCodes.CONFLICT);
       }
 
       comment.status = status;

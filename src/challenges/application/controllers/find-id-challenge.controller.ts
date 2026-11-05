@@ -4,7 +4,7 @@ import { ChallengeIdParamDto } from '@app/challenges/application/dto/challenge-i
 import { ChallengePresenter } from '@app/challenges/application/presenters/challenge.presenter';
 import { FindIdChallengeUseCase } from '@app/challenges/application/use-cases/find-id-challenge.use-case';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 
 @ApiTags('Challenges')
 @Controller('challenges')
@@ -22,7 +22,7 @@ export class FindIdChallengeController {
     );
 
     return successResponse(
-      TokenCodes.CHALLENGE_FOUND,
+      CatalisaCodes.CHALLENGE_FOUND,
       ChallengePresenter.public(challenge),
     );
   }

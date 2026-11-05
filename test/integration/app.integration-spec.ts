@@ -5,7 +5,7 @@ import { AppModule } from '@app/app.module';
 import { AuthenticationService } from '@app/common/authentication/authentication.service';
 import { AppHttpException } from '@app/common/http/app-http.exception';
 import { AppHttpExceptionFilter } from '@app/common/http/filters/app-http-exception.filter';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { environment } from '@app/config/environment';
 import { sequelize } from '@app/database/sequelize';
 
@@ -25,7 +25,7 @@ describe('application integration', () => {
         forbidNonWhitelisted: true,
         transform: true,
         exceptionFactory: () =>
-          new AppHttpException(TokenCodes.INVALID_REQUEST),
+          new AppHttpException(CatalisaCodes.INVALID_REQUEST),
       }),
     );
     app.enableCors();
@@ -76,7 +76,7 @@ describe('application integration', () => {
 
     expect(invalid.body).toMatchObject({
       success: false,
-      code: TokenCodes.INVALID_REQUEST.code,
+      code: CatalisaCodes.INVALID_REQUEST.code,
     });
 
     const created = await request(app.getHttpServer())
@@ -91,7 +91,7 @@ describe('application integration', () => {
 
     expect(created.body).toMatchObject({
       success: true,
-      code: TokenCodes.USER_CREATED.code,
+      code: CatalisaCodes.USER_CREATED.code,
       data: {
         name: 'Integration User',
         email: 'integration.user@example.com',
@@ -108,9 +108,9 @@ describe('application integration', () => {
     expect(found.body).toEqual({
       success: true,
       type: 'SUCCESS',
-      code: TokenCodes.USER_FOUND.code,
-      message: TokenCodes.USER_FOUND.message,
-      statusCode: TokenCodes.USER_FOUND.statusCode,
+      code: CatalisaCodes.USER_FOUND.code,
+      message: CatalisaCodes.USER_FOUND.message,
+      statusCode: CatalisaCodes.USER_FOUND.statusCode,
       data: {
         userCode: created.body.data.userCode,
         name: 'Integration User',
@@ -129,13 +129,13 @@ describe('application integration', () => {
       })
       .expect(409);
 
-    expect(duplicate.body.code).toBe(TokenCodes.USER_ALREADY_EXISTS.code);
+    expect(duplicate.body.code).toBe(CatalisaCodes.USER_ALREADY_EXISTS.code);
 
     const missing = await request(app.getHttpServer())
       .get('/users/USER_DOES_NOT_EXIST')
       .expect(404);
 
-    expect(missing.body.code).toBe(TokenCodes.USER_NOT_FOUND.code);
+    expect(missing.body.code).toBe(CatalisaCodes.USER_NOT_FOUND.code);
   });
 
   it('persists credentials transactionally and invalidates rotated tokens', async () => {
@@ -148,7 +148,7 @@ describe('application integration', () => {
       .expect(401);
 
     expect(invalidLogin.body.code).toBe(
-      TokenCodes.INVALID_ADMIN_CREDENTIALS.code,
+      CatalisaCodes.INVALID_ADMIN_CREDENTIALS.code,
     );
 
     const login = await request(app.getHttpServer())
@@ -184,7 +184,7 @@ describe('application integration', () => {
       .get('/authentication/me')
       .set('Authorization', `Bearer ${initialToken}`)
       .expect(401);
-    expect(staleToken.body.code).toBe(TokenCodes.INVALID_ACCESS_TOKEN.code);
+    expect(staleToken.body.code).toBe(CatalisaCodes.INVALID_ACCESS_TOKEN.code);
 
     await request(app.getHttpServer())
       .get('/authentication/me')

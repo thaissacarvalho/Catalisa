@@ -8,7 +8,7 @@ import {
 } from '@nestjs/swagger';
 import { FindCommentBySolutionUseCase } from '@app/comments/application/use-cases/find-comment-by-solution.use-case';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 
 @ApiTags('comments')
 @Controller('solutions')
@@ -30,6 +30,6 @@ export class FindCommentBySolutionController {
     const comments =
       await this.findCommentBySolutionUseCase.execute(solutionId);
 
-    return successResponse(TokenCodes.COMMENT_FOUND, comments);
+    return successResponse(CatalisaCodes.COMMENT_FOUND, comments);
   }
 }

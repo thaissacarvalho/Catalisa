@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { ChallengeIdParamDto } from '@app/solutions/application/dto/challenge-id-param.dto';
 import { SolutionPresenter } from '@app/solutions/application/presenters/solution.presenter';
 import { ListPublishedSolutionsUseCase } from '@app/solutions/application/use-cases/list-published-solutions.use-case';
@@ -22,7 +22,7 @@ export class ListPublishedSolutionsController {
     );
 
     return successResponse(
-      TokenCodes.SOLUTIONS_LISTED,
+      CatalisaCodes.SOLUTIONS_LISTED,
       solutions.map((solution) => SolutionPresenter.public(solution)),
     );
   }

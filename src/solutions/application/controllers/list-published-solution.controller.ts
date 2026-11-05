@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { SolutionIdParamDto } from '@app/solutions/application/dto/solution-id-param.dto';
 import { SolutionPresenter } from '@app/solutions/application/presenters/solution.presenter';
 import { ListPublishedSolutionUseCase } from '@app/solutions/application/use-cases/get-published-solution.use-case';
@@ -22,7 +22,7 @@ export class ListPublishedSolutionController {
     );
 
     return successResponse(
-      TokenCodes.SOLUTION_FOUND,
+      CatalisaCodes.SOLUTION_FOUND,
       SolutionPresenter.public(solution),
     );
   }

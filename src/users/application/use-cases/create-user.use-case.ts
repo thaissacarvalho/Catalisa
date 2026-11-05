@@ -1,6 +1,6 @@
 import { Inject } from '@nestjs/common';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { UserEntity } from '@app/users/domain/entities/user.entity';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
 import { UserStatus } from '@app/users/domain/enums/user-status.enum';
@@ -19,7 +19,7 @@ export class CreateUserUseCase {
     const existingUser = await this.userRepository.findByEmail(normalizedEmail);
 
     if (existingUser) {
-      throw new AppHttpException(TokenCodes.USER_ALREADY_EXISTS);
+      throw new AppHttpException(CatalisaCodes.USER_ALREADY_EXISTS);
     }
 
     const user = await this.userRepository.create(

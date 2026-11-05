@@ -2,7 +2,7 @@ import { ChallengeEntity } from '@app/challenges/domain/entities/challenge.entit
 import { ChallengeRepository } from '@app/challenges/domain/repositories/challenge.repository';
 import { ChallengeStatus } from '@app/challenges/domain/enums/ChallengeStatus.enum';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { Inject, Injectable } from '@nestjs/common';
 @Injectable()
 export class FindIdChallengeUseCase {
@@ -15,7 +15,7 @@ export class FindIdChallengeUseCase {
     const challenge = await this.challengeRepository.findById(challengeId);
 
     if (!challenge || challenge.status !== ChallengeStatus.ACTIVE) {
-      throw new AppHttpException(TokenCodes.CHALLENGE_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.CHALLENGE_NOT_FOUND);
     }
 
     return challenge;

@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateCommentDto } from '@app/comments/application/dto/create-comment.dto';
 import { CreateCommentUseCase } from '@app/comments/application/use-cases/create-comment.use-case';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { successResponse } from '@app/common/http/success-response';
 
 @ApiTags('Comments')
@@ -17,6 +17,6 @@ export class CreateCommentController {
   async create(@Body() data: CreateCommentDto) {
     const comment = await this.createCommentUseCase.execute(data);
 
-    return successResponse(TokenCodes.COMMENT_CREATED, comment);
+    return successResponse(CatalisaCodes.COMMENT_CREATED, comment);
   }
 }

@@ -5,7 +5,7 @@ import {
 import { ChallengeEntity } from '@app/challenges/domain/entities/challenge.entity';
 import { ChallengeStatus } from '@app/challenges/domain/enums/ChallengeStatus.enum';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 
 @Injectable()
 export class UpdateChallengeStatusUseCase {
@@ -21,11 +21,11 @@ export class UpdateChallengeStatusUseCase {
     const challenge = await this.challengeRepository.findById(challengeId);
 
     if (!challenge) {
-      throw new AppHttpException(TokenCodes.CHALLENGE_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.CHALLENGE_NOT_FOUND);
     }
 
     if (challenge.status === status) {
-      throw new AppHttpException(TokenCodes.CHALLENGE_STATUS_UNCHANGED);
+      throw new AppHttpException(CatalisaCodes.CHALLENGE_STATUS_UNCHANGED);
     }
 
     const updatedChallenge = await this.challengeRepository.updateStatus(
@@ -34,7 +34,7 @@ export class UpdateChallengeStatusUseCase {
     );
 
     if (!updatedChallenge) {
-      throw new AppHttpException(TokenCodes.CHALLENGE_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.CHALLENGE_NOT_FOUND);
     }
 
     return updatedChallenge;

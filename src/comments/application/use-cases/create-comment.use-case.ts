@@ -7,7 +7,7 @@ import { Inject } from '@nestjs/common';
 import { CreateCommentDto } from '@app/comments/application/dto/create-comment.dto';
 import { CommentStatus } from '@app/comments/domain/enums/comment-status.enum';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 
 export class CreateCommentUseCase {
   constructor(
@@ -23,17 +23,17 @@ export class CreateCommentUseCase {
     const text = typeof data.comment === 'string' ? data.comment.trim() : '';
 
     if (Array.from(text).length < 50 || Array.from(text).length > 280) {
-      throw new AppHttpException(TokenCodes.INVALID_COMMENT);
+      throw new AppHttpException(CatalisaCodes.INVALID_COMMENT);
     }
 
     const user = await this.userRepository.findByUserCode(data.userCode);
 
     if (!user) {
-      throw new AppHttpException(TokenCodes.USER_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.USER_NOT_FOUND);
     }
 
     if (user.status !== UserStatus.ACTIVE) {
-      throw new AppHttpException(TokenCodes.FORBIDDEN);
+      throw new AppHttpException(CatalisaCodes.FORBIDDEN);
     }
 
     const solution = await this.solutionRepository.findPublishedById(
@@ -41,14 +41,14 @@ export class CreateCommentUseCase {
     );
 
     if (!solution) {
-      throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.SOLUTION_NOT_FOUND);
     }
 
     if (data.parentCommentId) {
       const parent = await this.commentRepository.find(data.parentCommentId);
 
       if (!parent || parent.solutionId !== data.solutionId) {
-        throw new AppHttpException(TokenCodes.PARENT_COMMENT_NOT_FOUND);
+        throw new AppHttpException(CatalisaCodes.PARENT_COMMENT_NOT_FOUND);
       }
     }
 

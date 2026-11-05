@@ -14,7 +14,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { successResponse } from '@app/common/http/success-response';
 import { UpdateCommentStatusUseCase } from '../use-cases/update-comment-status.use-case';
 import { UpdateCommentStatusDto } from '../dto/update-comment-status.dto';
@@ -55,6 +55,6 @@ export class UpdateCommentStatusController {
       data.reason,
     );
 
-    return successResponse(TokenCodes.COMMENT_STATUS_UPDATED, comment);
+    return successResponse(CatalisaCodes.COMMENT_STATUS_UPDATED, comment);
   }
 }

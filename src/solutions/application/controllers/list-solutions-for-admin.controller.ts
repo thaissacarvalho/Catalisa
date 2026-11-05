@@ -11,7 +11,7 @@ import { AdminPasswordUpdatedGuard } from '@app/common/authentication/guards/adm
 import { JwtAuthGuard } from '@app/common/authentication/guards/jwt-auth.guard';
 import { RolesGuard } from '@app/common/authentication/guards/roles.guard';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { SolutionPresenter } from '@app/solutions/application/presenters/solution.presenter';
 import { ListSolutionsForAdminUseCase } from '@app/solutions/application/use-cases/list-solutions-for-admin.use-case';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
@@ -33,7 +33,7 @@ export class ListSolutionsForAdminController {
     const solutions = await this.listSolutionsForAdminUseCase.execute(request.user.role);
 
     return successResponse(
-      TokenCodes.SOLUTIONS_LISTED,
+      CatalisaCodes.SOLUTIONS_LISTED,
       solutions.map((solution) => SolutionPresenter.admin(solution)),
     );
   }

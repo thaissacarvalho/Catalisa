@@ -3,7 +3,7 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FindAllChallengeUseCase } from '@app/challenges/application/use-cases/find-all-challenge.use-case';
 import { ChallengePresenter } from '@app/challenges/application/presenters/challenge.presenter';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 
 @ApiTags('Challenges')
 @Controller('challenges')
@@ -19,7 +19,7 @@ export class FindAllChallengeController {
     const challenges = await this.findAllChallengeUseCase.execute();
 
     return successResponse(
-      TokenCodes.CHALLENGES_LISTED,
+      CatalisaCodes.CHALLENGES_LISTED,
       challenges.map((challenge) => ChallengePresenter.public(challenge)),
     );
   }

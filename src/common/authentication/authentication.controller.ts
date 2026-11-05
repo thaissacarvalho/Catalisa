@@ -21,7 +21,7 @@ import { JwtAuthGuard } from '@app/common/authentication/guards/jwt-auth.guard';
 import { RolesGuard } from '@app/common/authentication/guards/roles.guard';
 import { JwtPayload } from '@app/common/authentication/types/jwt-payload.type';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
 
 @ApiTags('Authentication')
@@ -38,7 +38,7 @@ export class AuthenticationController {
       data.email,
       data.password,
     );
-    return successResponse(TokenCodes.ADMIN_AUTHENTICATED, authentication);
+    return successResponse(CatalisaCodes.ADMIN_AUTHENTICATED, authentication);
   }
 
   @Get('me')
@@ -46,7 +46,7 @@ export class AuthenticationController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get the authenticated identity' })
   me(@Req() request: { user: JwtPayload }) {
-    return successResponse(TokenCodes.AUTHENTICATED_IDENTITY_RETRIEVED, {
+    return successResponse(CatalisaCodes.AUTHENTICATED_IDENTITY_RETRIEVED, {
       userCode: request.user.userCode,
       role: request.user.role,
       mustChangePassword: request.user.mustChangePassword,
@@ -68,7 +68,7 @@ export class AuthenticationController {
       data.currentPassword,
       data.newPassword,
     );
-    return successResponse(TokenCodes.ADMIN_PASSWORD_UPDATED, result);
+    return successResponse(CatalisaCodes.ADMIN_PASSWORD_UPDATED, result);
   }
 
   @Post('admin/users/:userCode/promote')
@@ -79,6 +79,6 @@ export class AuthenticationController {
   @ApiOperation({ summary: 'Promote a participant to admin' })
   async promote(@Param('userCode') userCode: string) {
     const admin = await this.authenticationService.promoteToAdmin(userCode);
-    return successResponse(TokenCodes.USER_PROMOTED_TO_ADMIN, admin);
+    return successResponse(CatalisaCodes.USER_PROMOTED_TO_ADMIN, admin);
   }
 }

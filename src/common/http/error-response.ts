@@ -1,6 +1,6 @@
-import { TokenErrorCode } from '@app/common/http/token-codes';
+import { CatalisaErrorCode } from '@app/common/http/catalisa-codes';
 
-export function errorResponse(errorCode: TokenErrorCode) {
+export function errorResponse(errorCode: CatalisaErrorCode) {
   return {
     success: false,
     type: errorCode.type,

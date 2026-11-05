@@ -1,9 +1,9 @@
 import { HttpException } from '@nestjs/common';
 import { errorResponse } from '@app/common/http/error-response';
-import { TokenErrorCode } from '@app/common/http/token-codes';
+import { CatalisaErrorCode } from '@app/common/http/catalisa-codes';
 
 export class AppHttpException extends HttpException {
-  constructor(errorCode: TokenErrorCode) {
+  constructor(errorCode: CatalisaErrorCode) {
     super(errorResponse(errorCode), errorCode.statusCode);
   }
 }

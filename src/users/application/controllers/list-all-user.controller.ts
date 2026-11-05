@@ -1,7 +1,7 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { ListAllUsersUseCase } from '@app/users/application/use-cases/list-all-users.use-case';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
 import { Roles } from '@app/common/authentication/decorators/roles.decorator';
@@ -22,6 +22,6 @@ export class ListUsersController {
   @ApiNotFoundResponse({ description: '[]' })
   async findAll() {
     const users = await this.listAllUsersUseCase.execute();
-    return successResponse(TokenCodes.USERS_LISTED, users);
+    return successResponse(CatalisaCodes.USERS_LISTED, users);
   }
 }

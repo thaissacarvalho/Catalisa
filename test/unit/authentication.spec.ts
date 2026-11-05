@@ -9,7 +9,7 @@ import { JwtAuthGuard } from '@app/common/authentication/guards/jwt-auth.guard';
 import { RolesGuard } from '@app/common/authentication/guards/roles.guard';
 import { AuthenticationService } from '@app/common/authentication/authentication.service';
 import { JwtPayload } from '@app/common/authentication/types/jwt-payload.type';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { environment } from '@app/config/environment';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
 import { UserStatus } from '@app/users/domain/enums/user-status.enum';
@@ -139,7 +139,7 @@ describe('AuthenticationService', () => {
       service.loginAdmin('admin@example.com', 'short'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_PASSWORD_LENGTH.code,
+        code: CatalisaCodes.INVALID_PASSWORD_LENGTH.code,
       }),
     });
     expect(users.findByEmail).not.toHaveBeenCalled();
@@ -161,14 +161,14 @@ describe('AuthenticationService', () => {
       service.loginAdmin('missing@example.com', 'ValidPass123'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ADMIN_CREDENTIALS.code,
+        code: CatalisaCodes.INVALID_ADMIN_CREDENTIALS.code,
       }),
     });
     await expect(
       service.loginAdmin('user@example.com', 'ValidPass123'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ADMIN_CREDENTIALS.code,
+        code: CatalisaCodes.INVALID_ADMIN_CREDENTIALS.code,
       }),
     });
     expect(compareMock).toHaveBeenCalledTimes(2);
@@ -193,7 +193,7 @@ describe('AuthenticationService', () => {
       service.loginAdmin('admin@example.com', 'ValidPass123'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.ADMIN_ACCOUNT_INACTIVE.code,
+        code: CatalisaCodes.ADMIN_ACCOUNT_INACTIVE.code,
       }),
     });
 
@@ -205,14 +205,14 @@ describe('AuthenticationService', () => {
       service.loginAdmin('admin@example.com', 'ValidPass123'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ADMIN_CREDENTIALS.code,
+        code: CatalisaCodes.INVALID_ADMIN_CREDENTIALS.code,
       }),
     });
     await expect(
       service.loginAdmin('admin@example.com', 'ValidPass123'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ADMIN_CREDENTIALS.code,
+        code: CatalisaCodes.INVALID_ADMIN_CREDENTIALS.code,
       }),
     });
   });
@@ -258,17 +258,17 @@ describe('AuthenticationService', () => {
 
     await expect(service.promoteToAdmin('missing')).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.USER_NOT_FOUND.code,
+        code: CatalisaCodes.USER_NOT_FOUND.code,
       }),
     });
     await expect(service.promoteToAdmin('admin')).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.USER_CANNOT_BE_PROMOTED.code,
+        code: CatalisaCodes.USER_CANNOT_BE_PROMOTED.code,
       }),
     });
     await expect(service.promoteToAdmin('USER_CODE')).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.USER_CANNOT_BE_PROMOTED.code,
+        code: CatalisaCodes.USER_CANNOT_BE_PROMOTED.code,
       }),
     });
   });
@@ -322,7 +322,7 @@ describe('AuthenticationService', () => {
       service.updateAdminPassword('USER', 'short', 'ValidNewPass1'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_PASSWORD_LENGTH.code,
+        code: CatalisaCodes.INVALID_PASSWORD_LENGTH.code,
       }),
     });
 
@@ -343,21 +343,21 @@ describe('AuthenticationService', () => {
       service.updateAdminPassword('USER', 'CurrentPass1', 'DifferentPass2'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ADMIN_CREDENTIALS.code,
+        code: CatalisaCodes.INVALID_ADMIN_CREDENTIALS.code,
       }),
     });
     await expect(
       service.updateAdminPassword('USER', 'CurrentPass1', 'DifferentPass2'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ADMIN_CREDENTIALS.code,
+        code: CatalisaCodes.INVALID_ADMIN_CREDENTIALS.code,
       }),
     });
     await expect(
       service.updateAdminPassword('USER', 'CurrentPass1', 'DifferentPass2'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ADMIN_CREDENTIALS.code,
+        code: CatalisaCodes.INVALID_ADMIN_CREDENTIALS.code,
       }),
     });
 
@@ -366,7 +366,7 @@ describe('AuthenticationService', () => {
       service.updateAdminPassword('USER', 'CurrentPass1', 'DifferentPass2'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ADMIN_CREDENTIALS.code,
+        code: CatalisaCodes.INVALID_ADMIN_CREDENTIALS.code,
       }),
     });
 
@@ -375,7 +375,7 @@ describe('AuthenticationService', () => {
       service.updateAdminPassword('USER', 'CurrentPass1', 'CurrentPass1'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.PASSWORD_UNCHANGED.code,
+        code: CatalisaCodes.PASSWORD_UNCHANGED.code,
       }),
     });
 
@@ -386,7 +386,7 @@ describe('AuthenticationService', () => {
       service.updateAdminPassword('USER', 'CurrentPass1', 'DifferentPass2'),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ADMIN_CREDENTIALS.code,
+        code: CatalisaCodes.INVALID_ADMIN_CREDENTIALS.code,
       }),
     });
   });
@@ -421,7 +421,7 @@ describe('AuthenticationService', () => {
 
       await expect(service.createInitialSuperAdmin()).rejects.toMatchObject({
         response: expect.objectContaining({
-          code: TokenCodes.INITIAL_SUPER_ADMIN_CONFIGURATION_INVALID.code,
+          code: CatalisaCodes.INITIAL_SUPER_ADMIN_CONFIGURATION_INVALID.code,
         }),
       });
 
@@ -432,12 +432,12 @@ describe('AuthenticationService', () => {
       users.findByEmail.mockResolvedValueOnce(makeUser());
       await expect(service.createInitialSuperAdmin()).rejects.toMatchObject({
         response: expect.objectContaining({
-          code: TokenCodes.SUPER_ADMIN_ALREADY_EXISTS.code,
+          code: CatalisaCodes.SUPER_ADMIN_ALREADY_EXISTS.code,
         }),
       });
       await expect(service.createInitialSuperAdmin()).rejects.toMatchObject({
         response: expect.objectContaining({
-          code: TokenCodes.EMAIL_ALREADY_EXISTS.code,
+          code: CatalisaCodes.EMAIL_ALREADY_EXISTS.code,
         }),
       });
     });
@@ -490,14 +490,14 @@ describe('authentication guards', () => {
     expect(guard.canActivate(executionContext({}))).toBe(true);
     expectSyncTokenError(
       () => guard.canActivate(executionContext({})),
-      TokenCodes.ACCESS_DENIED.code,
+      CatalisaCodes.ACCESS_DENIED.code,
     );
     expectSyncTokenError(
       () =>
         guard.canActivate(
           executionContext({ user: { role: UserRole.PARTICIPANT } }),
         ),
-      TokenCodes.ACCESS_DENIED.code,
+      CatalisaCodes.ACCESS_DENIED.code,
     );
     expect(
       guard.canActivate(executionContext({ user: { role: UserRole.ADMIN } })),
@@ -512,7 +512,7 @@ describe('authentication guards', () => {
         guard.canActivate(
           executionContext({ user: { mustChangePassword: true } }),
         ),
-      TokenCodes.PASSWORD_UPDATE_REQUIRED.code,
+      CatalisaCodes.PASSWORD_UPDATE_REQUIRED.code,
     );
     expect(
       guard.canActivate(
@@ -554,7 +554,7 @@ describe('authentication guards', () => {
       guard.canActivate(executionContext({ headers: {} })),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.AUTHENTICATION_REQUIRED.code,
+        code: CatalisaCodes.AUTHENTICATION_REQUIRED.code,
       }),
     });
 
@@ -568,7 +568,7 @@ describe('authentication guards', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ACCESS_TOKEN.code,
+        code: CatalisaCodes.INVALID_ACCESS_TOKEN.code,
       }),
     });
     await expect(
@@ -577,7 +577,7 @@ describe('authentication guards', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ACCESS_TOKEN.code,
+        code: CatalisaCodes.INVALID_ACCESS_TOKEN.code,
       }),
     });
 
@@ -589,7 +589,7 @@ describe('authentication guards', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.INVALID_ACCESS_TOKEN.code,
+        code: CatalisaCodes.INVALID_ACCESS_TOKEN.code,
       }),
     });
   });

@@ -1,6 +1,6 @@
 import { ChallengeRepository } from '@app/challenges/domain/repositories/challenge.repository';
 import { TargetType } from '@app/common/domain/enums/target-type.enum';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { DirectRemovalUseCase } from '@app/moderation/application/use-cases/direct-removal.use-case';
 import { SolutionPresenter } from '@app/solutions/application/presenters/solution.presenter';
 import { CreateSolutionUseCase } from '@app/solutions/application/use-cases/create-solution.use-case';
@@ -91,24 +91,24 @@ describe('solution use cases', () => {
   });
 
   it.each([
-    ['missing user', null, true, TokenCodes.INVALID_USER.code],
+    ['missing user', null, true, CatalisaCodes.INVALID_USER.code],
     [
       'inactive user',
       makeUser({ status: UserStatus.INACTIVE }),
       true,
-      TokenCodes.INVALID_USER.code,
+      CatalisaCodes.INVALID_USER.code,
     ],
     [
       'forbidden role',
       makeUser({ role: UserRole.ADMIN }),
       true,
-      TokenCodes.FORBIDDEN.code,
+      CatalisaCodes.FORBIDDEN.code,
     ],
     [
       'missing challenge',
       makeUser(),
       false,
-      TokenCodes.CHALLENGE_NOT_FOUND.code,
+      CatalisaCodes.CHALLENGE_NOT_FOUND.code,
     ],
   ])('rejects %s', async (_label, user, challengeExists, errorCode) => {
     const solutions = solutionRepositoryMock();
@@ -136,7 +136,7 @@ describe('solution use cases', () => {
       new CreateSolutionUseCase(solutions, users, challenges).execute(input),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_CREATION_FAILED.code,
+        code: CatalisaCodes.SOLUTION_CREATION_FAILED.code,
       }),
     });
   });
@@ -153,12 +153,12 @@ describe('solution use cases', () => {
     await expect(useCase.execute('solution-id')).resolves.toBe(details);
     await expect(useCase.execute('missing')).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_NOT_FOUND.code,
+        code: CatalisaCodes.SOLUTION_NOT_FOUND.code,
       }),
     });
     await expect(useCase.execute('failure')).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_QUERY_FAILED.code,
+        code: CatalisaCodes.SOLUTION_QUERY_FAILED.code,
       }),
     });
   });
@@ -176,7 +176,7 @@ describe('solution use cases', () => {
     await expect(useCase.execute('challenge-id')).resolves.toEqual([details]);
     await expect(useCase.execute('missing')).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.CHALLENGE_NOT_FOUND.code,
+        code: CatalisaCodes.CHALLENGE_NOT_FOUND.code,
       }),
     });
   });
@@ -187,13 +187,13 @@ describe('solution use cases', () => {
     const details = makeSolutionDetails();
 
     await expect(useCase.execute(UserRole.PARTICIPANT)).rejects.toMatchObject({
-      response: expect.objectContaining({ code: TokenCodes.FORBIDDEN.code }),
+      response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
     });
 
     repository.findAllForAdmin.mockResolvedValueOnce([]);
     await expect(useCase.execute(UserRole.ADMIN)).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_NOT_FOUND.code,
+        code: CatalisaCodes.SOLUTION_NOT_FOUND.code,
       }),
     });
 
@@ -247,7 +247,7 @@ describe('solution use cases', () => {
         UserRole.PARTICIPANT,
       ),
     ).rejects.toMatchObject({
-      response: expect.objectContaining({ code: TokenCodes.FORBIDDEN.code }),
+      response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
     });
     expect(repository.findById).not.toHaveBeenCalled();
   });
@@ -269,7 +269,7 @@ describe('solution use cases', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_NOT_FOUND.code,
+        code: CatalisaCodes.SOLUTION_NOT_FOUND.code,
       }),
     });
   });
@@ -293,7 +293,7 @@ describe('solution use cases', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_STATUS_UNCHANGED.code,
+        code: CatalisaCodes.SOLUTION_STATUS_UNCHANGED.code,
       }),
     });
 
@@ -308,7 +308,7 @@ describe('solution use cases', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.REMOVAL_REQUIRES_APPROVAL.code,
+        code: CatalisaCodes.REMOVAL_REQUIRES_APPROVAL.code,
       }),
     });
 
@@ -323,7 +323,7 @@ describe('solution use cases', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_MODERATION_REASON_REQUIRED.code,
+        code: CatalisaCodes.SOLUTION_MODERATION_REASON_REQUIRED.code,
       }),
     });
   });
@@ -347,7 +347,7 @@ describe('solution use cases', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_NOT_FOUND.code,
+        code: CatalisaCodes.SOLUTION_NOT_FOUND.code,
       }),
     });
     expect(directRemoval.execute).toHaveBeenCalledTimes(1);
@@ -374,7 +374,7 @@ describe('solution use cases', () => {
       ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: TokenCodes.SOLUTION_NOT_FOUND.code,
+        code: CatalisaCodes.SOLUTION_NOT_FOUND.code,
       }),
     });
 

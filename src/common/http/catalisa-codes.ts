@@ -1,4 +1,4 @@
-export const TokenCodes = {
+export const CatalisaCodes = {
   // =========================
   // USERS
   // =========================
@@ -509,6 +509,6 @@ export const TokenCodes = {
   },
 } as const;
 
-export type TokenCode = (typeof TokenCodes)[keyof typeof TokenCodes];
-export type TokenErrorCode = Extract<TokenCode, { type: 'ERROR' }>;
-export type TokenSuccessCode = Extract<TokenCode, { type: 'SUCCESS' }>;
+export type CatalisaCode = (typeof CatalisaCodes)[keyof typeof CatalisaCodes];
+export type CatalisaErrorCode = Extract<CatalisaCode, { type: 'ERROR' }>;
+export type CatalisaSuccessCode = Extract<CatalisaCode, { type: 'SUCCESS' }>;

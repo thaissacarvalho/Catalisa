@@ -2,7 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CountByLikeUseCase } from '@app/likes/application/use-cases/count-by-like.use-case';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { LikeTargetDto } from '@app/likes/application/dto/like-target.dto';
 import { toLikeTargetFromDto } from '@app/likes/application/helpers/to-like-target-from-dto.helper';
 
@@ -20,6 +20,6 @@ export class CountByLikeController {
     const target = toLikeTargetFromDto(query);
     const result = await this.countByLike.execute(target);
 
-    return successResponse(TokenCodes.LIKES_COUNTED, result);
+    return successResponse(CatalisaCodes.LIKES_COUNTED, result);
   }
 }

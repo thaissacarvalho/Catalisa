@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { UserLikeTargetDto } from '../dto/user-like-target.dto';
 import { toLikeTargetFromDto } from '../helpers/to-like-target-from-dto.helper';
 import { CreateLikeUseCase } from '../use-cases/create-like.use-case';
@@ -22,6 +22,6 @@ export class CreateLikeController {
       toLikeTargetFromDto(data),
     );
 
-    return successResponse(TokenCodes.LIKE_CREATED, like);
+    return successResponse(CatalisaCodes.LIKE_CREATED, like);
   }
 }

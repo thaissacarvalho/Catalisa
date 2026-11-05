@@ -11,7 +11,7 @@ import { JwtAuthGuard } from '@app/common/authentication/guards/jwt-auth.guard';
 import { RolesGuard } from '@app/common/authentication/guards/roles.guard';
 import { JwtPayload } from '@app/common/authentication/types/jwt-payload.type';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { SolutionIdParamDto } from '@app/solutions/application/dto/solution-id-param.dto';
 import { UpdateSolutionStatusDto } from '@app/solutions/application/dto/update-solution-status.dto';
 import { SolutionPresenter } from '@app/solutions/application/presenters/solution.presenter';
@@ -45,7 +45,7 @@ export class UpdateSolutionStatusController {
     );
 
     return successResponse(
-      TokenCodes.SOLUTION_STATUS_UPDATED,
+      CatalisaCodes.SOLUTION_STATUS_UPDATED,
       SolutionPresenter.statusUpdated(solution),
     );
   }

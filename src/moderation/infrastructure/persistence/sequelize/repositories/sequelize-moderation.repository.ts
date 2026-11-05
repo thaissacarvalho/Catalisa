@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UniqueConstraintError, type Transaction } from 'sequelize';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { sequelize } from '@app/database/sequelize';
 import { ModerationRequestDetails } from '@app/moderation/domain/entities/moderation-request-details.entity';
 import { ModerationRequestEntity } from '@app/moderation/domain/entities/moderation-request.entity';
@@ -52,7 +52,7 @@ export class SequelizeModerationRepository implements ModerationRepository {
     } catch (error) {
       if (error instanceof UniqueConstraintError) {
         throw new AppHttpException(
-          TokenCodes.MODERATION_REQUEST_ALREADY_PENDING,
+          CatalisaCodes.MODERATION_REQUEST_ALREADY_PENDING,
         );
       }
 
@@ -69,7 +69,7 @@ export class SequelizeModerationRepository implements ModerationRepository {
       request.status !== ModerationRequestStatus.APPROVED ||
       !reviewerUserCode
     ) {
-      throw new AppHttpException(TokenCodes.INVALID_PERSISTENCE_DATA);
+      throw new AppHttpException(CatalisaCodes.INVALID_PERSISTENCE_DATA);
     }
 
     return sequelize.transaction(async (transaction) => {
@@ -90,7 +90,7 @@ export class SequelizeModerationRepository implements ModerationRepository {
 
       if (pendingRequest) {
         throw new AppHttpException(
-          TokenCodes.MODERATION_REQUEST_ALREADY_PENDING,
+          CatalisaCodes.MODERATION_REQUEST_ALREADY_PENDING,
         );
       }
 
@@ -127,17 +127,17 @@ export class SequelizeModerationRepository implements ModerationRepository {
       });
 
       if (!request) {
-        throw new AppHttpException(TokenCodes.MODERATION_REQUEST_NOT_FOUND);
+        throw new AppHttpException(CatalisaCodes.MODERATION_REQUEST_NOT_FOUND);
       }
 
       if (request.status !== ModerationRequestStatus.PENDING) {
         throw new AppHttpException(
-          TokenCodes.MODERATION_REQUEST_ALREADY_REVIEWED,
+          CatalisaCodes.MODERATION_REQUEST_ALREADY_REVIEWED,
         );
       }
 
       if (request.requestedByUserCode === input.reviewerUserCode) {
-        throw new AppHttpException(TokenCodes.SELF_APPROVAL_NOT_ALLOWED);
+        throw new AppHttpException(CatalisaCodes.SELF_APPROVAL_NOT_ALLOWED);
       }
 
       if (input.decision === ModerationRequestStatus.APPROVED) {

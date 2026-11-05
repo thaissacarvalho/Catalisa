@@ -1,6 +1,6 @@
-import { TokenSuccessCode } from '@app/common/http/token-codes';
+import { CatalisaSuccessCode } from '@app/common/http/catalisa-codes';
 
-export function successResponse<T>(successCode: TokenSuccessCode, data: T) {
+export function successResponse<T>(successCode: CatalisaSuccessCode, data: T) {
   return {
     success: true,
     type: successCode.type,

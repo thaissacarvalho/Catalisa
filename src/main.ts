@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { AppHttpExceptionFilter } from '@app/common/http/filters/app-http-exception.filter';
 import { environment } from '@app/config/environment';
 
@@ -16,14 +16,14 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-      exceptionFactory: () => new AppHttpException(TokenCodes.INVALID_REQUEST),
+      exceptionFactory: () => new AppHttpException(CatalisaCodes.INVALID_REQUEST),
     }),
   );
   app.enableCors();
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Token API')
-    .setDescription('Documentação da API Token')
+    .setTitle('CATALISA')
+    .setDescription('Documentação da API CATALISA')
     .setVersion('2.0')
     .build();
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);

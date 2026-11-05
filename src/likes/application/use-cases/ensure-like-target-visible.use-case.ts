@@ -4,7 +4,7 @@ import { LikeTarget } from '@app/likes/domain/types/like-target.type';
 import { SolutionRepository } from '@app/solutions/domain/repositories/solution.repository';
 import { CommentRepository } from '@app/comments/domain/repositories/comment.repository';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 
 @Injectable()
 export class EnsureLikeTargetVisibleUseCase {
@@ -22,16 +22,16 @@ export class EnsureLikeTargetVisibleUseCase {
       );
 
       if (!solution) {
-        throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
+        throw new AppHttpException(CatalisaCodes.SOLUTION_NOT_FOUND);
       }
     } else if (target.type === TargetType.COMMENT) {
       const comment = await this.commentRepository.find(target.commentId);
 
       if (!comment) {
-        throw new AppHttpException(TokenCodes.COMMENT_NOT_FOUND);
+        throw new AppHttpException(CatalisaCodes.COMMENT_NOT_FOUND);
       }
     } else {
-      throw new AppHttpException(TokenCodes.INVALID_REQUEST);
+      throw new AppHttpException(CatalisaCodes.INVALID_REQUEST);
     }
   }
 }

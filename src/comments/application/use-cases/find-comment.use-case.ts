@@ -3,7 +3,7 @@ import { CommentRepository } from '@app/comments/domain/repositories/comment.rep
 import { SolutionRepository } from '@app/solutions/domain/repositories/solution.repository';
 import { CommentEntity } from '@app/comments/domain/entities/comment.entity';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 
 export class FindCommentUseCase {
   constructor(
@@ -17,7 +17,7 @@ export class FindCommentUseCase {
     const comment = await this.commentRepository.find(id);
 
     if (!comment) {
-      throw new AppHttpException(TokenCodes.COMMENT_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.COMMENT_NOT_FOUND);
     }
 
     const solutionExist = await this.solutionRepository.findPublishedById(
@@ -25,7 +25,7 @@ export class FindCommentUseCase {
     );
 
     if (!solutionExist) {
-      throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.SOLUTION_NOT_FOUND);
     }
 
     return comment;

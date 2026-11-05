@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ensureAdmin } from '@app/common/authorization/ensure-admin';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { ModerationRequestDetails } from '@app/moderation/domain/entities/moderation-request-details.entity';
 import { ModerationRequestStatus } from '@app/moderation/domain/enums/moderation-request-status.enum';
 import { ModerationRepository } from '@app/moderation/domain/repositories/moderation.repository';
@@ -26,7 +26,7 @@ export class ReviewRemovalRequestUseCase {
     ensureAdmin(reviewerRole);
 
     if (!reason.trim()) {
-      throw new AppHttpException(TokenCodes.REVIEW_REASON_REQUIRED);
+      throw new AppHttpException(CatalisaCodes.REVIEW_REASON_REQUIRED);
     }
 
     return this.moderationRepository.review({

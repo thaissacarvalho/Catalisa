@@ -5,7 +5,7 @@ import { TargetType } from '@app/common/domain/enums/target-type.enum';
 import { AppHttpException } from '@app/common/http/app-http.exception';
 import { errorResponse } from '@app/common/http/error-response';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { CreateRemovalRequestUseCase } from '@app/moderation/application/use-cases/create-removal-request.use-case';
 import { DirectRemovalUseCase } from '@app/moderation/application/use-cases/direct-removal.use-case';
 import { ListRemovalRequestsUseCase } from '@app/moderation/application/use-cases/list-removal-requests.use-case';
@@ -66,7 +66,7 @@ describe('moderation use cases', () => {
           'USER_CODE',
           UserRole.PARTICIPANT,
         ),
-      TokenCodes.FORBIDDEN.code,
+      CatalisaCodes.FORBIDDEN.code,
     );
     expect(repository.create).not.toHaveBeenCalled();
   });
@@ -110,7 +110,7 @@ describe('moderation use cases', () => {
     );
     expectSyncTokenError(
       () => useCase.execute(UserRole.PARTICIPANT),
-      TokenCodes.FORBIDDEN.code,
+      CatalisaCodes.FORBIDDEN.code,
     );
   });
 
@@ -129,7 +129,7 @@ describe('moderation use cases', () => {
           UserRole.PARTICIPANT,
           'reason',
         ),
-      TokenCodes.FORBIDDEN.code,
+      CatalisaCodes.FORBIDDEN.code,
     );
 
     expectSyncTokenError(
@@ -141,7 +141,7 @@ describe('moderation use cases', () => {
           UserRole.ADMIN,
           ' ',
         ),
-      TokenCodes.REVIEW_REASON_REQUIRED.code,
+      CatalisaCodes.REVIEW_REASON_REQUIRED.code,
     );
 
     await expect(
@@ -168,7 +168,7 @@ describe('authorization and HTTP helpers', () => {
     expect(() => ensureAdmin(UserRole.SUPER_ADMIN)).not.toThrow();
     expectSyncTokenError(
       () => ensureAdmin(UserRole.PARTICIPANT),
-      TokenCodes.FORBIDDEN.code,
+      CatalisaCodes.FORBIDDEN.code,
     );
   });
 
@@ -179,23 +179,23 @@ describe('authorization and HTTP helpers', () => {
     }
     expectSyncTokenError(
       () => ensureCanLike(UserRole.ADMIN),
-      TokenCodes.FORBIDDEN.code,
+      CatalisaCodes.FORBIDDEN.code,
     );
     expectSyncTokenError(
       () => ensureCanPublishSolution(UserRole.ADMIN),
-      TokenCodes.FORBIDDEN.code,
+      CatalisaCodes.FORBIDDEN.code,
     );
   });
 
   it('creates stable error and success response envelopes', () => {
-    expect(errorResponse(TokenCodes.INVALID_REQUEST)).toEqual({
+    expect(errorResponse(CatalisaCodes.INVALID_REQUEST)).toEqual({
       success: false,
       type: 'ERROR',
       code: 'MCODE-019',
       message: 'Invalid request',
       statusCode: 400,
     });
-    expect(successResponse(TokenCodes.USER_CREATED, { id: 'user-id' })).toEqual(
+    expect(successResponse(CatalisaCodes.USER_CREATED, { id: 'user-id' })).toEqual(
       {
         success: true,
         type: 'SUCCESS',
@@ -206,10 +206,10 @@ describe('authorization and HTTP helpers', () => {
       },
     );
 
-    const exception = new AppHttpException(TokenCodes.FORBIDDEN);
+    const exception = new AppHttpException(CatalisaCodes.FORBIDDEN);
     expect(exception.getStatus()).toBe(403);
     expect(exception.getResponse()).toEqual(
-      errorResponse(TokenCodes.FORBIDDEN),
+      errorResponse(CatalisaCodes.FORBIDDEN),
     );
   });
 

@@ -11,7 +11,7 @@ import { JwtAuthGuard } from '@app/common/authentication/guards/jwt-auth.guard';
 import { RolesGuard } from '@app/common/authentication/guards/roles.guard';
 import { JwtPayload } from '@app/common/authentication/types/jwt-payload.type';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { CreateRemovalRequestDto } from '@app/moderation/application/dto/create-removal-request.dto';
 import { CreateRemovalRequestUseCase } from '@app/moderation/application/use-cases/create-removal-request.use-case';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
@@ -41,6 +41,6 @@ export class CreateRemovalRequestController {
       request.user.role,
     );
 
-    return successResponse(TokenCodes.MODERATION_REQUEST_CREATED, result);
+    return successResponse(CatalisaCodes.MODERATION_REQUEST_CREATED, result);
   }
 }

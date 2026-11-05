@@ -7,7 +7,7 @@ import { RolesGuard } from '@app/common/authentication/guards/roles.guard';
 import { AdminPasswordUpdatedGuard } from '@app/common/authentication/guards/admin-password-updated.guard';
 import { Roles } from '@app/common/authentication/decorators/roles.decorator';
 import { successResponse } from '@app/common/http/success-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 
 @ApiTags('Users')
 @Controller('users/admin')
@@ -22,6 +22,6 @@ export class ListUserByIdController {
   @ApiNotFoundResponse({ description: 'User not found.' })
   async findBy(@Param('id') id: string) {
     const userId = await this.listUserByIdUseCase.execute(id);
-    return successResponse(TokenCodes.USER_FOUND, userId)
+    return successResponse(CatalisaCodes.USER_FOUND, userId)
   }
 }

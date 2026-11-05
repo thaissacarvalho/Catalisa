@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { AppHttpException } from '@app/common/http/app-http.exception';
 import { errorResponse } from '@app/common/http/error-response';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 
 @Catch()
 export class AppHttpExceptionFilter implements ExceptionFilter {
@@ -30,21 +30,21 @@ export class AppHttpExceptionFilter implements ExceptionFilter {
 
   private getErrorCode(statusCode: number) {
     if (statusCode === HttpStatus.BAD_REQUEST) {
-      return TokenCodes.INVALID_REQUEST;
+      return CatalisaCodes.INVALID_REQUEST;
     }
     if (statusCode === HttpStatus.UNAUTHORIZED) {
-      return TokenCodes.AUTHENTICATION_REQUIRED;
+      return CatalisaCodes.AUTHENTICATION_REQUIRED;
     }
     if (statusCode === HttpStatus.FORBIDDEN) {
-      return TokenCodes.FORBIDDEN;
+      return CatalisaCodes.FORBIDDEN;
     }
     if (statusCode === HttpStatus.NOT_FOUND) {
-      return TokenCodes.RESOURCE_NOT_FOUND;
+      return CatalisaCodes.RESOURCE_NOT_FOUND;
     }
     if (statusCode === HttpStatus.CONFLICT) {
-      return TokenCodes.CONFLICT;
+      return CatalisaCodes.CONFLICT;
     }
 
-    return TokenCodes.INTERNAL_SERVER_ERROR;
+    return CatalisaCodes.INTERNAL_SERVER_ERROR;
   }
 }

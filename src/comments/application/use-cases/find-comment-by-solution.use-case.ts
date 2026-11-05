@@ -2,7 +2,7 @@ import { Inject } from '@nestjs/common';
 import { CommentRepository } from '@app/comments/domain/repositories/comment.repository';
 import { CommentEntity } from '@app/comments/domain/entities/comment.entity';
 import { AppHttpException } from '@app/common/http/app-http.exception';
-import { TokenCodes } from '@app/common/http/token-codes';
+import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { SolutionRepository } from '@app/solutions/domain/repositories/solution.repository';
 
 export class FindCommentBySolutionUseCase {
@@ -18,7 +18,7 @@ export class FindCommentBySolutionUseCase {
       await this.solutionRepository.findPublishedById(solutionId);
 
     if (!solution) {
-      throw new AppHttpException(TokenCodes.SOLUTION_NOT_FOUND);
+      throw new AppHttpException(CatalisaCodes.SOLUTION_NOT_FOUND);
     }
 
     const comments =
