@@ -1,19 +1,60 @@
-# Documentação de migração
+# Documentação da CATALISA
 
-Este diretório reúne o plano de evolução do back-end para Node.js, TypeScript, NestJS, Sequelize e PostgreSQL. A análise foi feita em 25 de agosto de 2026.
+Esta pasta explica o sistema implementado em `src/`, os fluxos de dados, as decisões arquiteturais e os procedimentos de desenvolvimento. Controllers registrados nos módulos NestJS, DTOs, use cases e migrations são as fontes de verdade.
 
-## Documentos
+## Mapa da documentação
 
-- [Plano de migração](./migration-plan.md): sequência de trabalho, arquitetura, infraestrutura, qualidade e critérios de aceite.
-- [Auditoria do módulo Users](./users-refactor.md): achados concretos, correções prioritárias e desenho recomendado para usuários, autenticação e autorização.
-- [Migração de Challenges V2](./challenges-migration.md): schema alvo, separação entre migration e seeder, integração com Solutions e critérios de conclusão.
+```text
+docs/
+├── designs/      arquitetura atual e endpoints por módulo
+├── flows/        fluxos de dados dos principais casos de uso
+├── adr/          decisões técnicas aceitas e imutáveis
+├── rfc/          propostas antes da implementação
+├── collections/  collection e environment Postman
+├── guides/       procedimentos de setup, ambiente e operação
+└── rof/          checklist de prontidão para produção
+```
 
-## Ordem recomendada
+## Por onde começar
 
-1. Estabilizar ferramentas, build e ambiente local no WSL.
-2. Consolidar PostgreSQL, Sequelize e migrations.
-3. Concluir `users` com testes.
-4. Introduzir autenticação e autorização.
-5. Migrar os módulos restantes e remover o legado somente após cada fluxo estar coberto.
+| Necessidade | Documento |
+| --- | --- |
+| Entender a arquitetura geral | [Designs](./designs/README.md) |
+| Entender dependências entre features | [Mapa de dependências](./designs/dependencies.md) |
+| Entender uma jornada ponta a ponta | [Flows](./flows/README.md) |
+| Testar endpoints manualmente | [Collection Postman](./collections/README.md) |
+| Configurar o ambiente | [Environments](./guides/environment.md) |
+| Inicializar o projeto | [Setup local](./guides/local-setup.md) |
+| Criar o primeiro super-admin | [Scripts operacionais](../scripts/README.md) |
+| Inicializar e testar em profundidade | [Tutorial de testes](./guides/testing.md) |
+| Propor uma mudança | [RFCs](./rfc/README.md) |
+| Consultar uma decisão aceita | [ADRs](./adr/README.md) |
 
-Não aplique migrations antigas em banco PostgreSQL compartilhado sem revisar o histórico e validar primeiro em uma base descartável.
+## Estado atual e propostas
+
+- `designs/`, `flows/` e `guides/` descrevem o comportamento atual.
+- `adr/` registra por que decisões atuais foram tomadas. ADRs aceitos não são reescritos; uma mudança exige novo ADR que substitua o anterior.
+- `rfc/` contém propostas. Uma RFC não representa funcionalidade disponível.
+- `collections/` deve conter artefatos importáveis e executáveis, não especificações narrativas.
+
+## Fontes de verdade
+
+| Assunto | Fonte |
+| --- | --- |
+| Módulos ativos | `src/app.module.ts` |
+| Endpoints ativos | Controllers registrados em cada `*.module.ts` |
+| Entrada e validação | DTOs e `ValidationPipe` global |
+| Regras de negócio | Use cases, entidades e helpers de autorização |
+| Persistência | Ports, repositories Sequelize e mappers |
+| Schema | `migrations/` |
+| Erros e sucessos | `src/common/http/catalisa-codes.ts` |
+| Comandos | `package.json` e arquivos Compose |
+
+## Convenções de manutenção
+
+- Documente somente endpoints registrados e acessíveis.
+- Separe claramente estado atual de proposta futura.
+- Atualize design, flow, testes e collection no mesmo PR que alterar um contrato.
+- Use diagramas Mermaid para relações e sequências relevantes.
+- Preserve nomes de classes, enums e rotas exatamente como no código.
+- Não inclua senhas, tokens ou dados pessoais reais.

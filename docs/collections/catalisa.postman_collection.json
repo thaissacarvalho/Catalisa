@@ -1,0 +1,244 @@
+{
+  "info": {
+    "_postman_id": "ed6b43de-3d13-4921-904a-d9a166c34249",
+    "name": "CATALISA",
+    "description": "Collection dos 26 endpoints registrados na CATALISA v2.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "accessToken", "value": "" },
+    { "key": "userCode", "value": "" },
+    { "key": "challengeId", "value": "" },
+    { "key": "solutionId", "value": "" },
+    { "key": "commentId", "value": "" },
+    { "key": "requestId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Admin login",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": [
+              "const body = pm.response.json();",
+              "if (body.data && body.data.accessToken) pm.environment.set('accessToken', body.data.accessToken);"
+            ]}
+          }],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}" },
+            "url": "{{baseUrl}}/authentication/admin/login"
+          }
+        },
+        {
+          "name": "Authenticated identity",
+          "request": { "method": "GET", "url": "{{baseUrl}}/authentication/me" }
+        },
+        {
+          "name": "Update admin password",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": [
+              "const body = pm.response.json();",
+              "if (body.data && body.data.accessToken) pm.environment.set('accessToken', body.data.accessToken);"
+            ]}
+          }],
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"currentPassword\": \"{{currentPassword}}\",\n  \"newPassword\": \"{{newPassword}}\"\n}" },
+            "url": "{{baseUrl}}/authentication/admin/password"
+          }
+        },
+        {
+          "name": "Promote participant to admin",
+          "request": { "method": "POST", "url": "{{baseUrl}}/authentication/admin/users/{{userCode}}/promote" }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create user",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": [
+              "const body = pm.response.json();",
+              "if (body.data && body.data.userCode) pm.environment.set('userCode', body.data.userCode);"
+            ]}
+          }],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Participante Exemplo\",\n  \"email\": \"participante@example.com\",\n  \"jobPosition\": \"Developer\",\n  \"enterprise\": \"Empresa Exemplo\"\n}" },
+            "url": "{{baseUrl}}/users"
+          }
+        },
+        {
+          "name": "Get public user",
+          "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/users/{{userCode}}" }
+        },
+        {
+          "name": "Update user status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"ACTIVE\"\n}" },
+            "url": "{{baseUrl}}/users/admin/{{userCode}}/status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Challenges",
+      "item": [
+        { "name": "List active challenges", "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/challenges" } },
+        { "name": "Get active challenge", "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/challenges/{{challengeId}}" } },
+        {
+          "name": "Update challenge status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"INACTIVE\"\n}" },
+            "url": "{{baseUrl}}/admin/challenges/{{challengeId}}/status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Solutions",
+      "item": [
+        {
+          "name": "Create solution",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": [
+              "const body = pm.response.json();",
+              "if (body.data && body.data.id) pm.environment.set('solutionId', body.data.id);"
+            ]}
+          }],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userCode\": \"{{userCode}}\",\n  \"challengeId\": \"{{challengeId}}\",\n  \"title\": \"Solução de exemplo\",\n  \"description\": \"Descrição detalhada da solução proposta para o desafio.\"\n}" },
+            "url": "{{baseUrl}}/solutions"
+          }
+        },
+        { "name": "Get published solution", "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/solutions/{{solutionId}}" } },
+        { "name": "List challenge solutions", "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/challenges/{{challengeId}}/solutions" } },
+        { "name": "List solutions for admin", "request": { "method": "GET", "url": "{{baseUrl}}/admin/solutions" } },
+        {
+          "name": "Update solution status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"REMOVED\",\n  \"reason\": \"Conteúdo removido por decisão de moderação\"\n}" },
+            "url": "{{baseUrl}}/admin/solutions/{{solutionId}}/status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "Create comment",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": [
+              "const body = pm.response.json();",
+              "if (body.data && body.data.id) pm.environment.set('commentId', body.data.id);"
+            ]}
+          }],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"solutionId\": \"{{solutionId}}\",\n  \"userCode\": \"{{userCode}}\",\n  \"comment\": \"Comentário de exemplo com pelo menos cinquenta caracteres para validação.\"\n}" },
+            "url": "{{baseUrl}}/comments"
+          }
+        },
+        { "name": "Get comment", "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/comments/{{commentId}}" } },
+        { "name": "List solution comments", "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/solutions/{{solutionId}}/comments" } },
+        {
+          "name": "Update comment status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"INACTIVE\",\n  \"reason\": \"Alteração administrativa de status\"\n}" },
+            "url": "{{baseUrl}}/comments/admin/{{commentId}}/status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Likes",
+      "item": [
+        {
+          "name": "Create like",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userCode\": \"{{userCode}}\",\n  \"type\": \"SOLUTION\",\n  \"targetId\": \"{{solutionId}}\"\n}" },
+            "url": "{{baseUrl}}/likes"
+          }
+        },
+        { "name": "Count likes", "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/likes/count?type=SOLUTION&targetId={{solutionId}}" } },
+        { "name": "Delete like", "request": { "auth": { "type": "noauth" }, "method": "DELETE", "url": "{{baseUrl}}/likes?userCode={{userCode}}&type=SOLUTION&targetId={{solutionId}}" } }
+      ]
+    },
+    {
+      "name": "Moderation",
+      "item": [
+        {
+          "name": "Create removal request",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": [
+              "const body = pm.response.json();",
+              "if (body.data && body.data.request && body.data.request.id) pm.environment.set('requestId', body.data.request.id);"
+            ]}
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"targetType\": \"SOLUTION\",\n  \"targetId\": \"{{solutionId}}\",\n  \"reason\": \"Solicitação de remoção para revisão administrativa\"\n}" },
+            "url": "{{baseUrl}}/admin/moderation/removal-requests"
+          }
+        },
+        { "name": "List removal requests", "request": { "method": "GET", "url": "{{baseUrl}}/admin/moderation/removal-requests?status=PENDING" } },
+        {
+          "name": "Approve removal request",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"reason\": \"Solicitação aprovada após revisão do conteúdo\"\n}" },
+            "url": "{{baseUrl}}/admin/moderation/removal-requests/{{requestId}}/approve"
+          }
+        },
+        {
+          "name": "Reject removal request",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"reason\": \"Solicitação rejeitada após revisão do conteúdo\"\n}" },
+            "url": "{{baseUrl}}/admin/moderation/removal-requests/{{requestId}}/reject"
+          }
+        }
+      ]
+    }
+  ]
+}
