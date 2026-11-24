@@ -52,8 +52,8 @@ Para criar o primeiro super-admin, preencha também as variáveis `INITIAL_SUPER
 | `APP_HOST` | não | `0.0.0.0` | Interface de escuta |
 | `APP_PORT` | não | `3000` | Porta HTTP |
 | `JWT_EXPIRES_IN_SECONDS` | não | `28800` | Expiração do access token |
-| `JWT_ISSUER` | não | `token-api` | Emissor validado |
-| `JWT_AUDIENCE` | não | `token-admin` | Audiência validada |
+| `JWT_ISSUER` | não | `catalisa-api` | Emissor validado |
+| `JWT_AUDIENCE` | não | `catalisa-admin` | Audiência validada |
 
 ## Caminho recomendado: Docker Compose
 
@@ -69,8 +69,16 @@ O serviço `migrate` aguarda o healthcheck do PostgreSQL e precisa terminar com 
 | Serviço | Acesso |
 | --- | --- |
 | API | `http://localhost:3000` ou porta definida em `APP_PORT` |
-| Swagger | `http://localhost:3000/docs` |
+| Swagger | `http://localhost:3000/docs` ou a porta definida em `APP_PORT` |
 | PostgreSQL | Somente na rede interna do Compose |
+
+Depois que `migrate` terminar com sucesso, carregue os desafios uma vez em um banco local novo:
+
+```powershell
+docker compose run --rm migrate npm run db:seed:challenges
+```
+
+O seed adiciona 12 desafios ativos. `npm run db:seed` popula também as outras tabelas com dados fictícios. Consulte `GET /challenges` para obter o UUID de um desafio.
 
 Crie o super-admin uma única vez:
 
@@ -97,6 +105,7 @@ docker compose down
 
 ```powershell
 npm run db:migrate
+npm run db:seed:challenges
 npm run admin:bootstrap
 npm run start:dev
 ```
@@ -143,7 +152,6 @@ Esse é o caminho recomendado: usa PostgreSQL temporário, aplica todas as migra
 Use um banco dedicado de teste, nunca o banco de desenvolvimento:
 
 ```powershell
-npm run db:migrate:reset:test
 npm run test:integration
 ```
 
@@ -165,7 +173,7 @@ npm run test:integration:docker
 | --- | --- | --- |
 | Processo encerra no bootstrap | Variável obrigatória ausente ou segredo curto | Revise o `.env`; `JWT_SECRET` precisa de 32 bytes |
 | API não conecta no banco | Host incorreto ou banco ainda indisponível | Use `db` no Compose e `localhost` no host; confira `docker compose ps` |
-| API não inicia após o Compose | Migration falhou | Confira `docker compose logs migrate` e `npm run db:migrate:status` |
+| API não inicia após o Compose | Migration falhou | Confira `docker compose logs migrate` e `docker compose run --rm migrate npm run db:migrate:status` |
 | Login retorna credenciais inválidas | Bootstrap não executado ou senha incorreta | Execute o perfil `bootstrap` e confira as variáveis iniciais |
 | Rota protegida retorna `PASSWORD_UPDATE_REQUIRED` | Credencial temporária ainda ativa | Troque a senha e use o token novo |
 | Token antigo retorna `401` | Senha foi alterada | Comportamento esperado; substitua o token |
@@ -176,6 +184,6 @@ Para diagnóstico adicional:
 
 ```powershell
 docker compose logs -f
-npm run db:migrate:status
+docker compose run --rm migrate npm run db:migrate:status
 npm run typecheck
 ```

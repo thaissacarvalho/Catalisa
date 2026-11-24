@@ -11,7 +11,7 @@ flowchart TD
     D -- não --> E2[404 SOLUTION_NOT_FOUND]
     D -- sim --> F{parentCommentId informado?}
     F -- não --> H[Criar ACTIVE]
-    F -- sim --> G{Pai existe e pertence à mesma solução?}
+    F -- sim --> G{Pai visível e da mesma solução?}
     G -- não --> E3[404 PARENT_COMMENT_NOT_FOUND]
     G -- sim --> H
     H --> I[201 COMMENT_CREATED]
@@ -28,9 +28,9 @@ stateDiagram-v2
     INACTIVE --> ACTIVE: reativação
     ACTIVE --> EXCLUDED: remoção aprovada ou direta
     INACTIVE --> EXCLUDED: remoção aprovada ou direta
-    EXCLUDED --> ACTIVE: reativação administrativa
+    EXCLUDED --> [*]
 ```
 
-Consultas públicas filtram o status do comentário, a visibilidade da solução e o estado do autor.
+Consultas públicas exigem comentário e autor ativos, solução publicada com autor ativo e visibilidade de todos os ancestrais da resposta.
 
-`SUPER_ADMIN` pode definir `EXCLUDED` diretamente com motivo. `ADMIN` deve usar o fluxo de solicitação de remoção; ambos podem alternar `ACTIVE` e `INACTIVE`.
+`SUPER_ADMIN` pode definir `EXCLUDED` diretamente com motivo. `ADMIN` deve usar o fluxo de solicitação de remoção; ambos podem alternar `ACTIVE` e `INACTIVE`. `EXCLUDED` é definitivo para as rotas da API.

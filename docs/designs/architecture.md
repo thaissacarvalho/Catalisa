@@ -323,8 +323,8 @@ stateDiagram-v2
 ```
 
 - Autor precisa estar ativo e ter papel `PARTICIPANT` ou `SUPER_ADMIN`.
-- Challenge precisa existir e estar ativo.
-- Consulta pública exige `PUBLISHED` e autor elegível.
+- Para publicar, o desafio precisa existir e estar ativo.
+- Consulta pública exige `PUBLISHED` e autor ativo. A listagem por desafio exige que ele exista, mesmo que esteja inativo.
 
 ### Comments
 
@@ -335,12 +335,12 @@ stateDiagram-v2
     INACTIVE --> ACTIVE
     ACTIVE --> EXCLUDED: moderação
     INACTIVE --> EXCLUDED: moderação
-    EXCLUDED --> ACTIVE: reativação
+    EXCLUDED --> [*]
 ```
 
 - Texto possui 50 a 280 caracteres após normalização.
 - Solução precisa estar publicada.
-- Resposta precisa referenciar um comentário da mesma solução.
+- Resposta precisa referenciar um comentário visível da mesma solução. Um ancestral oculto também oculta as respostas.
 - Autor precisa estar ativo.
 
 ### Likes
@@ -355,7 +355,7 @@ stateDiagram-v2
 
 ```mermaid
 stateDiagram-v2
-    [*] --> PENDING: ADMIN solicita
+    [*] --> PENDING: ADMIN ou SUPER_ADMIN solicita
     PENDING --> APPROVED: outro admin aprova
     PENDING --> REJECTED: outro admin rejeita
     [*] --> APPROVED: SUPER_ADMIN remove diretamente
@@ -476,10 +476,11 @@ sequenceDiagram
     Process->>Env: importar configuração
     Env->>Env: validar ambiente
     Process->>Nest: create(AppModule)
+    Nest->>Nest: filtro, pipe, CORS e Swagger
+    Process->>Nest: listen(host, port)
     Nest->>DB: onModuleInit
     DB->>DB: associações + authenticate
-    Nest->>Nest: filtro, pipe, CORS e Swagger
-    Nest->>HTTP: listen(host, port)
+    Nest->>HTTP: abre a porta HTTP
 ```
 
 O bootstrap HTTP habilita CORS sem política restritiva explícita. Swagger é publicado em todos os ambientes.
@@ -542,7 +543,7 @@ O tutorial executável está em [testing.md](../guides/testing.md).
 - JWT com issuer, audience, expiração e algoritmo fixo;
 - revalidação da credencial em cada requisição;
 - troca obrigatória de senha temporária;
-- mensagens de login que não revelam se o e-mail existe;
+- erro genérico para login com e-mail desconhecido ou senha incorreta e erro específico para conta administrativa inativa;
 - dummy hash para reduzir diferença temporal no login inválido;
 - rejeição de campos extras nos DTOs;
 - separação entre perfil e credencial;
@@ -574,7 +575,6 @@ O repositório não implementa gateway ou reverse proxy. Em produção, a infrae
 | Controllers administrativos de Users não registrados | arquivos existentes não correspondem a endpoints ativos |
 | Sem paginação nas listagens | volume crescente pode afetar memória e latência |
 | Shutdown hooks não habilitados no bootstrap | sinais do sistema podem não acionar encerramento gracioso do Nest |
-| Versão Node diverge | `.nvmrc` indica 26 e o Dockerfile usa `NODE_VERSION=24` por padrão |
 
 ## Regras para evolução
 

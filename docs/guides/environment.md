@@ -21,8 +21,8 @@ A configuração é carregada por `src/config/environment.ts` com `dotenv` e `en
 | --- | --- | --- | --- |
 | `JWT_SECRET` | sim | — | segredo HS256 com no mínimo 32 bytes |
 | `JWT_EXPIRES_IN_SECONDS` | não | `28800` | validade do access token |
-| `JWT_ISSUER` | não | `token-api` | emissor exigido na validação |
-| `JWT_AUDIENCE` | não | `token-admin` | audiência exigida na validação |
+| `JWT_ISSUER` | não | `catalisa-api` | emissor exigido na validação |
+| `JWT_AUDIENCE` | não | `catalisa-admin` | audiência exigida na validação |
 
 ## Bootstrap do super-admin
 
@@ -40,11 +40,15 @@ Todas precisam estar preenchidas. A senha segue os limites do bcrypt: mínimo de
 
 ### Host local
 
-Use `DB_HOST=localhost` quando Node.js estiver no host.
+Use `DB_HOST=localhost` quando Node.js estiver no host. Crie o banco e o usuário indicados no `.env`. O modelo sugere `catalisa` para ambos.
 
 ### Docker Compose
 
-O Compose sobrescreve `DB_HOST=db` dentro dos containers e publica apenas a porta da API. O PostgreSQL permanece na rede interna.
+O Compose fixa `DB_HOST=db`, `DB_PORT=5432`, `APP_HOST=0.0.0.0` e a porta interna da API em `3000`. `APP_PORT` define a porta publicada no host. O PostgreSQL permanece na rede interna. Em uma instalação nova, o banco e o usuário padrão do Compose são `catalisa`.
+
+Em instalações existentes, mantenha `DB_NAME` e `DB_USERNAME` com os valores usados na inicialização do volume PostgreSQL. Se o volume usava o padrão antigo do Compose, ambos os valores são `token`. Alterar o `.env` não renomeia um banco ou usuário já criado.
+
+Para preservar sessões em um ambiente existente, configure explicitamente `JWT_ISSUER` e `JWT_AUDIENCE` com os valores usados para emitir os JWTs atuais. Os padrões anteriores eram `token-api` e `token-admin`, respectivamente. Ao adotar os novos valores, os administradores precisam fazer login novamente.
 
 ### Testes
 

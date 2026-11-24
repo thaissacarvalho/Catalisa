@@ -11,9 +11,10 @@ sequenceDiagram
   participant H as HTTP Server
   P->>N: bootstrap()
   N->>M: create(AppModule)
-  M->>D: inicializa conexão e associações
   N->>N: registra pipes, filters, CORS e Swagger
-  N->>H: listen(host, port)
+  P->>N: listen(host, port)
+  N->>D: onModuleInit: associações e autenticação do banco
+  N->>H: abre a porta HTTP
   H-->>P: aplicação disponível
 ~~~
 

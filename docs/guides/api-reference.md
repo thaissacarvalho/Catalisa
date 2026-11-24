@@ -132,7 +132,7 @@ Valores: `ACTIVE`, `INACTIVE`.
 }
 ```
 
-O título tem 3–255 caracteres; a descrição é obrigatória e tem no máximo 5.000. O usuário e o desafio precisam estar ativos.
+O título tem 3–255 caracteres. A descrição é obrigatória e tem no máximo 5.000. Use o UUID de um desafio ativo e o `userCode` de um `PARTICIPANT` ou `SUPER_ADMIN` ativo. Autor inexistente ou inativo retorna `400 INVALID_USER`. Um papel sem permissão retorna `403 FORBIDDEN`.
 
 `PATCH /admin/solutions/:solutionId/status`
 
@@ -172,7 +172,7 @@ Para criar uma resposta, acrescente `parentCommentId`. O texto, após `trim`, de
 
 Valores: `ACTIVE`, `INACTIVE`, `EXCLUDED`. O domínio exige motivo para exclusão; quando informado, o DTO aceita 10–500 caracteres.
 
-Somente `SUPER_ADMIN` pode enviar `EXCLUDED` diretamente. `ADMIN` deve abrir uma solicitação de remoção.
+Somente `SUPER_ADMIN` pode enviar `EXCLUDED` diretamente. `ADMIN` deve abrir uma solicitação de remoção. Comentários `EXCLUDED` não podem ser reativados. Um comentário `INACTIVE` pode voltar a `ACTIVE`.
 
 ### Likes
 
@@ -198,7 +198,7 @@ Remoção:
 DELETE /likes?userCode=USER_0123456789abcdef0123456789abcdef&type=SOLUTION&targetId=f8bb726d-221f-417c-bfca-9708ce51eef0
 ```
 
-`type` aceita `SOLUTION` ou `COMMENT`. O alvo precisa estar visível e o usuário precisa estar ativo.
+`type` aceita `SOLUTION` ou `COMMENT`. A criação e a contagem exigem um alvo visível. A criação e a remoção exigem um usuário ativo com papel `PARTICIPANT` ou `SUPER_ADMIN`. A remoção é idempotente e aceita alvo oculto.
 
 ### Solicitações de remoção
 

@@ -11,8 +11,7 @@ docs/
 ├── adr/          decisões técnicas aceitas e imutáveis
 ├── rfc/          propostas antes da implementação
 ├── collections/  collection e environment Postman
-├── guides/       procedimentos de setup, ambiente e operação
-└── rof/          checklist de prontidão para produção
+└── guides/       procedimentos de setup, ambiente e operação
 ```
 
 ## Por onde começar

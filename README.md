@@ -25,7 +25,7 @@ A CATALISA organiza a experiência de um evento em torno de desafios:
 5. administradores controlam status e moderam conteúdo;
 6. um `SUPER_ADMIN` pode promover participantes para `ADMIN` e executar remoções diretas auditadas.
 
-O projeto é uma API HTTP modular. Participantes são identificados por `userCode` nos endpoints públicos; operações administrativas usam JWT. O contrato de respostas é padronizado por `CatalisaCodes`.
+O projeto é uma API HTTP modular. Nas operações de participação, o `userCode` identifica o usuário sem autenticar sua autoria. Operações administrativas usam JWT. O contrato de respostas é padronizado por `CatalisaCodes`.
 
 ### Funcionalidades
 
@@ -42,7 +42,7 @@ O projeto é uma API HTTP modular. Participantes são identificados por `userCod
 
 | Categoria | Tecnologia |
 | --- | --- |
-| Runtime | Node.js 26 |
+| Runtime | Node.js 26 no host e no Docker |
 | Linguagem | TypeScript 6 |
 | Framework | NestJS 11 sobre Express 5 |
 | Persistência | Sequelize 6 |
@@ -67,8 +67,7 @@ HTTP request
   -> Presenter / envelope HTTP
 ```
 
-```mer
-maid
+```mermaid
 flowchart LR
     Client[Cliente HTTP] --> Controller[Controller e DTO]
     Controller --> UseCase[Caso de uso]
@@ -109,13 +108,16 @@ npm ci
 Copy-Item .env.example .env
 ```
 
-Preencha no `.env` pelo menos `DB_PASSWORD`, `JWT_SECRET` e os campos `INITIAL_SUPER_ADMIN_*`. O `JWT_SECRET` deve possuir no mínimo 32 bytes.
+Preencha `DB_PASSWORD` e `JWT_SECRET` no `.env`. Para criar o primeiro `SUPER_ADMIN`, preencha também `INITIAL_SUPER_ADMIN_*`, incluindo uma senha inicial própria. O `JWT_SECRET` deve ter pelo menos 32 bytes.
 
 ```powershell
 docker compose up --build -d
 docker compose --profile bootstrap run --rm bootstrap-admin
+docker compose run --rm migrate npm run db:seed:challenges
 docker compose ps
 ```
+
+Execute o seed de desafios uma vez em um banco local novo. Após a carga, `GET /challenges` retorna os desafios ativos.
 
 A API estará disponível em `http://localhost:3000` e o Swagger em `http://localhost:3000/docs`.
 O comportamento completo do bootstrap está em [scripts/README.md](scripts/README.md).
@@ -127,6 +129,7 @@ Configure um PostgreSQL local no `.env` e execute:
 ```powershell
 npm ci
 npm run db:migrate
+npm run db:seed:challenges
 npm run admin:bootstrap
 npm run start:dev
 ```
@@ -179,7 +182,7 @@ Mais detalhes em [docs/guides/contributing.md](docs/guides/contributing.md).
 
 ## Licença
 
-MIT
+ISC, conforme os metadados do pacote.
 
 ## Autor
 

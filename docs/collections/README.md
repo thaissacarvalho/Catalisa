@@ -7,8 +7,8 @@ Artefatos importáveis para executar as rotas da CATALISA.
 1. Importe [`catalisa.postman_collection.json`](./catalisa.postman_collection.json).
 2. Importe [`local.postman_environment.json`](./local.postman_environment.json).
 3. Selecione o environment `CATALISA - Local`.
-4. Preencha `adminEmail`, `adminPassword`, `challengeId` e IDs necessários.
-5. Execute `Authentication > Admin login`; o script salva `accessToken` automaticamente.
+4. Preencha `adminEmail` e `adminPassword`. Para as rotas de desafios e soluções, use em `challengeId` um UUID retornado por `Challenges > List active challenges`.
+5. Execute `Authentication > Admin login`; o script salva `accessToken` automaticamente. Se a senha inicial ainda estiver em uso, preencha `currentPassword` e `newPassword` e execute `Update admin password` antes das operações administrativas.
 
 A collection representa somente controllers registrados nos módulos NestJS: 26 endpoints. Scripts de pós-resposta salvam IDs criados quando a resposta possui o campo esperado.
 

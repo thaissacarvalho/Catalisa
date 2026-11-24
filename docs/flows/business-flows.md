@@ -20,7 +20,7 @@ sequenceDiagram
     Mig->>DB: aplica migrations pendentes
     alt migration concluída
         Compose->>API: inicia processo
-        API->>DB: authenticate + associa models
+        API->>DB: inicializa associações e autentica conexão
         API-->>Dev: /docs disponível
     else migration falha
         Compose-->>Dev: API não inicia
@@ -65,7 +65,7 @@ sequenceDiagram
     C-->>S: challenge
     S->>R: persistir PUBLISHED
     R-->>P: 201 SOLUTION_CREATED
-    P->>API: GET /challenges/:id/solutions
+    P->>API: GET /challenges/:challengeId/solutions
     API->>R: listar soluções públicas
     R-->>P: somente PUBLISHED com autor ativo
 ```
@@ -81,7 +81,7 @@ flowchart TD
     CV -- não --> E1[404 SOLUTION_NOT_FOUND]
     CV -- sim --> P{Possui parentCommentId?}
     P -- não --> CR[Criar comentário ACTIVE]
-    P -- sim --> PV{Pai existe e é da mesma solução?}
+    P -- sim --> PV{Pai visível e da mesma solução?}
     PV -- não --> E2[404 PARENT_COMMENT_NOT_FOUND]
     PV -- sim --> CR
 
@@ -133,7 +133,7 @@ flowchart TD
     C --> D[Cria registro APPROVED]
     D --> E[Remove logicamente na mesma transação]
 
-    B -- ADMIN --> F[POST removal-requests + reason]
+    B -- ADMIN ou SUPER_ADMIN --> F[POST removal-requests + reason]
     F --> G[Cria PENDING]
     G --> H{Outro ADMIN/SUPER_ADMIN revisa}
     H -- approve --> I[Marca APPROVED e remove alvo]
@@ -148,7 +148,7 @@ Regras essenciais:
 - solicitações encerradas não podem ser revistas novamente;
 - aprovação e mudança do alvo compartilham transação.
 
-Republicar uma solução ou reativar um comentário é uma alteração administrativa direta; a auditoria de remoção anterior permanece no histórico de solicitações.
+Administradores podem republicar soluções removidas e reativar comentários inativos. Comentários excluídos permanecem em `EXCLUDED`. O histórico da moderação é preservado.
 
 ## Matriz de autorização
 

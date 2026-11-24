@@ -6,10 +6,12 @@
 flowchart TD
     A[POST /solutions] --> B[DTO válido]
     B --> C{Autor existe?}
-    C -- não --> E1[404 USER_NOT_FOUND]
-    C -- sim --> D{ACTIVE e PARTICIPANT/SUPER_ADMIN?}
+    C -- não --> E1[400 INVALID_USER]
+    C -- sim --> D{Papel PARTICIPANT ou SUPER_ADMIN?}
     D -- não --> E2[403 FORBIDDEN]
-    D -- sim --> F{Challenge ativo existe?}
+    D -- sim --> A1{Autor ACTIVE?}
+    A1 -- não --> E1
+    A1 -- sim --> F{Desafio ativo existe?}
     F -- não --> E3[404 CHALLENGE_NOT_FOUND]
     F -- sim --> G[Persistir PUBLISHED]
     G --> H[201 SOLUTION_CREATED]
@@ -24,7 +26,7 @@ stateDiagram-v2
     REMOVED --> PUBLISHED: republicação administrativa
 ```
 
-Consultas públicas retornam somente `PUBLISHED` com autor ativo. `GET /admin/solutions` inclui estados internos e auditoria de moderação.
+Consultas públicas retornam somente `PUBLISHED` com autor ativo. A listagem por desafio exige que ele exista, mesmo que esteja inativo. `GET /admin/solutions` inclui estados internos e auditoria de moderação.
 
 ## Alterar status
 

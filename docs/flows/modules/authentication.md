@@ -15,15 +15,20 @@ sequenceDiagram
     alt usuário ausente ou papel inválido
         S->>S: compara dummy hash
         S-->>A: 401 INVALID_ADMIN_CREDENTIALS
-    else admin existente
-        S->>S: exige status ACTIVE
+    else admin inativo
+        S-->>A: 403 ADMIN_ACCOUNT_INACTIVE
+    else admin ativo
         S->>R: findByUserId()
         S->>S: compara bcrypt
-        S-->>A: accessToken + identidade
+        alt credencial ausente ou senha incorreta
+            S-->>A: 401 INVALID_ADMIN_CREDENTIALS
+        else credencial válida
+            S-->>A: accessToken + identidade
+        end
     end
 ```
 
-A comparação com hash fixo reduz diferença de tempo entre e-mail inexistente e senha incorreta. A resposta não revela qual campo falhou.
+A comparação com hash fixo reduz diferença de tempo entre e-mail inexistente e senha incorreta. Credenciais inválidas retornam `401`. Uma conta administrativa inativa recebe `403`.
 
 ## Validação de uma rota protegida
 

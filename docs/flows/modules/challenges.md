@@ -5,8 +5,8 @@
 ~~~mermaid
 sequenceDiagram
   participant C as Client
-  participant CT as ChallengeController
-  participant UC as FindChallengeUseCase
+  participant CT as FindAllChallengeController
+  participant UC as FindAllChallengeUseCase
   participant R as ChallengeRepository
   C->>CT: GET /challenges
   CT->>UC: consulta
@@ -19,7 +19,7 @@ sequenceDiagram
 
 ~~~mermaid
 flowchart LR
-  A[PATCH /admin/challenges/:id/status] --> B[JWT + role]
+  A[PATCH /admin/challenges/:challengeId/status] --> B[JWT + Roles + PasswordUpdated]
   B --> C[UpdateChallengeStatusUseCase]
   C --> D[ChallengeRepository]
   D --> E[PostgreSQL]

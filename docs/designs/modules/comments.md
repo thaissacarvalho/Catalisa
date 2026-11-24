@@ -38,5 +38,5 @@ flowchart TD
 - Texto normalizado com 50 a 280 caracteres.
 - Autor precisa existir e estar `ACTIVE`.
 - Solução precisa estar publicada.
-- Resposta exige pai da mesma solução.
-- `SUPER_ADMIN` exclui diretamente com motivo; `ADMIN` usa solicitação de remoção.
+- Resposta exige pai visível da mesma solução. Um ancestral oculto também oculta suas respostas.
+- `SUPER_ADMIN` exclui diretamente com motivo; `ADMIN` usa solicitação de remoção. `EXCLUDED` é definitivo.

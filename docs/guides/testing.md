@@ -143,7 +143,8 @@ O arquivo [`app.integration-spec.ts`](../../test/integration/app.integration-spe
 6. valida normalização e duplicidade de e-mail;
 7. testa login, troca de senha e invalidação do token antigo;
 8. promove participante e autentica o novo admin;
-9. fecha a aplicação e a conexão ao terminar.
+9. consulta e altera desafios por UUID e publica e lista soluções de um desafio;
+10. fecha a aplicação e a conexão ao terminar.
 
 ## 5. Integração com PostgreSQL local
 

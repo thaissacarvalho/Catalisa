@@ -4,7 +4,7 @@
 
 ```mermaid
 sequenceDiagram
-    participant A as ADMIN
+    participant A as ADMIN ou SUPER_ADMIN
     participant C as Controller
     participant UC as CreateRemovalRequestUseCase
     participant R as ModerationRepository
@@ -35,7 +35,7 @@ Na aprovação, o repository bloqueia e atualiza a solicitação e o alvo na mes
 
 ## Remoção direta
 
-Quando `SUPER_ADMIN` altera uma solução para `REMOVED` ou um comentário para `EXCLUDED`, `DirectRemovalUseCase` cria um registro já `APPROVED`, com o mesmo usuário como solicitante e revisor. Isso preserva auditoria sem exigir uma segunda pessoa.
+Quando `SUPER_ADMIN` altera uma solução para `REMOVED` ou um comentário para `EXCLUDED`, `DirectRemovalUseCase` cria um registro já `APPROVED`, com o mesmo usuário como solicitante e revisor. Se já houver uma solicitação pendente para o alvo, a remoção direta retorna conflito.
 
 ## Garantias do banco
 

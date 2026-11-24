@@ -8,9 +8,9 @@ sequenceDiagram
   participant S as Sequelize
   participant DB as PostgreSQL
   N->>S: cria instância única
+  N->>S: inicializa associações
   N->>DB: authenticate()
   DB-->>N: conexão aceita
-  N->>S: registra models e associações
   N-->>N: disponibiliza repositories
   N->>S: onApplicationShutdown()
   S->>DB: close()

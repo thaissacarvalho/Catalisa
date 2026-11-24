@@ -41,8 +41,8 @@ flowchart TD
 ## Regras
 
 - Somente `PARTICIPANT` ou `SUPER_ADMIN` ativo publica.
-- O challenge precisa estar ativo.
-- Consultas públicas retornam somente `PUBLISHED` com autor elegível.
+- O desafio deve estar ativo para publicar. A listagem pública por desafio aceita qualquer desafio existente, inclusive inativo.
+- Consultas públicas retornam somente `PUBLISHED` com autor ativo.
 - `ADMIN` não remove diretamente; deve abrir solicitação.
 - `SUPER_ADMIN` remove diretamente com motivo e registro de moderação `APPROVED`.
 - `ADMIN` e `SUPER_ADMIN` podem republicar.
