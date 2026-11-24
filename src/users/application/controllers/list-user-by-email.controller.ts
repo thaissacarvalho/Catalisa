@@ -1,5 +1,10 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ListUserByEmailUseCase } from '@app/users/application/use-cases/list-user-by-email.use-case';
 import { Roles } from '@app/common/authentication/decorators/roles.decorator';
 import { JwtAuthGuard } from '@app/common/authentication/guards/jwt-auth.guard';
@@ -24,6 +29,6 @@ export class ListUserByEmailController {
   @ApiNotFoundResponse({ description: 'User not found.' })
   async findBy(@Param('email') email: string) {
     const user = await this.listUserByEmailUseCase.execute(email);
-    return successResponse(CatalisaCodes.USER_FOUND, user)
+    return successResponse(CatalisaCodes.USER_FOUND, user);
   }
 }

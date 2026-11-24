@@ -25,5 +25,4 @@ import { UpdateUserStatusUseCase } from '@app/users/application/use-cases/update
   ],
   exports: ['UserRepository', UpdateUserStatusUseCase],
 })
-
 export class UsersModule {}

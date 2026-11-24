@@ -30,7 +30,9 @@ export class ListSolutionsForAdminController {
   @ApiOperation({ summary: 'List all solutions for moderation' })
   @ApiOkResponse({ description: 'Solutions listed.' })
   async list(@Req() request: { user: JwtPayload }) {
-    const solutions = await this.listSolutionsForAdminUseCase.execute(request.user.role);
+    const solutions = await this.listSolutionsForAdminUseCase.execute(
+      request.user.role,
+    );
 
     return successResponse(
       CatalisaCodes.SOLUTIONS_LISTED,

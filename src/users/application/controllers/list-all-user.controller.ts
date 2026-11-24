@@ -1,5 +1,10 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { successResponse } from '@app/common/http/success-response';
 import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { ListAllUsersUseCase } from '@app/users/application/use-cases/list-all-users.use-case';

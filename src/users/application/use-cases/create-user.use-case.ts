@@ -10,7 +10,7 @@ import { generateUserCode } from '@app/utils/generateUserCode';
 
 export class CreateUserUseCase {
   constructor(
-    @Inject('UserRepository') 
+    @Inject('UserRepository')
     private readonly userRepository: UserRepository,
   ) {}
 

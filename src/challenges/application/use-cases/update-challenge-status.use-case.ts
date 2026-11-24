@@ -1,7 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import {
-  ChallengeRepository,
-} from '@app/challenges/domain/repositories/challenge.repository';
+import { ChallengeRepository } from '@app/challenges/domain/repositories/challenge.repository';
 import { ChallengeEntity } from '@app/challenges/domain/entities/challenge.entity';
 import { ChallengeStatus } from '@app/challenges/domain/enums/ChallengeStatus.enum';
 import { AppHttpException } from '@app/common/http/app-http.exception';

@@ -42,7 +42,9 @@ export async function ensureModerationTargetCanBeRemoved(
     }
 
     if (solution.status === SolutionStatus.REMOVED) {
-      throw new AppHttpException(CatalisaCodes.MODERATION_TARGET_ALREADY_REMOVED);
+      throw new AppHttpException(
+        CatalisaCodes.MODERATION_TARGET_ALREADY_REMOVED,
+      );
     }
 
     return;
@@ -82,7 +84,9 @@ export async function removeModerationTarget(
     }
 
     if (solution.status === SolutionStatus.REMOVED) {
-      throw new AppHttpException(CatalisaCodes.MODERATION_TARGET_ALREADY_REMOVED);
+      throw new AppHttpException(
+        CatalisaCodes.MODERATION_TARGET_ALREADY_REMOVED,
+      );
     }
 
     solution.status = SolutionStatus.REMOVED;

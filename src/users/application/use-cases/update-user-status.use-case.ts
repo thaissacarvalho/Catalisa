@@ -13,11 +13,11 @@ export class UpdateUserStatusUseCase {
 
   async execute(userCode: string, status: UserStatus): Promise<UserEntity> {
     const userCodeExist = await this.userRepository.findByUserCode(userCode);
-    
-    if(!userCodeExist) {
+
+    if (!userCodeExist) {
       throw new AppHttpException(CatalisaCodes.USER_NOT_FOUND);
     }
-    
+
     const user = await this.userRepository.updateStatusByUserCode(
       userCode,
       status,

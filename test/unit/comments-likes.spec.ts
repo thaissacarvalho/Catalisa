@@ -108,7 +108,11 @@ describe('comment use cases', () => {
 
   it.each([
     ['too short', { comment: 'short' }, CatalisaCodes.INVALID_COMMENT.code],
-    ['too long', { comment: 'x'.repeat(281) }, CatalisaCodes.INVALID_COMMENT.code],
+    [
+      'too long',
+      { comment: 'x'.repeat(281) },
+      CatalisaCodes.INVALID_COMMENT.code,
+    ],
   ])('rejects invalid text: %s', async (_label, override, errorCode) => {
     const useCase = new CreateCommentUseCase(
       solutionRepositoryMock(),
@@ -435,7 +439,9 @@ describe('like use cases and helpers', () => {
     );
     await expect(useCase.execute('USER', solutionTarget)).rejects.toMatchObject(
       {
-        response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
+        response: expect.objectContaining({
+          code: CatalisaCodes.FORBIDDEN.code,
+        }),
       },
     );
 
@@ -444,7 +450,9 @@ describe('like use cases and helpers', () => {
     );
     await expect(useCase.execute('USER', solutionTarget)).rejects.toMatchObject(
       {
-        response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
+        response: expect.objectContaining({
+          code: CatalisaCodes.FORBIDDEN.code,
+        }),
       },
     );
 
@@ -480,12 +488,16 @@ describe('like use cases and helpers', () => {
     );
     await expect(useCase.execute('USER', solutionTarget)).rejects.toMatchObject(
       {
-        response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
+        response: expect.objectContaining({
+          code: CatalisaCodes.FORBIDDEN.code,
+        }),
       },
     );
     await expect(useCase.execute('USER', solutionTarget)).rejects.toMatchObject(
       {
-        response: expect.objectContaining({ code: CatalisaCodes.FORBIDDEN.code }),
+        response: expect.objectContaining({
+          code: CatalisaCodes.FORBIDDEN.code,
+        }),
       },
     );
     await expect(

@@ -13,7 +13,7 @@ export class ListUserByIdUseCase {
   async execute(id: string): Promise<UserEntity | null> {
     const idExist = await this.userRepository.findById(id);
 
-    if(!idExist) {
+    if (!idExist) {
       throw new AppHttpException(CatalisaCodes.USER_NOT_FOUND);
     }
 

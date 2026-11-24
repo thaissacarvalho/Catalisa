@@ -1,13 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import {
-  ChallengeRepository,
-} from '@app/challenges/domain/repositories/challenge.repository';
+import { ChallengeRepository } from '@app/challenges/domain/repositories/challenge.repository';
 import { AppHttpException } from '@app/common/http/app-http.exception';
 import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { SolutionDetails } from '@app/solutions/domain/entities/solution-details.entity';
-import {
-  SolutionRepository,
-} from '@app/solutions/domain/repositories/solution.repository';
+import { SolutionRepository } from '@app/solutions/domain/repositories/solution.repository';
 
 @Injectable()
 export class ListPublishedSolutionsUseCase {
@@ -25,7 +21,8 @@ export class ListPublishedSolutionsUseCase {
       throw new AppHttpException(CatalisaCodes.CHALLENGE_NOT_FOUND);
     }
 
-    const solution = await this.solutionRepository.findPublishedByChallenge(challengeId);
+    const solution =
+      await this.solutionRepository.findPublishedByChallenge(challengeId);
 
     return solution;
   }

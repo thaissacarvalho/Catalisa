@@ -195,16 +195,16 @@ describe('authorization and HTTP helpers', () => {
       message: 'Invalid request',
       statusCode: 400,
     });
-    expect(successResponse(CatalisaCodes.USER_CREATED, { id: 'user-id' })).toEqual(
-      {
-        success: true,
-        type: 'SUCCESS',
-        code: 'MCODE-S001',
-        message: 'User created',
-        statusCode: 201,
-        data: { id: 'user-id' },
-      },
-    );
+    expect(
+      successResponse(CatalisaCodes.USER_CREATED, { id: 'user-id' }),
+    ).toEqual({
+      success: true,
+      type: 'SUCCESS',
+      code: 'MCODE-S001',
+      message: 'User created',
+      statusCode: 201,
+      data: { id: 'user-id' },
+    });
 
     const exception = new AppHttpException(CatalisaCodes.FORBIDDEN);
     expect(exception.getStatus()).toBe(403);

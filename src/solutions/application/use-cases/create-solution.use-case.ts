@@ -1,17 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { Inject, Injectable } from '@nestjs/common';
-import {
-  ChallengeRepository,
-} from '@app/challenges/domain/repositories/challenge.repository';
+import { ChallengeRepository } from '@app/challenges/domain/repositories/challenge.repository';
 import { AppHttpException } from '@app/common/http/app-http.exception';
 import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { CreateSolutionInput } from '@app/solutions/application/contracts/create-solution-input.contract';
 import { ensureCanPublishSolution } from '@app/common/authorization/ensure-can-publish-solution';
 import { SolutionEntity } from '@app/solutions/domain/entities/solution.entity';
 import { SolutionStatus } from '@app/solutions/domain/enums/solution-status.enum';
-import {
-  SolutionRepository,
-} from '@app/solutions/domain/repositories/solution.repository';
+import { SolutionRepository } from '@app/solutions/domain/repositories/solution.repository';
 import { UserStatus } from '@app/users/domain/enums/user-status.enum';
 import { UserRepository } from '@app/users/domain/repositories/user.repository';
 
@@ -39,7 +35,9 @@ export class CreateSolutionUseCase {
       throw new AppHttpException(CatalisaCodes.INVALID_USER);
     }
 
-    const challengeExist = await this.challengeRepository.existsActiveById(data.challengeId);
+    const challengeExist = await this.challengeRepository.existsActiveById(
+      data.challengeId,
+    );
 
     if (!challengeExist) {
       throw new AppHttpException(CatalisaCodes.CHALLENGE_NOT_FOUND);

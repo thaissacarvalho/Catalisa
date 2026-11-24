@@ -4,9 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { environment } from '@app/config/environment';
 import { AppHttpException } from '@app/common/http/app-http.exception';
 import { CatalisaCodes } from '@app/common/http/catalisa-codes';
-import {
-  AdminCredentialRepository,
-} from '@app/common/authentication/domain/repositories/admin-credential.repository';
+import { AdminCredentialRepository } from '@app/common/authentication/domain/repositories/admin-credential.repository';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
 import { UserStatus } from '@app/users/domain/enums/user-status.enum';
 import { UserRepository } from '@app/users/domain/repositories/user.repository';

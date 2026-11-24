@@ -12,8 +12,8 @@ export class ListUserByUserCodeUseCase {
 
   async execute(userCode: string): Promise<UserEntity | null> {
     const userCodeExist = await this.userRepository.findByUserCode(userCode);
-    
-    if(!userCodeExist) {
+
+    if (!userCodeExist) {
       throw new AppHttpException(CatalisaCodes.USER_NOT_FOUND);
     }
 

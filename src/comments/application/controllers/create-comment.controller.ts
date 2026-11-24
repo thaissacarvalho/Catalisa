@@ -8,7 +8,7 @@ import { successResponse } from '@app/common/http/success-response';
 @ApiTags('Comments')
 @Controller('comments')
 export class CreateCommentController {
-  constructor(private readonly createCommentUseCase: CreateCommentUseCase) { }
+  constructor(private readonly createCommentUseCase: CreateCommentUseCase) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)

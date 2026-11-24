@@ -16,7 +16,8 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-      exceptionFactory: () => new AppHttpException(CatalisaCodes.INVALID_REQUEST),
+      exceptionFactory: () =>
+        new AppHttpException(CatalisaCodes.INVALID_REQUEST),
     }),
   );
   app.enableCors();

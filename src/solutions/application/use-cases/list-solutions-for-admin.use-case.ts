@@ -2,9 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { AppHttpException } from '@app/common/http/app-http.exception';
 import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { SolutionDetails } from '@app/solutions/domain/entities/solution-details.entity';
-import {
-  SolutionRepository,
-} from '@app/solutions/domain/repositories/solution.repository';
+import { SolutionRepository } from '@app/solutions/domain/repositories/solution.repository';
 import { ensureAdmin } from '@app/common/authorization/ensure-admin';
 import { UserRole } from '@app/users/domain/enums/user-role.enum';
 
