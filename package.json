@@ -25,13 +25,14 @@
     "db:migrate:test": "sequelize-cli db:migrate --env test",
     "db:migrate:reset:test": "sequelize-cli db:migrate:undo:all --env test && sequelize-cli db:migrate --env test",
     "db:seed": "sequelize-cli db:seed:all",
+    "db:seed:challenges": "sequelize-cli db:seed --seed 001-create-challenges.ts",
     "db:seed:undo": "sequelize-cli db:seed:undo",
     "db:seed:status": "sequelize-cli db:seed:status"
   },
   "keywords": [],
   "author": "Thaissa Carvalho",
   "license": "ISC",
-  "description": "",
+  "description": "API da CATALISA para participação em desafios de eventos e moderação de conteúdo.",
   "dependencies": {
     "@nestjs/common": "^11.1.29",
     "@nestjs/core": "^11.1.29",
