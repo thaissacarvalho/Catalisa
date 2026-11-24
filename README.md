@@ -1,6 +1,6 @@
 # CATALISA — versão inicial (v1)
 
-Esta branch preserva a implementação original do back-end em JavaScript. A versão atual da CATALISA, reestruturada em TypeScript com NestJS, está na [branch `main`](https://github.com/thaissacarvalho/mjv-back-end/tree/main).
+Esta branch preserva a implementação original do back-end em JavaScript. A versão atual da CATALISA, reestruturada em TypeScript com NestJS, está na [branch `main`](https://github.com/thaissacarvalho/Catalisa/tree/main).
 
 ## Códigos de erro da versão inicial
 
