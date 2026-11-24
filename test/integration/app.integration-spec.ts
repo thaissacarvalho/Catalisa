@@ -8,6 +8,7 @@ import { AppHttpExceptionFilter } from '@app/common/http/filters/app-http-except
 import { CatalisaCodes } from '@app/common/http/catalisa-codes';
 import { environment } from '@app/config/environment';
 import { sequelize } from '@app/database/sequelize';
+import seedChallenges from '../../seeders/001-create-challenges';
 
 describe('application integration', () => {
   let app: INestApplication;
@@ -32,6 +33,7 @@ describe('application integration', () => {
     await app.init();
 
     await app.get(AuthenticationService).createInitialSuperAdmin();
+    await seedChallenges.up(sequelize.getQueryInterface());
   });
 
   afterAll(async () => {
@@ -85,7 +87,7 @@ describe('application integration', () => {
         name: '  Integration User  ',
         email: 'integration.user@example.com',
         jobPosition: '  Developer  ',
-        enterprise: '  Token  ',
+        enterprise: '  CATALISA  ',
       })
       .expect(201);
 
@@ -96,7 +98,7 @@ describe('application integration', () => {
         name: 'Integration User',
         email: 'integration.user@example.com',
         jobPosition: 'Developer',
-        enterprise: 'Token',
+        enterprise: 'CATALISA',
       },
     });
     expect(created.body.data.userCode).toMatch(/^USER_[a-f0-9]{32}$/);
@@ -115,7 +117,7 @@ describe('application integration', () => {
         userCode: created.body.data.userCode,
         name: 'Integration User',
         jobPosition: 'Developer',
-        enterprise: 'Token',
+        enterprise: 'CATALISA',
       },
     });
 
@@ -125,7 +127,7 @@ describe('application integration', () => {
         name: 'Duplicate',
         email: 'INTEGRATION.USER@EXAMPLE.COM',
         jobPosition: 'Developer',
-        enterprise: 'Token',
+        enterprise: 'CATALISA',
       })
       .expect(409);
 
@@ -136,6 +138,43 @@ describe('application integration', () => {
       .expect(404);
 
     expect(missing.body.code).toBe(CatalisaCodes.USER_NOT_FOUND.code);
+  });
+
+  it('retrieves challenges and publishes and lists solutions using UUIDs', async () => {
+    const api = request(app.getHttpServer());
+    const challenges = await api.get('/challenges').expect(200);
+    const challengeId: string = challenges.body.data[0].id;
+
+    await api.get('/challenges/1').expect(400);
+    const challenge = await api.get(`/challenges/${challengeId}`).expect(200);
+    expect(challenge.body.data.id).toBe(challengeId);
+
+    const participant = await api
+      .post('/users')
+      .send({
+        name: 'Solution Author',
+        email: 'solution.author@example.com',
+        jobPosition: 'Developer',
+        enterprise: 'CATALISA',
+      })
+      .expect(201);
+
+    const solution = await api
+      .post('/solutions')
+      .send({
+        userCode: participant.body.data.userCode,
+        challengeId,
+        title: 'A proposal for the challenge',
+        description: 'A solution submitted to an active challenge.',
+      })
+      .expect(201);
+
+    const published = await api
+      .get(`/challenges/${challengeId}/solutions`)
+      .expect(200);
+    expect(published.body.data).toEqual([
+      expect.objectContaining({ id: solution.body.data.id, challengeId }),
+    ]);
   });
 
   it('persists credentials transactionally and invalidates rotated tokens', async () => {
@@ -197,7 +236,7 @@ describe('application integration', () => {
         name: 'Promoted User',
         email: 'promoted.user@example.com',
         jobPosition: 'Developer',
-        enterprise: 'Token',
+        enterprise: 'CATALISA',
       })
       .expect(201);
 
@@ -230,5 +269,47 @@ describe('application integration', () => {
       role: 'ADMIN',
       mustChangePassword: true,
     });
+  });
+
+  it('validates challenge UUIDs before changing status', async () => {
+    const api = request(app.getHttpServer());
+    const challenges = await api.get('/challenges').expect(200);
+    const challengeId: string = challenges.body.data.at(-1).id;
+
+    const participant = await api
+      .post('/users')
+      .send({
+        name: 'Challenge Moderator',
+        email: 'challenge.moderator@example.com',
+        jobPosition: 'Moderator',
+        enterprise: 'CATALISA',
+      })
+      .expect(201);
+    const authentication = app.get(AuthenticationService);
+    const credentials = await authentication.promoteToAdmin(
+      participant.body.data.userCode,
+    );
+    const admin = await authentication.updateAdminPassword(
+      credentials.userCode,
+      credentials.temporaryPassword,
+      'Moderator@Integration123',
+    );
+    const authorization = `Bearer ${admin.accessToken}`;
+
+    await api
+      .patch('/admin/challenges/1/status')
+      .set('Authorization', authorization)
+      .send({ status: 'INACTIVE' })
+      .expect(400);
+    const updated = await api
+      .patch(`/admin/challenges/${challengeId}/status`)
+      .set('Authorization', authorization)
+      .send({ status: 'INACTIVE' })
+      .expect(200);
+    expect(updated.body.data).toMatchObject({
+      id: challengeId,
+      status: 'INACTIVE',
+    });
+    await api.get(`/challenges/${challengeId}`).expect(404);
   });
 });

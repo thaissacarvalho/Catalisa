@@ -1,12 +1,11 @@
-import { Transform, Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import {
-  IsInt,
   IsNotEmpty,
   IsString,
+  IsUUID,
   Length,
   Matches,
   MaxLength,
-  Min,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { CreateSolutionInput } from '@app/solutions/application/contracts/create-solution-input.contract';
@@ -20,12 +19,10 @@ export class CreateSolutionDto implements CreateSolutionInput {
   userCode!: string;
 
   @ApiProperty({
-    example: 1,
+    format: 'uuid',
     description: 'Identifier of one of the available challenges',
   })
-  @Type(() => String)
-  @IsInt()
-  @Min(1)
+  @IsUUID()
   challengeId!: string;
 
   @ApiProperty({

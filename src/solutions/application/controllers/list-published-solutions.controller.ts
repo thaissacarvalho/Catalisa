@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { successResponse } from '@app/common/http/success-response';
 import { CatalisaCodes } from '@app/common/http/catalisa-codes';
-import { ChallengeIdParamDto } from '@app/solutions/application/dto/challenge-id-param.dto';
+import { ChallengeIdParamDto } from '@app/challenges/application/dto/challenge-id-param.dto';
 import { SolutionPresenter } from '@app/solutions/application/presenters/solution.presenter';
 import { ListPublishedSolutionsUseCase } from '@app/solutions/application/use-cases/list-published-solutions.use-case';
 
