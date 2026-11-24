@@ -31,8 +31,8 @@ export const environment = {
       .get('JWT_EXPIRES_IN_SECONDS')
       .default('28800')
       .asIntPositive(),
-    jwtIssuer: env.get('JWT_ISSUER').default('token-api').asString(),
-    jwtAudience: env.get('JWT_AUDIENCE').default('token-admin').asString(),
+    jwtIssuer: env.get('JWT_ISSUER').default('catalisa-api').asString(),
+    jwtAudience: env.get('JWT_AUDIENCE').default('catalisa-admin').asString(),
 
     initialSuperAdmin: {
       name: process.env.INITIAL_SUPER_ADMIN_NAME ?? '',

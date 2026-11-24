@@ -397,7 +397,7 @@ describe('AuthenticationService', () => {
       name: ' Initial Admin ',
       email: ' ADMIN@EXAMPLE.COM ',
       jobPosition: ' Administrator ',
-      enterprise: ' Token ',
+      enterprise: ' CATALISA ',
       password: 'ValidPass123',
     };
 
@@ -464,7 +464,7 @@ describe('AuthenticationService', () => {
         name: 'Initial Admin',
         email: 'admin@example.com',
         jobPosition: 'Administrator',
-        enterprise: 'Token',
+        enterprise: 'CATALISA',
         role: UserRole.SUPER_ADMIN,
         status: UserStatus.ACTIVE,
       });

@@ -4,13 +4,13 @@ services:
   db-test:
     image: postgres:18-alpine
     environment:
-      POSTGRES_DB: token_test
-      POSTGRES_USER: token_test
-      POSTGRES_PASSWORD: token_test
+      POSTGRES_DB: catalisa_test
+      POSTGRES_USER: catalisa_test
+      POSTGRES_PASSWORD: catalisa_test
     tmpfs:
       - /var/lib/postgresql
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U token_test -d token_test']
+      test: ['CMD-SHELL', 'pg_isready -U catalisa_test -d catalisa_test']
       interval: 2s
       timeout: 5s
       retries: 15
@@ -26,17 +26,17 @@ services:
       APP_PORT: 3000
       DB_HOST: db-test
       DB_PORT: 5432
-      DB_NAME: token_test
-      DB_USERNAME: token_test
-      DB_PASSWORD: token_test
+      DB_NAME: catalisa_test
+      DB_USERNAME: catalisa_test
+      DB_PASSWORD: catalisa_test
       JWT_SECRET: integration-test-secret-with-at-least-32-bytes
       JWT_EXPIRES_IN_SECONDS: 28800
-      JWT_ISSUER: token-api-integration
-      JWT_AUDIENCE: token-admin-integration
+      JWT_ISSUER: catalisa-api-integration
+      JWT_AUDIENCE: catalisa-admin-integration
       INITIAL_SUPER_ADMIN_NAME: Integration Admin
       INITIAL_SUPER_ADMIN_EMAIL: admin.integration@example.com
       INITIAL_SUPER_ADMIN_JOB_POSITION: Administrator
-      INITIAL_SUPER_ADMIN_ENTERPRISE: Token
+      INITIAL_SUPER_ADMIN_ENTERPRISE: CATALISA
       INITIAL_SUPER_ADMIN_PASSWORD: Admin@Integration123
     depends_on:
       db-test:

@@ -40,17 +40,17 @@ function challengeRepositoryMock(): jest.Mocked<ChallengeRepository> {
 describe('users use cases', () => {
   it('creates a normalized participant', async () => {
     const repository = userRepositoryMock();
-    
+
     repository.findByEmail.mockResolvedValue(null);
     repository.create.mockImplementation(async (user) => user);
-    
+
     const useCase = new CreateUserUseCase(repository);
 
     const result = await useCase.execute({
       name: '  Thaissa  ',
       email: '  THAISSA@EXAMPLE.COM ',
       jobPosition: '  Developer ',
-      enterprise: '  Token ',
+      enterprise: '  CATALISA ',
     });
 
     expect(repository.findByEmail).toHaveBeenCalledWith('thaissa@example.com');
@@ -58,7 +58,7 @@ describe('users use cases', () => {
       name: 'Thaissa',
       email: 'thaissa@example.com',
       jobPosition: 'Developer',
-      enterprise: 'Token',
+      enterprise: 'CATALISA',
       role: UserRole.PARTICIPANT,
       status: UserStatus.ACTIVE,
     });
@@ -69,7 +69,7 @@ describe('users use cases', () => {
   it('rejects an existing email', async () => {
     const repository = userRepositoryMock();
     repository.findByEmail.mockResolvedValue(makeUser());
-    
+
     const useCase = new CreateUserUseCase(repository);
 
     await expect(
@@ -77,7 +77,7 @@ describe('users use cases', () => {
         name: 'User',
         email: 'user@example.com',
         jobPosition: 'Developer',
-        enterprise: 'Token',
+        enterprise: 'CATALISA',
       }),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
@@ -92,7 +92,7 @@ describe('users use cases', () => {
     const repository = userRepositoryMock();
     const user = makeUser();
     const useCase = new ListAllUsersUseCase(repository);
-    
+
     repository.findAll.mockResolvedValueOnce([user]).mockResolvedValueOnce([]);
 
     await expect(useCase.execute()).resolves.toEqual([user]);
@@ -130,12 +130,12 @@ describe('users use cases', () => {
     async (_label, UseCase, method, value, errorCode) => {
       const repository = userRepositoryMock();
       const user = makeUser();
-      
+
       repository[method]
         .mockResolvedValueOnce(user)
         .mockResolvedValueOnce(null);
-      
-        const useCase = new UseCase(repository);
+
+      const useCase = new UseCase(repository);
 
       await expect(useCase.execute(value)).resolves.toBe(user);
       await expect(useCase.execute(value)).rejects.toMatchObject({
@@ -148,7 +148,7 @@ describe('users use cases', () => {
     const repository = userRepositoryMock();
     const existing = makeUser();
     const updated = makeUser({ status: UserStatus.BLOCKED });
-    
+
     repository.findByUserCode.mockResolvedValue(existing);
     repository.updateStatusByUserCode.mockResolvedValue(updated);
 
@@ -167,7 +167,7 @@ describe('users use cases', () => {
   it('rejects status updates when the user is missing or disappears', async () => {
     const repository = userRepositoryMock();
     const useCase = new UpdateUserStatusUseCase(repository);
-    
+
     repository.findByUserCode.mockResolvedValueOnce(null);
 
     await expect(
@@ -180,7 +180,7 @@ describe('users use cases', () => {
 
     repository.findByUserCode.mockResolvedValueOnce(makeUser());
     repository.updateStatusByUserCode.mockResolvedValueOnce(null);
-    
+
     await expect(
       useCase.execute('USER_CODE', UserStatus.BLOCKED),
     ).rejects.toMatchObject({
@@ -195,7 +195,7 @@ describe('challenge use cases and presenter', () => {
   it('lists active challenges', async () => {
     const repository = challengeRepositoryMock();
     const challenge = makeChallenge();
-    
+
     repository.findAllActive.mockResolvedValue([challenge]);
 
     await expect(
@@ -215,13 +215,13 @@ describe('challenge use cases and presenter', () => {
       .mockResolvedValueOnce(null);
 
     await expect(useCase.execute(active.id)).resolves.toBe(active);
-    
+
     await expect(useCase.execute(active.id)).rejects.toMatchObject({
       response: expect.objectContaining({
         code: CatalisaCodes.CHALLENGE_NOT_FOUND.code,
       }),
     });
-    
+
     await expect(useCase.execute(active.id)).rejects.toMatchObject({
       response: expect.objectContaining({
         code: CatalisaCodes.CHALLENGE_NOT_FOUND.code,
@@ -236,7 +236,7 @@ describe('challenge use cases and presenter', () => {
     const inactive = makeChallenge({ status: ChallengeStatus.INACTIVE });
 
     repository.findById.mockResolvedValueOnce(null);
-    
+
     await expect(
       useCase.execute(active.id, ChallengeStatus.INACTIVE),
     ).rejects.toMatchObject({
@@ -246,7 +246,7 @@ describe('challenge use cases and presenter', () => {
     });
 
     repository.findById.mockResolvedValueOnce(active);
-    
+
     await expect(
       useCase.execute(active.id, ChallengeStatus.ACTIVE),
     ).rejects.toMatchObject({
@@ -257,7 +257,7 @@ describe('challenge use cases and presenter', () => {
 
     repository.findById.mockResolvedValueOnce(active);
     repository.updateStatus.mockResolvedValueOnce(null);
-    
+
     await expect(
       useCase.execute(active.id, ChallengeStatus.INACTIVE),
     ).rejects.toMatchObject({
